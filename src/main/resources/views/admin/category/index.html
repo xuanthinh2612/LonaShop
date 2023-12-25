@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="~{/admin/layout/header::adminHeader}"></head>
+<body class="sb-nav-fixed">
+
+<!--  place navBar here-->
+<div th:insert="~{admin/layout/navBar::adminNavbar}"></div>
+<div id="layoutSidenav">
+    <!-- place sidebar here-->
+    <div th:insert="~{admin/layout/sideBar::adminSidebar}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container">
+                <div class="row col-md-10">
+                    <h1>Danh sách các danh mục sản phẩm</h1>
+                </div>
+                <table class="table table-bordered table-hover">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên danh mục</th>
+                        <th>Mô tả</th>
+                        <th>Chỉnh sửa</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="category : ${categoryList}">
+                        <td th:text="${category.id}"></td>
+                        <td th:text="${category.name}"></td>
+                        <td th:text="${category.description}"></td>
+                        <td><a th:href="|/admin/category/edit/${category.getId()}|" class="btn btn-outline-warning">Chỉnh Sửa</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        <!--  footer here-->
+        <div th:insert="~{admin/layout/footer::adminFooter}"></div>
+    </div>
+</div>
+<div th:insert="~{admin/layout/scriptSource::scriptSource}"></div>
+</body>
+</html>

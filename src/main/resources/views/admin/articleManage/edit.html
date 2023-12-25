@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="~{/admin/layout/header::adminHeader}"></head>
+
+<body>
+<!-- Responsive navbar-->
+<div th:insert="~{admin/layout/navBar::adminNavbar}"></div>
+<div id="layoutSidenav">
+    <!-- place sidebar here-->
+    <div th:insert="~{admin/layout/sideBar::adminSidebar}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <!-- Page content-->
+
+            <div class="container mt-5">
+                <div class="row">
+
+                    <div class="col-lg-8">
+                        <form class="row g-3" method="post" id="updateForm"
+                              role="form" th:method="post" th:action="@{/admin/article/update}" th:object="${article}"
+                              enctype="multipart/form-data">
+                            <input type="hidden" th:field="*{id}">
+                            <!-- Post content-->
+                            <article>
+                                <!-- Post header-->
+                                <header class="mb-4">
+                                    <!-- Post title-->
+                                    <h1 class="fw-bolder mb-1">Tiêu đề bài viết</h1>
+                                    <div class="mb-3">
+                                        <input type="text" th:field="*{title}" class="form-control" id="title"
+                                               placeholder="Tiêu đề bài viết">
+                                        <p th:if="${#fields.hasErrors('title')}" th:errorclass="text-danger"
+                                           th:errors="*{title}"></p>
+                                    </div>
+                                    <!-- Post meta content-->
+                                    <div class="text-muted fst-italic mb-2">Tên tác giả
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" th:field="*{author}" class="form-control" id="author"
+                                               placeholder="Tên tác giá/ bút danh tùy chọn">
+                                        <p th:if="${#fields.hasErrors('author')}" th:errorclass="text-danger"
+                                           th:errors="*{author}"></p>
+                                    </div>
+                                    <!-- Post categories-->
+                                    <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web
+                                        Design</a>
+                                    <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+                                </header>
+                                <!-- Preview image figure-->
+                                <h5>
+                                    Mô tả ngắn gọn, hoặc mở đầu bài viết,Mục này sẽ xuất hiện cùng tiêu đề bài viết
+                                </h5>
+                                <div class="mb-3">
+                                    <textarea type="text" th:field="*{shortDescription}" class="form-control"
+                                              id="shortDescription"
+                                              placeholder="Mô tả ngắn"></textarea>
+                                    <p th:if="${#fields.hasErrors('shortDescription')}" th:errorclass="text-danger"
+                                       th:errors="*{shortDescription}"></p>
+                                </div>
+                                <div th:if="${article.getImageList().size() > 0}"
+                                     th:each="image, index : ${article.getImageList()}">
+                                    <input type="hidden" th:field="*{imageList[__${index.index}__].id}">
+
+                                    <h2 class="fw-bolder mb-4 mt-5">Tiêu đề của ảnh</h2>
+                                    <div class="mb-3">
+                                        <input class="form-control" id="imageTitle"
+                                                  th:field="*{imageList[__${index.index}__].title}">
+                                    </div>
+
+                                    <figure class="mb-4">
+                                        <img class="img-fluid"
+                                             th:src="${image.getImageUrl()}"
+                                             alt="..."/>
+                                    </figure>
+                                    <button type="button" class="btn btn-danger"
+                                            th:onclick="|deleteImage(${index.index})|">Xóa ảnh
+                                    </button>
+                                    <!-- Post content-->
+                                    <section class="mb-5">
+                                        <div class="mb-3">
+                                            <label for="description_1" class="form-label">Đoạn văn 1</label>
+                                            <textarea class="form-control" id="description_1"
+                                                      th:field="*{imageList[__${index.index}__].description_1}"
+                                                      rows="5">
+                                            </textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="description_2" class="form-label">Đoạn văn 2</label>
+                                            <textarea class="form-control" id="description_2"
+                                                      th:field="*{imageList[__${index.index}__].description_2}"
+                                                      rows="5">
+                                            </textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="description_3" class="form-label">Đoạn văn 3</label>
+                                            <textarea class="form-control" id="description_3"
+                                                      th:field="*{imageList[__${index.index}__].description_3}"
+                                                      rows="5">
+                                            </textarea>
+                                        </div>
+                                    </section>
+                                </div>
+                                <h5>
+                                    Chữ ký, kết luận (tùy chọn)
+                                </h5>
+                                <div class="mb-3">
+                                    <textarea type="text" th:field="*{note}" class="form-control"
+                                              id="note"
+                                              placeholder="Mô tả ngắn"></textarea>
+                                    <p th:if="${#fields.hasErrors('note')}" th:errorclass="text-danger"
+                                       th:errors="*{note}"></p>
+                                </div>
+                                <div>
+                                    <label for="imageFiles" class="btn btn-outline-warning my-3">
+                                        Thêm Ảnh
+                                    </label>
+                                    <input class="visually-hidden" type="file" multiple name="imageFiles"
+                                           accept="image/*"
+                                           id="imageFiles" th:onchange="|addMoreImage()|">
+                                    <button type="submit" class="btn btn-success my-3 mx-3">Lưu bài viết</button>
+                                    <button type="submit" class="btn btn-danger my-3 mx-3" onclick="history.back()">
+                                        Hủy Chỉnh sửa
+                                    </button>
+
+                                </div>
+
+                            </article>
+                        </form>
+                    </div>
+
+                    <!-- Side widgets-->
+                    <div class="col-lg-4">
+                        <!-- Search widget-->
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- Footer-->
+        <div th:insert="~{admin/layout/footer::adminFooter}"></div>
+    </div>
+</div>
+
+<div th:insert="~{admin/layout/scriptSource::scriptSource}"></div>
+
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="/js/scripts.js"></script>
+
+<form id="actionForm" method="post"></form>
+<script>
+    function addMoreImage() {
+        let form = document.getElementById('updateForm');
+        let action = "/admin/article/addImage";
+        form.setAttribute('action', action);
+        form.submit();
+    }
+
+    function deleteImage(imageIndex) {
+        let form = document.getElementById('updateForm');
+        let action = "/admin/article/deleteImage/" + imageIndex;
+        form.setAttribute('action', action);
+        form.submit();
+    }
+
+</script>
+</body>
+</html>

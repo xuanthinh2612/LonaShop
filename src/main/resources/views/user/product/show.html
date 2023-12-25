@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{/user/layout/header::header}"></head>
+<body>
+<!-- Navigation-->
+<nav th:replace="~{/user/layout/navbar::navbar}"></nav>
+<!-- Product section-->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6">
+                <img class="card-img-top mb-5 mb-md-0 w-100"
+                     th:src="${product.getImages.get(0).getImageUrl()}" alt="..."/></div>
+            <div class="col-md-6">
+                <div class="small mb-1" th:text="${product.getCategory().getName()}"></div>
+                <h1 class="display-5 fw-bolder"><span th:text="${product.getName()}"></span></h1>
+                <div class="fs-5 mb-1 text-muted">
+                    <span class="py-5">Giá cũ:&emsp; </span><span class="text-decoration-line-through"
+                                                                  th:text="${#numbers.formatInteger(product.getOldPrice(), 3, 'COMMA')}"></span><span>đ</span><br>
+                </div>
+                <div class="fs-5 mb-5 text-danger">
+                    <span class="my-3">Giá Khuyến Mãi:&emsp;</span><span class="fw-bold"
+                        th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}"></span><span>&nbspđ/</span>
+                    <span th:text="${product.getUnit()}"></span>
+                </div>
+                <p class="lead" th:text="${product.getSubDescription_1()}"></p>
+                <p class="lead" th:text="${product.getSubDescription_2()}"></p>
+                <div class="d-flex">
+                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1"
+                           style="max-width: 3rem"/>
+                    <a class="btn btn-outline-dark flex-shrink-0" th:href="'/order/new/' + ${product.getId()}">
+                        <i class="bi-cart-fill me-1"></i>
+                        Liên hệ mua hàng
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Product Details section-->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="mt-5">
+            <div class="card bg-dark text-light ">
+                <h5 class="card-header">Chi tiết sản phẩm</h5>
+            </div>
+        </div>
+        <div class="container px-4 px-lg-5 my-5">
+            <p class="lead mt-5" th:text="${product.getSubDescription_3()}"></p>
+        </div>
+        <div class="container px-4 px-lg-5 my-5" th:each="image : ${product.getImages()}">
+            <div class="row gx-4 gx-lg-5 align-items-center">
+                <div class="col-md-6">
+                    <img class="card-img-top mb-5 mb-md-0 w-100"
+                         th:src="${image.getImageUrl()}" alt="..."/></div>
+                <div class="col-md-6">
+                    <p class="lead" th:text="${image.getDescription()}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related items section-->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="mt-5">
+            <div class="card bg-dark text-light ">
+                <h5 class="card-header">Các Mặt hàng khác</h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="container px-4 px-lg-5 text-center mt-5">
+        <div class="card-body">
+            <div class="row">
+                <div th:each="product : ${relatedProduct}" class="col-xl-3 col-lg-3 col-md-6 col-sm-12  mb-5">
+                    <div class="card">
+                        <!-- Sale badge-->
+                        <a th:href="'/product/show/'+${product.getId()}">
+                            <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem"
+                                 th:if="${product.getStatus() == 5}">Giám giá
+                            </div>
+                            <!-- Product image-->
+                            <img class="card-img-top w-100" th:src="${product.getImages.get(0).getImageUrl()}"
+                                 style="height: 200px" alt="image"/>
+                        </a>
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <a class="text-decoration-none" th:href="'/product/show/'+${product.getId()}">
+                                    <h5 class="fw-bolder" th:text="${product.getName()}"></h5>
+                                </a>
+                                <!-- Product reviews-->
+                                <div class="d-flex justify-content-center small text-warning mb-2">
+                                    <div th:text="${product.getDescription()}"></div>
+                                </div>
+                                <!-- Product price-->
+                                <span class="text-muted text-decoration-line-through "
+                                      th:text="${#numbers.formatInteger(product.getOldPrice(), 3, 'COMMA')}"
+                                ></span>
+                                <span class="fw-bold" th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}"></span>
+                                <span>đ</span>
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center">
+                                <a class="btn btn-outline-dark mt-auto" th:href="'/product/show/'+${product.getId()}">
+                                    Xem Chi Tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer-->
+<footer th:replace="~{user/layout/footer::footer}"></footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="/js/scripts.js"></script>
+</body>
+</html>

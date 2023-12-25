@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="~{/admin/layout/header::adminHeader}"></head>
+<body class="sb-nav-fixed">
+
+<!--  place navBar here-->
+<div th:insert="~{admin/layout/navBar::adminNavbar}"></div>
+<div id="layoutSidenav">
+    <!-- place sidebar here-->
+    <div th:insert="~{admin/layout/sideBar::adminSidebar}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Category</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">Tạo 1 phân loại mới</li>
+                </ol>
+
+                <form class="row g-3" role="form" th:method="post" th:action="@{/admin/category/update}"
+                      th:object="${category}">
+                    <input type="hidden" th:field="*{id}">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Tên </label>
+                        <input type="text" th:field="*{name}" class="form-control" id="name"
+                               placeholder="Ví dụ: Nước mắm...">
+                        <p th:if="${#fields.hasErrors('name')}" th:errorclass="text-danger" th:errors="*{name}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Mô tả chi tiết</label>
+                        <textarea class="form-control" id="description" th:field="*{description}" rows="3"></textarea>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary mb-3">Cập nhật</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <!--  footer here-->
+        <div th:insert="~{admin/layout/footer::adminFooter}"></div>
+    </div>
+</div>
+<div th:insert="~{ admin/layout/scriptSource::scriptSource}"></div>
+</body>
+</html>
+

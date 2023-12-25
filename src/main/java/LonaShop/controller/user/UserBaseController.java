@@ -1,0 +1,32 @@
+package LonaShop.controller.user;
+
+import LonaShop.common.CommonConst;
+import LonaShop.controller.BaseController;
+import LonaShop.model.Product;
+import LonaShop.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class UserBaseController extends BaseController {
+
+    @Autowired
+    private ProductService productService;
+
+    protected List<Product> getAvailableProduct() {
+        List<Product> productList = productService.findList().stream().filter(e -> e.getImages().size() > 0)
+                .collect(Collectors.toList());
+        List<Product> newList = new ArrayList<>();
+
+        for (Product product : productList) {
+            if (product.getStatus() == CommonConst.ProductStatus.available.code()
+                    || product.getStatus() == CommonConst.ProductStatus.sale.code()) {
+                newList.add(product);
+            }
+        }
+        return newList;
+    }
+
+}

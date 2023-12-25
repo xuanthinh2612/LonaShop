@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="~{/admin/layout/header::adminHeader}"></head>
+<body class="sb-nav-fixed">
+
+<!--  place navBar here-->
+<div th:insert="~{admin/layout/navBar::adminNavbar}"></div>
+<div id="layoutSidenav">
+    <!-- place sidebar here-->
+    <div th:insert="~{admin/layout/sideBar::adminSidebar}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Quản lý đơn hàng</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active" th:if="${orderStatus == 1}">Đơn chờ xác nhận</li>
+                    <li class="breadcrumb-item active" th:if="${orderStatus == 2}">Đơn đã xác nhận</li>
+                    <li class="breadcrumb-item active" th:if="${orderStatus == 3}">Đơn đang đóng gói</li>
+                    <li class="breadcrumb-item active" th:if="${orderStatus == 4}">Đơn đã giao</li>
+                    <li class="breadcrumb-item active" th:if="${orderStatus == 6}">Đơn đã hủy</li>
+                </ol>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Danh sách order
+                    </div>
+                    <div class="card-body">
+                        <table id="datatablesSimple">
+                            <thead>
+                            <tr>
+                                <th>Mã đơn hàng</th>
+                                <th>Tên khách hàng</th>
+                                <th>SĐT</th>
+                                <th>Tuổi</th>
+                                <th>Địa chỉ</th>
+                                <th>Sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Ngày tạo</th>
+                                <th>Tùy chọn</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="order : ${orderList}">
+                                <td th:text="${order.getId()}"></td>
+                                <td th:text="${order.getCustomerName()}"></td>
+                                <td th:text="${order.getCustomerPhoneNumber()}"></td>
+                                <td th:text="${order.getCustomerAge()}"></td>
+                                <td th:text="${order.getCustomerAddress()}"></td>
+                                <td th:text="${order.getProduct().getName()}"></td>
+                                <td th:text="${order.getQuantity()}"></td>
+                                <td th:text="${order.getCreatedAt()}"></td>
+                                <td>
+                                    <a th:if="${orderStatus == 1}" th:onclick="'submitStatus(' + ${order.getId()} + ',2)'" class="btn btn-outline-success mb-1"> Xác Nhận</a>
+                                    <a th:if="${orderStatus == 2}" th:onclick="'submitStatus(' + ${order.getId()} + ',3)'" class="btn btn-outline-warning mb-1"> Đóng gói</a>
+                                    <a th:if="${orderStatus == 3}" th:onclick="'submitStatus(' + ${order.getId()} + ',4)'" class="btn btn-outline-primary mb-1"> Đã giao</a>
+                                    <a th:if="${orderStatus == 1}" th:onclick="'submitStatus(' + ${order.getId()} + ',6)'" class="btn btn-danger mb-1"> Từ chối</a>
+
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!--  footer here-->
+        <div th:insert="~{admin/layout/footer::adminFooter}"></div>
+    </div>
+</div>
+<div th:insert="~{ admin/layout/scriptSource::scriptSource}"></div>
+<form method="post" th:action="@{/admin/order/updateStatus/}" id="submitForm" type="hidden"></form>
+<script>
+    function submitStatus(id, status){
+        let form = document.getElementById('submitForm')
+        let action = form.getAttribute('action');
+        action = action+id;
+        form.setAttribute("action", action)
+
+        let statusElement = document.createElement("input");
+        statusElement.setAttribute('name', 'status');
+        statusElement.setAttribute('value', status);
+        form.appendChild(statusElement);
+        form.submit();
+    }
+</script>
+</body>
+</html>

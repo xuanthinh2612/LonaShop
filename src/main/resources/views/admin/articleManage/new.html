@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="~{/admin/layout/header::adminHeader}"></head>
+<body class="sb-nav-fixed">
+
+<!--  place navBar here-->
+<div th:insert="~{admin/layout/navBar::adminNavbar}"></div>
+<div id="layoutSidenav">
+    <!-- place sidebar here-->
+    <div th:insert="~{admin/layout/sideBar::adminSidebar}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Tạo Bài Viết Mới</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">Tạo một bài blog mới</li>
+                </ol>
+                <form class="row g-3" method="post" id="updateForm"
+                      role="form" th:method="post" th:action="@{/admin/article/create}" th:object="${article}"
+                      enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Tiêu đề bài viết </label>
+                        <input type="text" th:field="*{title}" class="form-control" id="title"
+                               placeholder="Tiêu đề bài viết">
+                        <p th:if="${#fields.hasErrors('title')}" th:errorclass="text-danger" th:errors="*{title}"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="author" class="form-label">Tên bút danh/ tác giả</label>
+                        <input type="text" th:field="*{author}" class="form-control" id="author"
+                               placeholder="Tên tác giá/ bút danh tùy chọn">
+                        <p th:if="${#fields.hasErrors('author')}" th:errorclass="text-danger"
+                           th:errors="*{author}"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="shortDescription" class="form-label">Mô tả ngắn </label>
+                        <span class="small text-muted">(Mục này sẽ xuất hiện cùng tiêu đề bài viết)</span>
+                        <input type="text" th:field="*{shortDescription}" class="form-control" id="shortDescription"
+                               placeholder="Mô tả ngắn">
+                        <p th:if="${#fields.hasErrors('shortDescription')}" th:errorclass="text-danger"
+                           th:errors="*{shortDescription}"></p>
+                    </div>
+
+                    <!--                    <div class="mb-3">-->
+                    <!--                        <label for="category" class="form-label"> Phân Loại </label>-->
+                    <!--                        <select id="category" class="form-select" aria-label="Default select example"-->
+                    <!--                                th:field="*{category}">-->
+                    <!--                            <option th:each="category : ${categoryList}" th:value="${category.id}"-->
+                    <!--                                    th:text="${category.name}">-->
+                    <!--                        </select>-->
+                    <!--                        <p th:if="${#fields.hasErrors('category')}" th:errorclass="text-danger"-->
+                    <!--                           th:errors="*{category}"></p>-->
+                    <!--                    </div>-->
+
+                    <div class="mb-3">
+                        <label for="imageFiles" class="form-label">Chọn file ảnh cho sản phẩm</label>
+                        <input class="form-control" type="file" id="imageFiles" name="imageFiles" onchange="addMoreImage()" multiple
+                               accept="image/*">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="note" class="form-label">Ghi chú</label>
+                        <p class="small">Mục này sẽ xuất hiện dưới cùng bài viết</p>
+                        <textarea class="form-control" id="note" th:field="*{note}"
+                                  rows="3"></textarea>
+                        <p th:if="${#fields.hasErrors('note')}" th:errorclass="text-danger"
+                           th:errors="*{note}"></p>
+                    </div>
+
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary mb-3">Tạo mới</button>
+                        <button type="button" class="btn btn-danger mb-3 mx-3" onclick="history.back()">Trở lại</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <!--  footer here-->
+        <div th:insert="~{admin/layout/footer::adminFooter}"></div>
+    </div>
+</div>
+<div th:insert="~{ admin/layout/scriptSource::scriptSource}"></div>
+<script>
+    function addMoreImage() {
+        let form = document.getElementById('updateForm');
+        let action = "/admin/article/addImage";
+        form.setAttribute('action', action);
+        form.submit();
+    }
+</script>
+</body>
+</html>
+

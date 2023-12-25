@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="~{/admin/layout/header::adminHeader}"></head>
+<body class="sb-nav-fixed">
+
+<!--  place navBar here-->
+<div th:insert="~{admin/layout/navBar::adminNavbar}"></div>
+<div id="layoutSidenav">
+  <!-- place sidebar here-->
+  <div th:insert="~{admin/layout/sideBar::adminSidebar}"></div>
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid px-4">
+        <h1 class="mt-4">Ảnh bìa website</h1>
+        <ol class="breadcrumb mb-4">
+          <li class="breadcrumb-item active">Cài đặt ảnh bìa</li>
+        </ol>
+
+        <form class="row g-3" method="post"
+              role="form" th:method="post" th:action="@{/admin/cover/create}" th:object="${cover}" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="name" class="form-label">Tiêu đề </label>
+            <input type="text" th:field="*{title}" class="form-control" id="name"
+                   placeholder="Ví dụ: Nước mắm...">
+            <p th:if="${#fields.hasErrors('title')}" th:errorclass="text-danger" th:errors="*{title}"></p>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Mô tả chi tiết</label>
+            <textarea  class="form-control" id="description" th:field="*{description}" rows="3"></textarea>
+            <p th:if="${#fields.hasErrors('description')}" th:errorclass="text-danger" th:errors="*{description}"></p>
+          </div>
+          <div class="mb-3">
+            <label for="subDescription" class="form-label">Mô tả chi tiết</label>
+            <textarea  class="form-control" id="subDescription" th:field="*{subDescription}" rows="3"></textarea>
+            <p th:if="${#fields.hasErrors('subDescription')}" th:errorclass="text-danger" th:errors="*{subDescription}"></p>
+          </div>
+          <div class="mb-3">
+            <label for="imagesFiles" class="form-label">Chọn ảnh cho Website</label>
+            <input class="form-control" type="file" id="imagesFiles" name="imagesFiles"
+                   accept="image/*">
+          </div>
+
+
+          <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Tạo mới</button>
+          </div>
+        </form>
+      </div>
+    </main>
+    <!--  footer here-->
+    <div th:insert="~{admin/layout/footer::adminFooter}"></div>
+  </div>
+</div>
+<div th:insert="~{ admin/layout/scriptSource::scriptSource}"></div>
+</body>
+</html>
+

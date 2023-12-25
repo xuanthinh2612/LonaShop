@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="~{/admin/layout/header::adminHeader}"></head>
+<body class="sb-nav-fixed">
+
+<!--  place navBar here-->
+<div th:insert="~{admin/layout/navBar::adminNavbar}"></div>
+<div id="layoutSidenav">
+    <!-- place sidebar here-->
+    <div th:insert="~{admin/layout/sideBar::adminSidebar}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container">
+                <div class="row col-md-10">
+                    <h2>Danh sách bài viết</h2>
+                    <span class="right-button m-2 right"><a th:href="@{/admin/article/new}" class="btn btn-success"> Tạo mới</a></span>
+                </div>
+                <table class="table table-bordered table-hover">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Mã bài viết</th>
+                        <th>Tiêu đề</th>
+                        <th>Mô tả</th>
+                        <th>Tình trạng</th>
+                        <th>Tùy chọn</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${articleList != null }" th:each="article : ${articleList}">
+                        <td th:text="${article.getId()}"></td>
+                        <td><a th:href="|/admin/article/edit/${article.id}|" th:text="${article.getTitle()}"
+                               class="text-decoration-none"></a></td>
+                        <td th:text="${article.getShortDescription()}"></td>
+                        <td>
+                            <button class="btn btn-success" th:if="${article.status == 1}" type="button"> Đang công
+                                khai
+                            </button>
+                            <button class="btn btn-warning" th:if="${article.status == 0}" type="button"> Chưa công
+                                khai
+                            </button>
+                        </td>
+                        <td>
+                            <a th:onclick="|deleteArticle(${article.id})|" class="btn btn-danger m-1">Xóa</a>
+                            <a th:href="|/admin/article/edit/${article.id}|" class="btn btn-primary m-1">Sửa</a>
+                            <a th:if="${article.status == 0}" th:onclick="|enableArticle(${article.id})|"
+                               class="btn btn-outline-primary m-1">Công khai</a>
+                            <a th:if="${article.status == 1}" th:onclick="|disableArticle(${article.id})|"
+                               class="btn btn-outline-warning m-1">Hủy Công Khai</a>
+
+                            <a class="btn btn-success" th:if="${article.getOnTop() == 0}"
+                               th:onclick="|setOnTop(${article.id})|" type="button">Lên Top
+                            </a>
+                            <a class="btn btn-warning" th:if="${article.getOnTop() == 1}"
+                               th:onclick="|setOffTop(${article.id})|" type="button"> Xuống Top
+                            </a>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        <!--  footer here-->
+        <div th:insert="~{admin/layout/footer::adminFooter}"></div>
+    </div>
+</div>
+<div th:insert="~{admin/layout/scriptSource::scriptSource}"></div>
+
+<form id="actionForm" method="post"></form>
+
+<script>
+
+    function deleteArticle(id) {
+        let form = document.getElementById('actionForm');
+        let action = "/admin/article/delete/" + id;
+        form.setAttribute('action', action);
+        form.submit();
+    }
+
+    function disableArticle(id) {
+        let form = document.getElementById('actionForm');
+        let action = "/admin/article/disable/" + id;
+        form.setAttribute('action', action);
+        form.submit();
+    }
+
+    function setOnTop(id) {
+        let form = document.getElementById('actionForm');
+        let action = "/admin/article/setOnTop/" + id;
+        form.setAttribute('action', action);
+        form.submit();
+    }
+
+    function setOffTop(id) {
+        let form = document.getElementById('actionForm');
+        let action = "/admin/article/setOffTop/" + id;
+        form.setAttribute('action', action);
+        form.submit();
+    }
+</script>
+</body>
+</html>

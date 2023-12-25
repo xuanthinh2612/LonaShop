@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="~{/admin/layout/header::adminHeader}"></head>
+<body class="sb-nav-fixed">
+
+<!--  place navBar here-->
+<div th:insert="~{admin/layout/navBar::adminNavbar}"></div>
+<div id="layoutSidenav">
+    <!-- place sidebar here-->
+    <div th:insert="~{admin/layout/sideBar::adminSidebar}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Hỏi đáp khách hàng</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active" th:if="${inquiryStatus == 1}">Danh sách câu hỏi chưa xác nhận</li>
+                    <li class="breadcrumb-item active" th:if="${inquiryStatus == 0}">Danh sách câu hỏi đã xác nhận</li>
+                </ol>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Danh sách câu hỏi từ khách hàng
+                    </div>
+                    <div class="card-body">
+                        <table id="datatablesSimple">
+                            <thead>
+                            <tr>
+                                <th>Mã </th>
+                                <th>Tên KH</th>
+                                <th>SĐT</th>
+                                <th>Tuổi</th>
+                                <th>Giới tính</th>
+                                <th>Địa Chỉ</th>
+                                <th>Ngày Tạo</th>
+                                <th>Nội Dung</th>
+                                <th>Ghi Chú</th>
+                                <th>Tùy chọn</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="inquiry : ${inquiryList}">
+                                <td th:text="${inquiry.getId()}"></td>
+                                <td th:text="${inquiry.getCustomerName()}"></td>
+                                <td th:text="${inquiry.getCustomerPhoneNumber()}"></td>
+                                <td th:text="${inquiry.getCustomerAge()}"></td>
+                                <td th:text="${inquiry.getCustomerAge()}"></td>
+                                <td th:text="${inquiry.getCustomerGender()}"></td>
+                                <td th:text="${inquiry.getCreatedAt()}"></td>
+                                <td th:text="${inquiry.getContent()}"></td>
+                                <td th:text="${inquiry.getNote()}"></td>
+                                <td>
+                                    <a th:if="${inquiryStatus == 1}" th:onclick="|submitStatus(${inquiry.getId()})|" class="btn btn-outline-success mb-1"> Xác Nhận</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!--  footer here-->
+        <div th:insert="~{admin/layout/footer::adminFooter}"></div>
+    </div>
+</div>
+<div th:insert="~{ admin/layout/scriptSource::scriptSource}"></div>
+<form method="post" th:action="@{/admin/inquiry/updateStatus/}" id="submitForm" type="hidden"></form>
+<script>
+    function submitStatus(id){
+        let form = document.getElementById('submitForm')
+        let action = form.getAttribute('action');
+        action = action+id;
+        form.setAttribute("action", action)
+        form.submit();
+    }
+</script>
+</body>
+</html>

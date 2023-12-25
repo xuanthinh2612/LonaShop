@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" th:with="title=${'Blog chia sẻ'}">
+<head th:replace="~{/user/layout/header::header}"></head>
+<body>
+<!-- Responsive navbar-->
+<nav th:replace="~{/user/layout/navbar::navbar}"></nav>
+<!-- Page Content-->
+<div class="container px-4 px-lg-5">
+    <!-- Heading Row-->
+    <div class="row gx-4 gx-lg-5 align-items-center my-5">
+        <div class="col-lg-7">
+            <img class="img-fluid mb-4 mb-lg-0"
+                 th:src="${mainArticle.getAvatarImage().getImageUrl()}"
+                 alt="..."/></div>
+        <div class="col-lg-5">
+            <h1 class="font-weight-light">
+                <a class="text-decoration-none text-dark"
+                   th:text="${mainArticle.getTitle()}"
+                   th:href="|blog/show/${mainArticle.getId()}|"></a>
+            </h1>
+            <p th:text="${mainArticle.getShortDescription()}"></p>
+            <a class="btn btn-primary" th:href="|blog/show/${mainArticle.getId()}|">Đọc thêm</a>
+        </div>
+    </div>
+    <!-- Call to Action-->
+    <div class="card text-white bg-primary bg-opacity-50 my-5 py-4 text-center">
+        <div class="card-body"><h5 class="text-white m-0">Tâm sự cùng Hải Hà </h5></div>
+    </div>
+    <!-- Content Row-->
+    <div class="row gx-4 gx-lg-5">
+        <div class="col-md-4 mb-5" th:each="article : ${articleList}">
+            <div class="h-100">
+                <div class="card-body">
+
+                    <a th:href="|blog/show/${article.getId()}|">
+                        <img class="w-100" style="height: 250px"
+                             th:src="${article.getAvatarImage().getImageUrl()}"
+                             alt=""></a>
+                    <a th:href="|blog/show/${article.getId()}|" class="text-decoration-none text-dark">
+                        <h2 class="card-title" th:text="${article.getTitle()}"></h2>
+                    </a>
+                    <p class="card-text" th:text="${article.getShortDescription()}"></p>
+                </div>
+                <div class="card-footer mt-2"><a class="btn btn-primary btn-sm"
+                                                 th:href="|blog/show/${article.getId()}|">Đọc thêm</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer-->
+<footer th:replace="~{/user/layout/footer::footer}">
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="/js/scripts.js"></script>
+</body>
+</html>

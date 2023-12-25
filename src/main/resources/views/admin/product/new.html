@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="~{/admin/layout/header::adminHeader}"></head>
+<body class="sb-nav-fixed">
+
+<!--  place navBar here-->
+<div th:insert="~{admin/layout/navBar::adminNavbar}"></div>
+<div id="layoutSidenav">
+    <!-- place sidebar here-->
+    <div th:insert="~{admin/layout/sideBar::adminSidebar}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Quản lý sản phẩm</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">Tạo sản phẩm mới</li>
+                </ol>
+                <form class="row g-3" method="post"
+                      role="form" th:method="post" th:action="@{/admin/product/create}" th:object="${product}"
+                      enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Tên sản phẩm </label>
+                        <input type="text" th:field="*{name}" class="form-control" id="name"
+                               placeholder="Ví dụ: Nước mắm...">
+                        <p th:if="${#fields.hasErrors('name')}" th:errorclass="text-danger" th:errors="*{name}"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="currentPrice" class="form-label">Giá bán </label>
+                        <input type="text" th:field="*{currentPrice}" class="form-control" id="currentPrice"
+                               placeholder="Ví dụ: Nước mắm...">
+                        <p th:if="${#fields.hasErrors('currentPrice')}" th:errorclass="text-danger"
+                           th:errors="*{currentPrice}"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="unit" class="form-label">Đơn vị bán </label>
+                        <input type="text" th:field="*{unit}" class="form-control" id="unit"
+                               placeholder="Ví dụ: Lít, Kg...">
+                        <p th:if="${#fields.hasErrors('unit')}" th:errorclass="text-danger" th:errors="*{unit}"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="oldPrice" class="form-label">Giá bán cũ </label>
+                        <input type="text" th:field="*{oldPrice}" class="form-control" id="oldPrice"
+                               placeholder="Ví dụ: Nước mắm...">
+                        <p th:if="${#fields.hasErrors('oldPrice')}" th:errorclass="text-danger"
+                           th:errors="*{oldPrice}"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category" class="form-label"> Phân Loại </label>
+                        <select id="category" class="form-select" aria-label="Default select example"
+                                th:field="*{category}">
+                            <option th:each="category : ${categoryList}" th:value="${category.id}"
+                                    th:text="${category.name}">
+                        </select>
+                        <p th:if="${#fields.hasErrors('category')}" th:errorclass="text-danger"
+                           th:errors="*{category}"></p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="imagesFiles" class="form-label">Chọn file ảnh cho sản phẩm</label>
+                        <input class="form-control" type="file" id="imagesFiles" name="imagesFiles" multiple
+                               accept="image/*">
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Mô tả Ngắn gọn</label>
+                        <textarea class="form-control" id="description" th:field="*{description}" rows="3"></textarea>
+                        <p th:if="${#fields.hasErrors('description')}" th:errorclass="text-danger"
+                           th:errors="*{description}"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="subDescription_1" class="form-label">Mô tả thêm 1</label>
+                        <textarea class="form-control" id="subDescription_1" th:field="*{subDescription_1}"
+                                  rows="3"></textarea>
+                        <p th:if="${#fields.hasErrors('subDescription_1')}" th:errorclass="text-danger"
+                           th:errors="*{subDescription_1}"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="subDescription_2" class="form-label">Mô tả thêm 2</label>
+                        <textarea class="form-control" id="subDescription_2" th:field="*{subDescription_2}"
+                                  rows="3"></textarea>
+                        <p th:if="${#fields.hasErrors('subDescription_2')}" th:errorclass="text-danger"
+                           th:errors="*{subDescription_2}"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="subDescription_3" class="form-label">Mô tả thêm 3</label>
+                        <textarea class="form-control" id="subDescription_3" th:field="*{subDescription_3}"
+                                  rows="3"></textarea>
+                        <p th:if="${#fields.hasErrors('subDescription_3')}" th:errorclass="text-danger"
+                           th:errors="*{subDescription_3}"></p>
+                    </div>
+
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary mb-3">Tạo mới</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <!--  footer here-->
+        <div th:insert="~{admin/layout/footer::adminFooter}"></div>
+    </div>
+</div>
+<div th:insert="~{ admin/layout/scriptSource::scriptSource}"></div>
+</body>
+</html>
+

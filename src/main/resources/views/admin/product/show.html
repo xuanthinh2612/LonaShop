@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="~{/admin/layout/header::adminHeader}"></head>
+<body class="sb-nav-fixed">
+
+<!--  place navBar here-->
+<div th:insert="~{admin/layout/navBar::adminNavbar}"></div>
+<div id="layoutSidenav">
+    <!-- place sidebar here-->
+    <div th:insert="~{admin/layout/sideBar::adminSidebar}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container">
+                <div class="row col-md-10 mb-5">
+                    <h1>Xem trước mặt hàng</h1>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <a class="btn btn-outline-warning m-2" id="editProduct"
+                           th:href="'/admin/product/edit/' + ${product.getId()}">Chỉnh sửa</a>
+                        <a class="btn btn-outline-danger m-2" id="deleteProduct"
+                           th:onclick="'updateStatusAction(`delete`,' + ${product.getId()} + ')'">Xóa mặt hàng này</a>
+                        <a class="btn btn-outline-success m-2" id="publicProduct"
+                           th:onclick="'updateStatusAction(`public`,'+ ${product.getId()} + ')'">Công khai bán</a>
+                        <a class="btn btn-outline-success m-2" id="onSaleProduct"
+                           th:onclick="'updateStatusAction(`onSale`,' + ${product.getId()} + ')'">Gắn mã giảm giá</a>
+                        <a class="btn btn-outline-dark m-2" id="back" th:href="@{/admin/product/index}">Quay lại danh sách</a>
+                    </div>
+
+                </div>
+                <!-- Product section-->
+                <section class="py-5 bg-light">
+                    <div class="container">
+                        <div class="row gx-4 gx-lg-5 align-items-center">
+                            <div class="col-md-6">
+
+                                <img th:if="${product.getImages.size() > 0}"
+                                     class="card-img-top mb-5 mb-md-0 w-100"
+                                     th:src="${product.getImages.get(0).getImageUrl()}" alt="..."/></div>
+                            <div class="col-md-6">
+                                <div class="small mb-1" th:text="${product.getCategory().getName()}"></div>
+                                <h1 class="display-5 fw-bolder"><span th:text="${product.getName()}"></span></h1>
+                                <div class="fs-5 mb-1 text-muted">
+                                    <span class="py-5">Giá cũ:&emsp; </span><span class="text-decoration-line-through"
+                                                                                  th:text="${#numbers.formatInteger(product.getOldPrice(), 3, 'COMMA')}"></span><span>đ</span><br>
+                                </div>
+                                <div class="fs-5 mb-5 text-danger">
+                                    <span class="my-3">Giá Khuyến Mãi:&emsp;</span><span class="fw-bold"
+                                                                                         th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}"></span><span>&nbspđ/</span>
+                                    <span th:text="${product.getUnit()}"></span>
+                                </div>
+                                <p class="lead" th:text="${product.getSubDescription_1()}"></p>
+                                <p class="lead" th:text="${product.getSubDescription_2()}"></p>
+                                <div class="d-flex">
+                                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1"
+                                           style="max-width: 3rem"/>
+                                    <button class="btn btn-outline-dark flex-shrink-0"
+                                            type="button">
+                                        <i class="bi-cart-fill me-1"></i>
+                                        Liên hệ mua hàng
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Product Details section-->
+                <section class="py-5 bg-light">
+                    <div class="container">
+                        <div class="mt-5">
+                            <div class="card bg-dark text-light ">
+                                <h5 class="card-header">Chi tiết sản phẩm</h5>
+                            </div>
+                        </div>
+                        <div class="container px-4 px-lg-5 my-5">
+                            <p class="lead mt-5" th:text="${product.getSubDescription_3()}"></p>
+                        </div>
+                        <div th:if="${product.getImages().size() > 0}" class="container px-4 px-lg-5 my-5"
+                             th:each="image : ${product.getImages()}">
+                            <div class="row gx-4 gx-lg-5 align-items-center">
+                                <div class="col-md-6">
+                                    <img class="card-img-top mb-5 mb-md-0 w-100"
+                                         th:src="${image.getImageUrl()}" alt="..."/></div>
+                                <div class="col-md-6">
+                                    <p class="lead" th:text="${image.getDescription()}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+            </div>
+        </main>
+        <!--  footer here-->
+        <div th:insert="~{admin/layout/footer::adminFooter}"></div>
+    </div>
+</div>
+<div th:insert="~{admin/layout/scriptSource::scriptSource}"></div>
+</body>
+
+<form id="actionForm" method="post" th:action="@{/admin/product/}">
+
+</form>
+
+<script>
+    function updateStatusAction(actionName, id) {
+        let form = document.getElementById('actionForm');
+
+        let action = form.getAttribute('action');
+        action = action + actionName + '/' + id;
+        form.setAttribute('action', action);
+
+        form.submit();
+    }
+</script>
+</html>
