@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.lang.Nullable;
 
 @Getter
 @Setter
@@ -29,22 +28,4 @@ public class Image {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column
-    private String title;
-
-    @Column(columnDefinition = "TEXT")
-    private String description_1;
-
-    @Column(columnDefinition = "TEXT")
-    private String description_2;
-
-    @Column(columnDefinition = "TEXT")
-    private String description_3;
-
-    @Column
-    private String note;
-
-    @Nullable
-    @ManyToOne
-    private Product product;
 }

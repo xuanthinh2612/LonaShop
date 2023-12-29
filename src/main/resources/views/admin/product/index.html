@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:insert="~{/admin/layout/header::adminHeader}"></head>
 <body class="sb-nav-fixed">
 
@@ -11,8 +11,13 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container">
-                <div class="row col-md-10">
-                    <h1>Danh sách các danh mục sản phẩm</h1>
+                <div class="row">
+                    <div class="col-12">
+                        <h1>Danh sách các danh mục sản phẩm</h1>
+                    </div>
+                    <div class="col-12  d-flex justify-content-end">
+                        <a th:href="@{/admin/product/new}" class="btn btn-primary m-3">Thêm mới sản phẩm</a>
+                    </div>
                 </div>
                 <table class="table table-bordered table-hover">
                     <thead class="table-dark">
@@ -28,9 +33,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <span th:each="product : ${productList}">
-                        <tr>
-                            <td rowspan="2" th:text="${product.id}"></td>
+                        <tr th:each="product : ${productList}">
+                            <td rowspan="1" th:text="${product.id}"></td>
                             <td><a class="text-decoration-none" th:href="'/admin/product/show/' + ${product.getId()}"
                                    th:text="${product.name}"></a></td>
                             <td  th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}"></td>
@@ -38,31 +42,22 @@
                             <td th:text="${#numbers.formatInteger(product.getOldPrice(), 3, 'COMMA')}"></td>
                             <td th:text="${product.category.name}"></td>
                             <td th:text="${product.description}"></td>
-                            <td rowspan="2" th:if="${product.status == 1}">
+                            <td rowspan="1" th:if="${product.status == 1}">
                                 <button type="button" class="btn btn-outline-warning">Chờ bán</button>
                             </td>
-                            <td rowspan="2" th:if="${product.status == 2}">
+                            <td rowspan="1" th:if="${product.status == 2}">
                                 <button type="button" class="btn btn-outline-success">Đang bán</button>
                             </td>
-                            <td rowspan="2" th:if="${product.status == 3}">
+                            <td rowspan="1" th:if="${product.status == 3}">
                                 <button type="button" class="btn btn-outline-dark">Dừng Bán</button>
                             </td>
-                            <td rowspan="2" th:if="${product.status == 4}">
+                            <td rowspan="1" th:if="${product.status == 4}">
                                 <button type="button" class="btn btn-outline-secondary">Hết hàng</button>
                             </td>
-                            <td rowspan="2" th:if="${product.status == 5}">
+                            <td rowspan="1" th:if="${product.status == 5}">
                                 <button type="button" class="btn btn-outline-danger">Đang giảm giá</button>
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="6">
-                                <span class="m-1" th:each="image : ${product.getImages()}">
-                                    <img th:src="${image.getImageUrl()}" style="height: 100px" class="p-2">
-                                </span>
-                            </td>
-                        </tr>
-                    </span>
-
                     </tbody>
                 </table>
             </div>

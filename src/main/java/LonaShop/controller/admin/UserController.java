@@ -16,14 +16,14 @@ import java.util.List;
 @RequestMapping("/admin")
 public class UserController {
 
-    @Autowired
-    UserService userService;
+//    @Autowired
+//    UserService userService;
 
     @GetMapping("/users")
     public String showUser(Model model) {
 //      handler method to handle list of users
-        List<UserDto> users = userService.findAllUsers();
-        model.addAttribute("users", users);
+//        List<UserDto> users = userService.findAllUsers();
+//        model.addAttribute("users", users);
 
         return "admin/user/users";
     }

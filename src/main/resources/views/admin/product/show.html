@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:insert="~{/admin/layout/header::adminHeader}"></head>
 <body class="sb-nav-fixed">
 
@@ -24,7 +24,8 @@
                            th:onclick="'updateStatusAction(`public`,'+ ${product.getId()} + ')'">Công khai bán</a>
                         <a class="btn btn-outline-success m-2" id="onSaleProduct"
                            th:onclick="'updateStatusAction(`onSale`,' + ${product.getId()} + ')'">Gắn mã giảm giá</a>
-                        <a class="btn btn-outline-dark m-2" id="back" th:href="@{/admin/product/index}">Quay lại danh sách</a>
+                        <a class="btn btn-outline-dark m-2" id="back" th:href="@{/admin/product/index}">Quay lại danh
+                            sách</a>
                     </div>
 
                 </div>
@@ -33,31 +34,38 @@
                     <div class="container">
                         <div class="row gx-4 gx-lg-5 align-items-center">
                             <div class="col-md-6">
-
-                                <img th:if="${product.getImages.size() > 0}"
+                                <img th:if="${product.getAvatar() != null}"
                                      class="card-img-top mb-5 mb-md-0 w-100"
-                                     th:src="${product.getImages.get(0).getImageUrl()}" alt="..."/></div>
+                                     th:src="${product.getAvatar().getImageUrl()}" alt="..."/>
+                            </div>
                             <div class="col-md-6">
                                 <div class="small mb-1" th:text="${product.getCategory().getName()}"></div>
-                                <h1 class="display-5 fw-bolder"><span th:text="${product.getName()}"></span></h1>
+                                <h5 class="display-5 fw-bolder"><span th:text="${product.getName()}"></span></h5>
                                 <div class="fs-5 mb-1 text-muted">
-                                    <span class="py-5">Giá cũ:&emsp; </span><span class="text-decoration-line-through"
-                                                                                  th:text="${#numbers.formatInteger(product.getOldPrice(), 3, 'COMMA')}"></span><span>đ</span><br>
+                                    <span class="py-5">Giá cũ:&emsp; </span>
+                                    <span class="text-decoration-line-through"
+                                          th:text="${#numbers.formatInteger(product.getOldPrice(), 3, 'COMMA')}"></span>
+                                    <span>VNĐ</span>
+                                    <br>
                                 </div>
                                 <div class="fs-5 mb-5 text-danger">
-                                    <span class="my-3">Giá Khuyến Mãi:&emsp;</span><span class="fw-bold"
-                                                                                         th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}"></span><span>&nbspđ/</span>
+                                    <span class="my-3">Giá Khuyến Mãi:&emsp;</span>
+                                    <span class="fw-bold"
+                                          th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}">
+                                    </span>
+                                    <span>&nbsp VNĐ/</span>
                                     <span th:text="${product.getUnit()}"></span>
                                 </div>
                                 <p class="lead" th:text="${product.getSubDescription_1()}"></p>
                                 <p class="lead" th:text="${product.getSubDescription_2()}"></p>
                                 <div class="d-flex">
-                                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1"
+                                    <input class="form-control text-center me-3" id="inputQuantity" type="number"
+                                           value="1"
                                            style="max-width: 3rem"/>
                                     <button class="btn btn-outline-dark flex-shrink-0"
                                             type="button">
                                         <i class="bi-cart-fill me-1"></i>
-                                        Liên hệ mua hàng
+                                        Đặt Hàng
                                     </button>
                                 </div>
                             </div>
@@ -76,15 +84,37 @@
                         <div class="container px-4 px-lg-5 my-5">
                             <p class="lead mt-5" th:text="${product.getSubDescription_3()}"></p>
                         </div>
-                        <div th:if="${product.getImages().size() > 0}" class="container px-4 px-lg-5 my-5"
-                             th:each="image : ${product.getImages()}">
+                        <div th:if="${product.getSubContentList().size() > 0}" class="container px-4 px-lg-5 my-5"
+                             th:each="subContent : ${product.subContentList}">
                             <div class="row gx-4 gx-lg-5 align-items-center">
-                                <div class="col-md-6">
+                                <div th:if="${subContent.image != null }" class="col-md-6 mb-3">
                                     <img class="card-img-top mb-5 mb-md-0 w-100"
-                                         th:src="${image.getImageUrl()}" alt="..."/></div>
-                                <div class="col-md-6">
-                                    <p class="lead" th:text="${image.getDescription()}"></p>
+                                         th:src="${subContent?.image?.getImageUrl()}" alt="..."/>
                                 </div>
+                                <div class="col-md-6">
+                                    <span th:text="${subContent.note}"></span>
+                                </div>
+                                <div th:if="${subContent.image != null }" class="col-md-6 mb-3">
+                                    <span class="small" th:text="${subContent.image?.description}"></span>
+                                </div>
+                                <div th:if="${subContent.image != null }" class="col-md-6">
+                                </div>
+                                <div th:if="${subContent.title != null }" class="col-12 mb-3">
+                                    <h4 th:text="${subContent.title}"></h4>
+                                </div>
+                                <div th:if="${subContent.subTitle != null }" class="col-12 mb-3">
+                                    <h5 th:text="${subContent.subTitle}"></h5>
+                                </div>
+                                <div th:if="${subContent.content1 != null }" class="col-12">
+                                    <p th:text="${subContent.content1}"></p>
+                                </div>
+                                <div th:if="${subContent.content2 != null }" class="col-12">
+                                    <p th:text="${subContent.content2}"></p>
+                                </div>
+                                <div th:if="${subContent.content3 != null }" class="col-12">
+                                    <p th:text="${subContent.content3}"></p>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -114,5 +144,12 @@
 
         form.submit();
     }
+
+
+
+
+
+
+
 </script>
 </html>

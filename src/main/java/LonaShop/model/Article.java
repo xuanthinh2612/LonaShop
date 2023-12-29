@@ -45,10 +45,10 @@ public class Article {
     private String note;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Image> imageList;
+    private List<SubContent> subContentList;
 
     public Image getAvatarImage() {
-        return this.imageList.get(0);
+        return this.subContentList.get(0).getImage();
 
     }
 

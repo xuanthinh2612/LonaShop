@@ -9,6 +9,8 @@ import org.springframework.lang.Nullable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.persistence.*;
+import org.springframework.util.ObjectUtils;
+
 import java.util.Date;
 import java.util.List;
 
@@ -66,7 +68,23 @@ public class Product {
     @ManyToOne
     private Category category;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Image> images;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "products_sub_content_list",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "sub_content_list_id")
+    )
+    private List<SubContent> subContentList;
+
+    public Image getAvatar() {
+        for (SubContent subContent :
+                subContentList) {
+            // for test only
+            if (!ObjectUtils.isEmpty(subContent.getImage())) {
+                return subContent.getImage();
+            }
+        }
+        return null;
+    }
 
 }

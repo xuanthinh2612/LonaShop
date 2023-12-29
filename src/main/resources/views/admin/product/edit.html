@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:insert="~{/admin/layout/header::adminHeader}"></head>
 <body class="sb-nav-fixed">
 
@@ -24,29 +24,29 @@
                     <div class="row">
                         <div class="col-12">
                             <a class="btn btn-outline-danger m-2" id="deleteProduct"
-                               th:onclick="'updateStatusAction(`delete`,' + ${product.getId()} + ')'">Xóa mặt hàng
-                                này</a>
+                               th:onclick="'updateStatusAction(`delete`,' + ${product.getId()} + ')'">Xóa sản phẩm</a>
                             <a class="btn btn-outline-success m-2" id="publicProduct"
                                th:onclick="'updateStatusAction(`public`,'+ ${product.getId()} + ')'">Công khai bán</a>
                             <label for="imageFile" class="btn btn-outline-primary">Thêm ảnh</label>
                             <input name="imageFile" id="imageFile" type="file" style="visibility:hidden;"
-                                   accept="image/*"
-                                   th:onchange="|addMoreImage()|">
+                                   accept="image/*" th:onchange="|addMoreImage()|">
                             <button class="btn btn-outline-warning m-2" id="editProduct" type="submit">
                                 Lưu thay đổi
                             </button>
-                            <a class="btn btn-outline-dark m-2" id="back" onclick="history.back()">Quay lại</a>
+                            <a th:href="'/admin/product/show/' + ${product.getId()}" class="btn btn-outline-dark m-2">Quay
+                                lại</a>
                         </div>
 
                     </div>
                     <!-- Product section-->
                     <section class="py-5 bg-light">
                         <div class="container">
-                            <div class="row gx-4 gx-lg-5 align-items-center">
+                            <div class="row gx-4 gx-lg-5">
                                 <div class="col-md-6">
-                                    <h1 class="mb-5">Ảnh đại diện cho sản phẩm</h1>
-                                    <img class="card-img-top mb-5 mb-md-0 w-100" th:if="${product.getImages.size() > 0}"
-                                         th:src="${product.getImages.get(0).getImageUrl()}" alt="..."/>
+                                    <img class="card-img-top mb-5 mb-md-0 w-100"
+                                         th:if="${product.getAvatar() != null}"
+                                         th:src="${product.getAvatar().getImageUrl()}"
+                                         alt="..."/>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="small mb-1">
@@ -66,7 +66,7 @@
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Tên sản phẩm </label>
                                             <input type="text" th:field="*{name}" class="form-control" id="name"
-                                                   placeholder="Ví dụ: Nước mắm...">
+                                                   placeholder="Nhập Tên Sản Phẩm">
                                             <p th:if="${#fields.hasErrors('name')}" th:errorclass="text-danger"
                                                th:errors="*{name}"></p>
                                         </div>
@@ -90,7 +90,7 @@
                                             <p th:if="${#fields.hasErrors('oldPrice')}" th:errorclass="text-danger"
                                                th:errors="*{oldPrice}"></p>
                                         </div>
-                                    </span><span>đ</span><br>
+                                    </span><span>VND</span><br>
                                     </div>
                                     <div class="fs-5 mb-5 text-danger">
                                         <span class="fw-bold">
@@ -98,7 +98,7 @@
                                             <label for="currentPrice" class="form-label">Giá bán </label>
                                             <input type="text" th:field="*{currentPrice}" class="form-control"
                                                    id="currentPrice"
-                                                   placeholder="Ví dụ: Nước mắm..."> <span>&nbspđ</span>
+                                                   placeholder="Ví dụ: Nước mắm..."> <span>&nbspVND</span>
                                             <p th:if="${#fields.hasErrors('currentPrice')}" th:errorclass="text-danger"
                                                th:errors="*{currentPrice}"></p>
                                         </div>
@@ -106,7 +106,7 @@
                                     </span>
                                         <label for="unit" class="form-label">Đơn vị bán </label>
                                         <input type="text" th:field="*{unit}" class="form-control" id="unit"
-                                               placeholder="Ví dụ: Lít, Kg...">
+                                               placeholder="Ví dụ: Đôi, Cái...">
                                         <p th:if="${#fields.hasErrors('unit')}" th:errorclass="text-danger"
                                            th:errors="*{unit}"></p>
                                     </div>
@@ -145,42 +145,89 @@
                             </div>
                             <div class="container px-4 px-lg-5 my-5">
                                 <p class="lead mt-5">
-
                                 <div class="mb-3">
-                                    <label for="subDescription_3" class="form-label">Mô tả thêm 3</label>
-                                    <textarea class="form-control" id="subDescription_3" th:field="*{subDescription_3}"
-                                              rows="3"></textarea>
+                                    <label class="form-label">Mô tả thêm 3</label>
+                                    <textarea class="form-control" th:field="*{subDescription_3}" rows="3">
+                                        </textarea>
                                     <p th:if="${#fields.hasErrors('subDescription_3')}" th:errorclass="text-danger"
-                                       th:errors="*{subDescription_3}"></p>
+                                       th:errors="*{subDescription_3}">
+                                    </p>
                                 </div>
-
                                 </p>
                             </div>
-                            <div th:if="${product.getImages.size() > 0}" class="container px-4 px-lg-5 my-5"
-                                 th:each="image, index : ${product.getImages()}">
+
+                            <!-- SubContent Start-->
+
+                            <div th:if="${product.getSubContentList() != null && product.getSubContentList().size() > 0}"
+                                 class="container px-4 px-lg-5 my-5"
+                                 th:each="subContent, index : ${product.getSubContentList()}">
                                 <div class="row gx-4 gx-lg-5 align-items-center">
-                                    <div class="col-md-6">
-                                        <img class="card-img-top mb-5 mb-md-0 w-100"
-                                             th:src="${image.getImageUrl()}" alt="..."/></div>
-                                    <div class="col-md-6">
-                                        <p class="lead">
-                                        <div class="mb-3">
-                                            <label for="subDescription" class="form-label">Mô tả ảnh</label>
-                                            <textarea class="form-control" id="subDescription"
-                                                      th:field="*{images[__${index.index}__].description}"
-                                                      rows="3">
-                                            </textarea>
-                                            <input type="hidden" th:field="*{images[__${index.index}__].id}">
+                                    <div th:if="${subContent.getImage() != null}"
+                                         class="row gx-4 gx-lg-5 align-items-center mb-3">
+                                        <div class="col-md-6">
+                                            <img class="card-img-top mb-5 mb-md-0 w-100"
+                                                 th:src="${subContent.getImage().getImageUrl()}" alt="..."/></div>
+                                        <div class="col-md-6">
+                                            <p class="lead">
+                                            <div class="mb-3">
+                                                <label class="form-label">Mô tả ảnh</label>
+                                                <input class="form-control" rows="3"
+                                                       th:field="*{subContentList[__${index.index}__].image.description}">
+                                            </div>
+                                            </p>
+                                            <p class="lead">
+                                                <button type="button" class="btn btn-outline-danger"
+                                                        th:onclick="|deleteImage(${index.index})|">Xóa ảnh
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger"
+                                                        th:onclick="|deleteSubContent(${index.index})|">Xóa Ảnh và nội
+                                                    dung
+                                                </button>
+                                            </p>
                                         </div>
-                                        </p>
-                                        <p class="lead">
-                                            <button type="button" class="btn btn-outline-danger"
-                                                    th:onclick="|deleteImage(${index.index})|">Xóa ảnh
-                                            </button>
-                                        </p>
+                                    </div>
+                                    <div th:if="${subContent.getImage() == null}"
+                                         class="row gx-4 gx-lg-5 align-items-center mb-3">
+                                        <button type="button" class="mb-3 btn btn-outline-danger"
+                                                th:onclick="|deleteSubContent(${index.index})|">Xóa Nội Dung
+                                        </button>
+                                        <input th:onchange="|replaceImage(${index.index})|" class="form-control"
+                                               type="file"
+                                               name="newImageFile" accept="image/*">
+                                    </div>
+                                    <div class="col-md-6">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Tiêu đề</label>
+                                        <input class="form-control"
+                                               th:field="*{subContentList[__${index.index}__].title}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Tiêu đề phụ</label>
+                                        <input class="form-control"
+                                               th:field="*{subContentList[__${index.index}__].subTitle}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Nội dung mô tả chi tiết 1</label>
+                                        <textarea class="form-control"
+                                                  th:field="*{subContentList[__${index.index}__].content1}" rows="5">
+                                        </textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Nội dung mô tả chi tiết 2</label>
+                                        <textarea class="form-control"
+                                                  th:field="*{subContentList[__${index.index}__].content2}" rows="5">
+                                        </textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Nội dung mô tả chi tiết 3</label>
+                                        <textarea class="form-control"
+                                                  th:field="*{subContentList[__${index.index}__].content3}" rows="5">
+                                        </textarea>
                                     </div>
                                 </div>
                             </div>
+                            <!-- SubContent End-->
                         </div>
                     </section>
                 </form>
@@ -198,9 +245,16 @@
 <form id="actionForm" method="post" th:action="@{/admin/product/}"></form>
 
 <script>
+
     function addMoreImage() {
         let form = document.getElementById('updateForm');
         let action = "/admin/product/addImage";
+        form.setAttribute('action', action);
+        form.submit();
+    }
+    function replaceImage(subContentIndex) {
+        let form = document.getElementById('updateForm');
+        let action = "/admin/product/replaceImage/" + subContentIndex;
         form.setAttribute('action', action);
         form.submit();
     }
@@ -215,11 +269,19 @@
         form.submit();
     }
 
-    function deleteImage(imageIndex) {
+    function deleteImage(subContentIndex) {
         let form = document.getElementById('updateForm');
-        let action = "/admin/product/deleteImage/" + imageIndex;
+        let action = "/admin/product/deleteImage/" + subContentIndex;
         form.setAttribute('action', action);
         form.submit();
     }
+
+    function deleteSubContent(subContentIndex) {
+        let form = document.getElementById('updateForm');
+        let action = "/admin/product/deleteSubContent/" + subContentIndex;
+        form.setAttribute('action', action);
+        form.submit();
+    }
+
 </script>
 </html>

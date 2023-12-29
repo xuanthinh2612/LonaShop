@@ -27,8 +27,8 @@ public class CommonConst {
 
     public enum ProductStatus {
         pending(1, "pending"), available(2, "available"), banded(3, "banded"), soldOut(4, "soldOut"), sale(5, "sale");
-        private int code;
-        private String codeName;
+        private final int code;
+        private final String codeName;
 
         private ProductStatus(int code, String codeName) {
             this.code = code;
