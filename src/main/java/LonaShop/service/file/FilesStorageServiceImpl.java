@@ -1,11 +1,13 @@
 package LonaShop.service.file;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.springframework.core.io.Resource;
@@ -73,5 +75,11 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     public String getUri(String fileName){
         Path filePath = root.resolve(fileName);
         return filePath.toUri().toString();
+    }
+
+    @Override
+    public void deleteByFileName(String fileName) {
+        File file = new File(this.root.resolve(Objects.requireNonNull(fileName)).toUri());
+        file.delete();
     }
 }

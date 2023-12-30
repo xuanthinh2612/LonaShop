@@ -32,7 +32,7 @@ public class CategoryManageController extends AdminBaseController {
         return "admin/category/new";
     }
 
-    @PostMapping("/create")
+    @PostMapping(params = "create")
     public String createCategory(@Valid @ModelAttribute("category") Category category, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "admin/category/new";
@@ -44,15 +44,20 @@ public class CategoryManageController extends AdminBaseController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, Model model){
+    public String edit(@PathVariable("id") Long id, Model model) {
         Category category = categoryService.findById(id);
         model.addAttribute("category", category);
         return "admin/category/edit";
     }
 
-    @PostMapping("/update")
-    public String update(@ModelAttribute("category") Category category, Model model){
+    @PostMapping(params = "update")
+    public String update(@ModelAttribute("category") Category category, Model model) {
         categoryService.save(category);
+        return "redirect:/admin/category/index";
+    }
+
+    @PostMapping(params = "cancel")
+    public String cancel() {
         return "redirect:/admin/category/index";
     }
 }

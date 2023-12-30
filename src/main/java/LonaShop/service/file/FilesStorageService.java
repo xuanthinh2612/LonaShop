@@ -20,4 +20,6 @@ public interface FilesStorageService {
 
     public String getUri(String fileName);
 
+    public void deleteByFileName(String fileName);
+
 }

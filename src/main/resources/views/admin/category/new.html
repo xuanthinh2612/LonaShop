@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:insert="~{/admin/layout/header::adminHeader}"></head>
 <body class="sb-nav-fixed">
 
@@ -16,20 +16,21 @@
                     <li class="breadcrumb-item active">Tạo 1 phân loại mới</li>
                 </ol>
 
-                <form class="row g-3" role="form" th:method="post" th:action="@{/admin/category/create}"
+                <form class="row g-3" role="form" th:method="post" th:action="@{/admin/category}"
                       th:object="${category}">
                     <div class="mb-3">
                         <label for="name" class="form-label">Tên </label>
                         <input type="text" th:field="*{name}" class="form-control" id="name"
                                placeholder="Ví dụ: Nước mắm...">
-                        <p th:if="${#fields.hasErrors('name')}" th:errorclass="text-danger" th:errors="*{name}"/>
+                        <p th:if="${#fields.hasErrors('name')}" th:errorclass="text-danger" th:errors="*{name}"></p>
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Mô tả chi tiết</label>
                         <textarea class="form-control" id="description" th:field="*{description}" rows="3"></textarea>
                     </div>
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-primary mb-3">Tạo mới</button>
+                        <input type="submit" name="create" class="btn btn-primary mb-3" value="Tạo mới">
+                        <input type="submit" name="cancel" class="btn btn-danger mb-3" value="Cancel">
                     </div>
                 </form>
             </div>

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -47,9 +48,14 @@ public class Article {
     @OneToMany(cascade = CascadeType.ALL)
     private List<SubContent> subContentList;
 
-    public Image getAvatarImage() {
-        return this.subContentList.get(0).getImage();
-
+    public Image getAvatar() {
+        for (SubContent subContent : subContentList) {
+            // for test only
+            if (!ObjectUtils.isEmpty(subContent.getImage())) {
+                return subContent.getImage();
+            }
+        }
+        return null;
     }
 
 }

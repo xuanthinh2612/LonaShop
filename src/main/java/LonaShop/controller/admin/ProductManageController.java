@@ -12,7 +12,6 @@ import LonaShop.service.ImageService;
 import LonaShop.service.ProductService;
 import LonaShop.service.SubContentService;
 import LonaShop.service.file.FilesStorageService;
-import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("admin/product")
@@ -68,7 +65,6 @@ public class ProductManageController extends AdminBaseController {
     @Autowired
     private ImageRepository imageRepository;
 
-
     @GetMapping("/index")
     public String index(Model model) {
         List<Product> productList = productService.findList();
@@ -78,7 +74,7 @@ public class ProductManageController extends AdminBaseController {
 
     @GetMapping("/new")
     public String newProduct(@ModelAttribute("product") Product product, Model model) {
-        if (ObjectUtils.isEmpty(product)) {
+        if (ObjectUtils.isEmpty(product) || !ObjectUtils.isEmpty(product.getId())) {
             product = new Product();
             model.addAttribute("product", product);
         }
@@ -93,7 +89,7 @@ public class ProductManageController extends AdminBaseController {
             subContentList = new ArrayList<>();
         }
 
-        // save file
+        // save image file
         for (MultipartFile file : imagesFiles) {
 
             SubContent subContent = new SubContent();
@@ -119,8 +115,9 @@ public class ProductManageController extends AdminBaseController {
     public String cancelInitProduct(@ModelAttribute("product") Product product, Model model, SessionStatus status) {
         List<SubContent> subContentList = product.getSubContentList();
         if (!ObjectUtils.isEmpty(subContentList)) {
-            for (int i = 0; i < subContentList.size(); i++) {
-                // delete image with file name TODO
+            for (SubContent subContent : subContentList) {
+                // delete image by file name
+                deleteSubContentImageFile(subContent);
             }
         }
         status.setComplete();
@@ -130,9 +127,10 @@ public class ProductManageController extends AdminBaseController {
     @PostMapping("/removeNewImage/{subContentIndex}")
     public String removeNewImage(@ModelAttribute("product") Product product, @PathVariable("subContentIndex") int subContentIndex, Model model) {
         try {
-//            Image image = product.getSubContentList().get(subContentIndex).getImage();
-            product.getSubContentList().get(subContentIndex).setImage(null);
-            // delete image from upload file TODO
+            SubContent subContent = product.getSubContentList().get(subContentIndex);
+            // delete image file
+            deleteSubContentImageFile(subContent);
+            subContent.setImage(null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,9 +140,10 @@ public class ProductManageController extends AdminBaseController {
     @PostMapping("/removeSubContent/{subContentIndex}")
     public String removeSubContent(@ModelAttribute("product") Product product, @PathVariable("subContentIndex") int subContentIndex, Model model) {
         try {
-//            Image image = product.getSubContentList().get(subContentIndex).getImage();
-            product.getSubContentList().remove(subContentIndex);
-            // delete image from upload file TODO
+            SubContent subContent = product.getSubContentList().get(subContentIndex);
+            // delete image file
+            deleteSubContentImageFile(subContent);
+            product.getSubContentList().remove(subContent);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -228,6 +227,11 @@ public class ProductManageController extends AdminBaseController {
         if (product == null) {
             return index(model);
         }
+        List<SubContent> subContentList = product.getSubContentList();
+        for (SubContent subContent : subContentList) {
+            // delete image file
+            deleteSubContentImageFile(subContent);
+        }
         productService.deleteById(id);
         return "redirect:/admin/product/index";
     }
@@ -250,6 +254,28 @@ public class ProductManageController extends AdminBaseController {
             return "redirect:/admin/product/index";
         }
         product.setStatus(CommonConst.ProductStatus.sale.code());
+        productService.save(product);
+        return "redirect:/admin/product/index";
+    }
+
+    @PostMapping("/offProduct/{id}")
+    public String offProduct(@PathVariable("id") Long id, Model mode) {
+        Product product = productService.findById(id);
+        if (product == null) {
+            return "redirect:/admin/product/index";
+        }
+        product.setStatus(CommonConst.ProductStatus.banded.code());
+        productService.save(product);
+        return "redirect:/admin/product/index";
+    }
+
+    @PostMapping("/setSoldOut/{id}")
+    public String setSoldOut(@PathVariable("id") Long id, Model mode) {
+        Product product = productService.findById(id);
+        if (product == null) {
+            return "redirect:/admin/product/index";
+        }
+        product.setStatus(CommonConst.ProductStatus.soldOut.code());
         productService.save(product);
         return "redirect:/admin/product/index";
     }
@@ -311,6 +337,9 @@ public class ProductManageController extends AdminBaseController {
             Image image = subContent.getImage();
             subContent.setImage(null);
             subContentService.save(subContent);
+            // delete image file
+            deleteSubContentImageFile(subContent);
+
             assert image != null;
             if (!ObjectUtils.isEmpty(image.getId())) {
                 imageService.deleteById(image.getId());
@@ -330,6 +359,7 @@ public class ProductManageController extends AdminBaseController {
             SubContent subContent = product.getSubContentList().get(subContentIndex);
             product.getSubContentList().remove(subContentIndex);
             productService.save(product);
+            deleteSubContentImageFile(subContent);
             if (!ObjectUtils.isEmpty(subContent.getId())) {
                 subContentService.deleteById(subContent.getId());
             }
@@ -338,6 +368,20 @@ public class ProductManageController extends AdminBaseController {
         }
 
         return editProduct(product.getId(), model);
+
+    }
+
+    private void deleteSubContentImageFile(SubContent subContent) {
+        Image image = subContent.getImage();
+        if (!ObjectUtils.isEmpty(image)) {
+            try {
+                // delete image from upload file
+                storageService.deleteByFileName(image.getImageName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
 
     }
 

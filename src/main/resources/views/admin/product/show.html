@@ -19,11 +19,26 @@
                         <a class="btn btn-outline-warning m-2" id="editProduct"
                            th:href="'/admin/product/edit/' + ${product.getId()}">Chỉnh sửa</a>
                         <a class="btn btn-outline-danger m-2" id="deleteProduct"
-                           th:onclick="'updateStatusAction(`delete`,' + ${product.getId()} + ')'">Xóa mặt hàng này</a>
+                           th:onclick="'updateStatusAction(`delete`,' + ${product.getId()} + ')'">Xóa sản phẩm</a>
                         <a class="btn btn-outline-success m-2" id="publicProduct"
+                           th:if="${product.status == 1 || product.status == 3}"
                            th:onclick="'updateStatusAction(`public`,'+ ${product.getId()} + ')'">Công khai bán</a>
+                        <a class="btn btn-outline-success m-2" id="offProduct"
+                           th:if="${product.status == 2 || product.status == 5}"
+                           th:onclick="'updateStatusAction(`offProduct`,'+ ${product.getId()} + ')'">Gỡ Sản phẩm khỏi
+                            kệ</a>
                         <a class="btn btn-outline-success m-2" id="onSaleProduct"
+                           th:if="${product.status == 2}"
                            th:onclick="'updateStatusAction(`onSale`,' + ${product.getId()} + ')'">Gắn mã giảm giá</a>
+                        <a class="btn btn-outline-success m-2" id="offSaleProduct"
+                           th:if="${product.status == 5}"
+                           th:onclick="'updateStatusAction(`public`,' + ${product.getId()} + ')'">Bỏ giảm giá</a>
+                        <a class="btn btn-outline-warning m-2" id="setSoldOut"
+                           th:if="${product.status != 4}"
+                           th:onclick="'updateStatusAction(`setSoldOut`,' + ${product.getId()} + ')'">Hết Hàng</a>
+                        <a class="btn btn-outline-warning m-2" id="setRePublic"
+                           th:if="${product.status == 4}"
+                           th:onclick="'updateStatusAction(`public`,' + ${product.getId()} + ')'">Mở bán lại</a>
                         <a class="btn btn-outline-dark m-2" id="back" th:href="@{/admin/product/index}">Quay lại danh
                             sách</a>
                     </div>
@@ -144,6 +159,7 @@
 
         form.submit();
     }
+
 
 
 

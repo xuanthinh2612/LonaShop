@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:insert="~{/admin/layout/header::adminHeader}"></head>
 <body class="sb-nav-fixed">
 
@@ -11,8 +11,13 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container">
-                <div class="row col-md-10">
-                    <h1>Danh sách các danh mục sản phẩm</h1>
+                <div class="row">
+                    <div class="col-12">
+                        <h1>Danh sách các danh mục sản phẩm</h1>
+                    </div>
+                    <div class="col-12  d-flex justify-content-end">
+                        <a th:href="@{/admin/category/new}" class="btn btn-primary m-3">Thêm mới</a>
+                    </div>
                 </div>
                 <table class="table table-bordered table-hover">
                     <thead class="table-dark">

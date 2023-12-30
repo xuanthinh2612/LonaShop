@@ -22,21 +22,20 @@
                       enctype="multipart/form-data">
                     <input type="hidden" th:field="*{id}">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-6">
                             <a class="btn btn-outline-danger m-2" id="deleteProduct"
                                th:onclick="'updateStatusAction(`delete`,' + ${product.getId()} + ')'">Xóa sản phẩm</a>
-                            <a class="btn btn-outline-success m-2" id="publicProduct"
-                               th:onclick="'updateStatusAction(`public`,'+ ${product.getId()} + ')'">Công khai bán</a>
                             <label for="imageFile" class="btn btn-outline-primary">Thêm ảnh</label>
                             <input name="imageFile" id="imageFile" type="file" style="visibility:hidden;"
                                    accept="image/*" th:onchange="|addMoreImage()|">
+                        </div>
+                        <div class="col-6">
                             <button class="btn btn-outline-warning m-2" id="editProduct" type="submit">
                                 Lưu thay đổi
                             </button>
                             <a th:href="'/admin/product/show/' + ${product.getId()}" class="btn btn-outline-dark m-2">Quay
                                 lại</a>
                         </div>
-
                     </div>
                     <!-- Product section-->
                     <section class="py-5 bg-light">
@@ -282,6 +281,7 @@
         form.setAttribute('action', action);
         form.submit();
     }
+
 
 </script>
 </html>

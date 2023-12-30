@@ -19,7 +19,8 @@
                         </ol>
                     </div>
                     <div class="col-12  d-flex justify-content-end">
-                        <button type="button" th:onclick="|cancelInitProduct()|" class="btn btn-danger mb-3">Cancel
+                        <button type="submit" class="btn btn-primary m-3" th:onclick="saveProduct()">Lưu sản phẩm</button>
+                        <button type="button" th:onclick="|cancelInitProduct()|" class="btn btn-danger m-3">Cancel
                         </button>
                     </div>
                 </div>
@@ -181,7 +182,7 @@
                     </div>
 
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-primary mb-3">Tạo mới</button>
+                        <button type="submit" class="btn btn-primary mb-3">Lưu sản phẩm</button>
                         <button type="button" th:onclick="|cancelInitProduct()|" class="btn btn-danger mb-3">Cancel
                         </button>
                     </div>
@@ -232,6 +233,13 @@
         form.setAttribute('action', action);
         form.submit();
     }
+
+    function saveProduct(imageIndex) {
+        let form = document.getElementById('newProductForm');
+        form.submit();
+    }
+
+
 
 
 

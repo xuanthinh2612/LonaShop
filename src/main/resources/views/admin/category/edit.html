@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:insert="~{/admin/layout/header::adminHeader}"></head>
 <body class="sb-nav-fixed">
 
@@ -16,7 +16,7 @@
                     <li class="breadcrumb-item active">Tạo 1 phân loại mới</li>
                 </ol>
 
-                <form class="row g-3" role="form" th:method="post" th:action="@{/admin/category/update}"
+                <form class="row g-3" role="form" th:method="post" th:action="@{/admin/category}"
                       th:object="${category}">
                     <input type="hidden" th:field="*{id}">
                     <div class="mb-3">
@@ -30,7 +30,8 @@
                         <textarea class="form-control" id="description" th:field="*{description}" rows="3"></textarea>
                     </div>
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-primary mb-3">Cập nhật</button>
+                        <input type="submit" name="update" class="btn btn-primary mb-3" value="Cập nhật">
+                        <input type="submit" name="cancel" class="btn btn-danger mb-3" value="Cancel">
                     </div>
                 </form>
             </div>

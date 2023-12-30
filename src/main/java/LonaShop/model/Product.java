@@ -47,13 +47,13 @@ public class Product {
     @NotEmpty(message = "Hãy mô tả chi tiết về sản phẩm")
     private String description;
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String subDescription_1;
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String subDescription_2;
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String subDescription_3;
 
     @Column
@@ -64,6 +64,9 @@ public class Product {
 
     @Column
     private int status = 1;
+
+//    @Column
+//    private int remainAmount;
 
     @ManyToOne
     private Category category;
@@ -77,8 +80,7 @@ public class Product {
     private List<SubContent> subContentList;
 
     public Image getAvatar() {
-        for (SubContent subContent :
-                subContentList) {
+        for (SubContent subContent : subContentList) {
             // for test only
             if (!ObjectUtils.isEmpty(subContent.getImage())) {
                 return subContent.getImage();

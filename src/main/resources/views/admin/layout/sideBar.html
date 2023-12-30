@@ -1,61 +1,37 @@
-<div th:fragment="adminSidebar" id="layoutSidenav_nav">
+<div th:fragment="adminSidebar" id="layoutSidenav_nav" xmlns:th="http://www.w3.org/1999/xhtml">
     <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
             <div class="nav">
                 <div class="sb-sidenav-menu-heading">Menu</div>
                 <a class="nav-link" th:href="@{/admin/quan-ly}">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                    Trang Chủ
+                    Trang Quản Lý
                 </a>
                 <div class="sb-sidenav-menu-heading">Danh mục</div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#productList"
-                   aria-expanded="false" aria-controls="collapseLayouts">
+                <a class="nav-link" th:href="@{/admin/product/index}">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Sản phẩm
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-right"></i></div>
                 </a>
-                <div class="collapse" id="productList" aria-labelledby="headingOne"
-                     data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" th:href="@{/admin/product/index}">Danh sách sản phẩm</a>
-                        <a class="nav-link" th:href="@{/admin/product/new}">Tạo mới</a>
-                    </nav>
-                </div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#category"
-                   aria-expanded="false" aria-controls="collapseLayouts">
+                <a class="nav-link" th:href="@{/admin/category/index}">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Phân loại hàng
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-right"></i></div>
                 </a>
-                <div class="collapse" id="category" aria-labelledby="headingOne"
-                     data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" th:href="@{/admin/category/index}">Danh sách </a>
-                        <a class="nav-link" th:href="@{/admin/category/new}">Tạo mới </a>
-                    </nav>
-                </div>
                 <a class="nav-link " th:href="@{/admin/cover/list}">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Ảnh bìa website
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-right"></i></div>
                 </a>
-
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#blog"
-                   aria-expanded="false" aria-controls="collapseLayouts">
+                <a class="nav-link" th:href="@{/admin/article/list}">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Blog
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-right"></i></div>
                 </a>
-                <div class="collapse" id="blog" aria-labelledby="headingOne"
-                     data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" th:href="@{/admin/article/list}">Danh sách</a>
-                        <a class="nav-link" th:href="@{/admin/article/new}">Tạo mới</a>
-                    </nav>
-                </div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#inquiry"
                    aria-expanded="false" aria-controls="collapseLayouts">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                        Hỏi đáp
+                    Hỏi đáp
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
                 <div class="collapse" id="inquiry" aria-labelledby="headingOne"
@@ -81,10 +57,10 @@
                         <a class="nav-link" th:href="@{/admin/order/list?status=6}">Đã hủy</a>
                     </nav>
                 </div>
-                <div class="sb-sidenav-menu-heading">Quản lý người dùng</div>
+                <div class="sb-sidenav-menu-heading">Quản lý User</div>
                 <a class="nav-link" th:href="@{/admin/users}">
                     <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                    Danh sách người dùng
+                    Danh sách User
                 </a>
             </div>
         </div>

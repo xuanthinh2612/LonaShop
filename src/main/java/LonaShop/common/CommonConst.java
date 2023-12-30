@@ -26,7 +26,11 @@ public class CommonConst {
     // product status
 
     public enum ProductStatus {
-        pending(1, "pending"), available(2, "available"), banded(3, "banded"), soldOut(4, "soldOut"), sale(5, "sale");
+        pending(1, "pending"),
+        available(2, "available"),
+        banded(3, "banded"),
+        soldOut(4, "soldOut"),
+        sale(5, "sale");
         private final int code;
         private final String codeName;
 
