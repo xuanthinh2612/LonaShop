@@ -95,7 +95,7 @@
                     <div th:if="${product?.getSubContentList() == null || product?.getSubContentList()?.size() == 0}"
                          class="mb-3">
                         <label class="form-label">Chọn file ảnh cho sản phẩm</label>
-                        <input th:onchange="|initImage()|" class="form-control" type="file" multiple name="imagesFiles"
+                        <input th:onchange="|initImage()|" class="form-control" type="file" multiple name="imageFiles"
                                accept="image/*">
                     </div>
                     <div th:if="${product?.getSubContentList() != null && product?.getSubContentList()?.size() > 0}"
@@ -177,7 +177,7 @@
 
                         <label for="addMoreSubContent" class="btn btn-outline-primary">Thêm ảnh và mô tả</label>
                         <input id="addMoreSubContent" th:onchange="|initImage()|" class="form-control" type="file"
-                               multiple name="imagesFiles"
+                               multiple name="imageFiles"
                                accept="image/*" style="visibility:hidden;">
                     </div>
 

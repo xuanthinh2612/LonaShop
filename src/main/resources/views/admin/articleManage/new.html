@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:insert="~{/admin/layout/header::adminHeader}"></head>
 <body class="sb-nav-fixed">
 
@@ -16,7 +16,7 @@
                     <li class="breadcrumb-item active">Tạo một bài blog mới</li>
                 </ol>
                 <form class="row g-3" method="post" id="updateForm"
-                      role="form" th:method="post" th:action="@{/admin/article/create}" th:object="${article}"
+                      role="form" th:method="post" th:action="@{/admin/article}" th:object="${article}"
                       enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="title" class="form-label">Tiêu đề bài viết </label>
@@ -51,11 +51,122 @@
                     <!--                           th:errors="*{category}"></p>-->
                     <!--                    </div>-->
 
-                    <div class="mb-3">
-                        <label for="imageFiles" class="form-label">Chọn file ảnh cho sản phẩm</label>
-                        <input class="form-control" type="file" id="imageFiles" name="imageFiles" onchange="addMoreImage()" multiple
+<!--                    <div class="mb-3">-->
+<!--                        <label for="imageFiles" class="form-label">Chọn file ảnh cho sản phẩm</label>-->
+<!--                        <input class="form-control" type="file" id="imageFiles" name="imageFiles" onchange="initImage()" multiple-->
+<!--                               accept="image/*">-->
+<!--                    </div>-->
+
+
+
+
+
+
+                    <div th:if="${article?.getSubContentList() == null || article?.getSubContentList()?.size() == 0}"
+                         class="mb-3">
+                        <label class="form-label">Chọn file ảnh cho sản phẩm</label>
+                        <input th:onchange="|initImage()|" class="form-control" type="file" multiple name="imageFiles"
                                accept="image/*">
                     </div>
+                    <div th:if="${article?.getSubContentList() != null && article?.getSubContentList()?.size() > 0}"
+                         class="mb-3">
+                        <!-- Image section start-->
+                        <div class="container px-4 px-lg-5 my-5"
+                             th:each="subContent, index : ${article.getSubContentList()}">
+                            <!-- Image info start-->
+                            <div th:if="${subContent.getImage() != null}"
+                                 class="row gx-4 gx-lg-5 align-items-center mb-3">
+                                <div class="col-md-6">
+                                    <img class="card-img-top mb-5 mb-md-0 w-100"
+                                         th:src="${subContent.getImage().getImageUrl()}" alt="..."/></div>
+                                <div class="col-md-6">
+                                    <p class="lead">
+                                    <div class="mb-3">
+                                        <label class="form-label">Mô tả ảnh</label>
+                                        <input class="form-control" rows="3"
+                                               th:field="*{subContentList[__${index.index}__].image.description}">
+                                    </div>
+                                    </p>
+                                    <p class="lead">
+                                        <button type="button" class="btn btn-outline-danger"
+                                                th:onclick="|removeNewImage(${index.index})|">Xóa ảnh
+                                        </button>
+                                        <button type="button" class="btn btn-outline-danger"
+                                                th:onclick="|removeSubContent(${index.index})|">Xóa Ảnh Và Nội Dung
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                            <div th:if="${subContent.getImage() == null}"
+                                 class="row gx-4 gx-lg-5 align-items-center mb-3">
+                                <button type="button" class="mb-3 btn btn-outline-danger"
+                                        th:onclick="|removeSubContent(${index.index})|">Xóa Nội Dung
+                                </button>
+                                <input th:onchange="|changeImage(${index.index})|" class="mb-3 form-control" type="file"
+                                       name="imageFile" accept="image/*">
+                            </div>
+                            <!-- Image info end-->
+                            <!-- SubContent start-->
+                            <div class="row col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Tiêu đề</label>
+                                    <input class="form-control" rows="3"
+                                           th:field="*{subContentList[__${index.index}__].title}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Tiêu đề phụ</label>
+                                    <input class="form-control" rows="3"
+                                           th:field="*{subContentList[__${index.index}__].subTitle}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Nội dung mô tả chi tiết 1</label>
+                                    <textarea class="form-control"
+                                              th:field="*{subContentList[__${index.index}__].content1}" rows="5">
+                                    </textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Nội dung mô tả chi tiết 2</label>
+                                    <textarea class="form-control"
+                                              th:field="*{subContentList[__${index.index}__].content2}" rows="5">
+                                    </textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Nội dung mô tả chi tiết 3</label>
+                                    <textarea class="form-control"
+                                              th:field="*{subContentList[__${index.index}__].content3}" rows="5">
+                                    </textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Ghi Chú</label>
+                                    <input class="form-control" th:field="*{subContentList[__${index.index}__].note}">
+                                </div>
+                            </div>
+                            <!-- SubContent end-->
+                        </div>
+                        <!-- Image section end-->
+
+                        <label for="addMoreSubContent" class="btn btn-outline-primary">Thêm ảnh và mô tả</label>
+                        <input id="addMoreSubContent" th:onchange="|initImage()|" class="form-control" type="file"
+                               multiple name="imagesFiles"
+                               accept="image/*" style="visibility:hidden;">
+                    </div>
+
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary mb-3">Lưu sản phẩm</button>
+                        <button type="button" th:onclick="|cancelInitProduct()|" class="btn btn-danger mb-3">Cancel
+                        </button>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
 
                     <div class="mb-3">
                         <label for="note" class="form-label">Ghi chú</label>
@@ -67,8 +178,8 @@
                     </div>
 
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-primary mb-3">Tạo mới</button>
-                        <button type="button" class="btn btn-danger mb-3 mx-3" onclick="history.back()">Trở lại</button>
+                        <input type="submit" name="create" class="btn btn-primary mb-3" value="Tạo mới">
+                        <input type="submit" name="cancel" class="btn btn-danger mb-3 mx-3" value="Cancel">
                     </div>
                 </form>
             </div>
@@ -79,9 +190,9 @@
 </div>
 <div th:insert="~{ admin/layout/scriptSource::scriptSource}"></div>
 <script>
-    function addMoreImage() {
+    function initImage() {
         let form = document.getElementById('updateForm');
-        let action = "/admin/article/addImage";
+        let action = "/admin/article/initImage";
         form.setAttribute('action', action);
         form.submit();
     }

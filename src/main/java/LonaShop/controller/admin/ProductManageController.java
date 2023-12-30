@@ -65,12 +65,20 @@ public class ProductManageController extends AdminBaseController {
     @Autowired
     private ImageRepository imageRepository;
 
+    /**
+     * List
+     **/
+
     @GetMapping("/index")
     public String index(Model model) {
         List<Product> productList = productService.findList();
         model.addAttribute("productList", productList);
         return "admin/product/index";
     }
+
+    /**
+     * New
+     **/
 
     @GetMapping("/new")
     public String newProduct(@ModelAttribute("product") Product product, Model model) {
@@ -82,15 +90,14 @@ public class ProductManageController extends AdminBaseController {
     }
 
     @PostMapping("/initImage")
-    public String initImage(@ModelAttribute("product") Product product,
-                            @RequestParam("imagesFiles") MultipartFile[] imagesFiles, Model model) {
+    public String initImage(@ModelAttribute("product") Product product, @RequestParam("imageFiles") MultipartFile[] imageFiles, Model model) {
         List<SubContent> subContentList = product.getSubContentList();
         if (ObjectUtils.isEmpty(subContentList)) {
             subContentList = new ArrayList<>();
         }
 
         // save image file
-        for (MultipartFile file : imagesFiles) {
+        for (MultipartFile file : imageFiles) {
 
             SubContent subContent = new SubContent();
             Long timestamp = new Timestamp(System.currentTimeMillis()).getTime();
@@ -151,8 +158,7 @@ public class ProductManageController extends AdminBaseController {
     }
 
     @PostMapping("/changeImage/{subContentIndex}")
-    public String changeImage(@ModelAttribute("product") Product product, @RequestParam("imageFile") MultipartFile imageFile,
-                              @PathVariable("subContentIndex") int subContentIndex, Model model) {
+    public String changeImage(@ModelAttribute("product") Product product, @RequestParam("imageFile") MultipartFile imageFile, @PathVariable("subContentIndex") int subContentIndex, Model model) {
         try {
             SubContent subContent = product.getSubContentList().get(subContentIndex);
             Image image = subContent.getImage();
@@ -175,8 +181,7 @@ public class ProductManageController extends AdminBaseController {
     }
 
     @PostMapping("/create")
-    public String createProduct(@Valid @ModelAttribute("product") Product product, BindingResult result,
-                                Model model, SessionStatus status) {
+    public String createProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model, SessionStatus status) {
         // check valid model
         if (result.hasErrors()) {
             return "admin/product/new";
@@ -189,6 +194,10 @@ public class ProductManageController extends AdminBaseController {
         status.setComplete();
         return "redirect:/admin/product/index";
     }
+
+    /**
+     * Edit
+     **/
 
     @GetMapping("/edit/{id}")
     public String editProduct(@PathVariable("id") Long id, Model model) {
@@ -210,6 +219,98 @@ public class ProductManageController extends AdminBaseController {
         model.addAttribute("product", product);
         return showDetail(product.getId(), model);
     }
+
+    @PostMapping("/addImage")
+    public String addImage(@ModelAttribute("product") Product product, @RequestParam("imageFile") MultipartFile imageFile, Model model) {
+
+        SubContent subContent = new SubContent();
+        product.getSubContentList().add(subContent);
+
+        String fileName = helper.genRandomFileName(imageFile.getOriginalFilename());
+        Image image = new Image();
+
+        try {
+            storageService.save(imageFile, fileName);
+            image.setImageName(fileName);
+            image.setImageUrl("/" + environment.getProperty("upload.path") + "/" + fileName);
+            subContent.setImage(image);
+            productService.save(product);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return editProduct(product.getId(), model);
+
+    }
+
+    @PostMapping("/replaceImage/{subContentIndex}")
+    public String replaceImage(@ModelAttribute("product") Product product, @PathVariable("subContentIndex") int subContentIndex, @RequestParam("newImageFile") MultipartFile newImageFile, Model model) {
+
+        assert product.getSubContentList() != null;
+        SubContent subContent = product.getSubContentList().get(subContentIndex);
+
+        String fileName = new Timestamp(System.currentTimeMillis()).getTime() + "-" + newImageFile.getOriginalFilename();
+        Image image = new Image();
+
+        try {
+            storageService.save(newImageFile, fileName);
+            image.setImageName(fileName);
+            image.setImageUrl("/" + environment.getProperty("upload.path") + "/" + fileName);
+            subContent.setImage(image);
+            productService.save(product);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return editProduct(product.getId(), model);
+
+    }
+
+    @PostMapping("/deleteImage/{subContentIndex}")
+    public String deleteImage(@ModelAttribute("product") Product product, @PathVariable("subContentIndex") int subContentIndex, Model model) {
+        try {
+            assert product.getSubContentList() != null;
+            SubContent subContent = product.getSubContentList().get(subContentIndex);
+            Image image = subContent.getImage();
+            subContent.setImage(null);
+            subContentService.save(subContent);
+            // delete image file
+            deleteSubContentImageFile(subContent);
+
+            assert image != null;
+            if (!ObjectUtils.isEmpty(image.getId())) {
+                imageService.deleteById(image.getId());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return editProduct(product.getId(), model);
+
+    }
+
+    @PostMapping("/deleteSubContent/{subContentIndex}")
+    public String deleteSubContent(@ModelAttribute("product") Product product, @PathVariable("subContentIndex") int subContentIndex, Model model) {
+        try {
+            assert product.getSubContentList() != null;
+            SubContent subContent = product.getSubContentList().get(subContentIndex);
+            product.getSubContentList().remove(subContentIndex);
+            productService.save(product);
+            deleteSubContentImageFile(subContent);
+            if (!ObjectUtils.isEmpty(subContent.getId())) {
+                subContentService.deleteById(subContent.getId());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return editProduct(product.getId(), model);
+
+    }
+
+    /**
+     * Detail
+     **/
 
     @GetMapping("/show/{id}")
     public String showDetail(@PathVariable("id") Long id, Model model) {
@@ -279,98 +380,9 @@ public class ProductManageController extends AdminBaseController {
         productService.save(product);
         return "redirect:/admin/product/index";
     }
-
-
-    @PostMapping("/addImage")
-    public String addImage(@ModelAttribute("product") Product product, @RequestParam("imageFile") MultipartFile imageFile, Model model) {
-
-        SubContent subContent = new SubContent();
-        product.getSubContentList().add(subContent);
-
-        String fileName = helper.genRandomFileName(imageFile.getOriginalFilename());
-        Image image = new Image();
-
-        try {
-            storageService.save(imageFile, fileName);
-            image.setImageName(fileName);
-            image.setImageUrl("/" + environment.getProperty("upload.path") + "/" + fileName);
-            subContent.setImage(image);
-            productService.save(product);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return editProduct(product.getId(), model);
-
-    }
-
-    @PostMapping("/replaceImage/{subContentIndex}")
-    public String replaceImage(@ModelAttribute("product") Product product,
-                               @PathVariable("subContentIndex") int subContentIndex,
-                               @RequestParam("newImageFile") MultipartFile newImageFile, Model model) {
-
-        assert product.getSubContentList() != null;
-        SubContent subContent = product.getSubContentList().get(subContentIndex);
-
-        String fileName = new Timestamp(System.currentTimeMillis()).getTime() + "-" + newImageFile.getOriginalFilename();
-        Image image = new Image();
-
-        try {
-            storageService.save(newImageFile, fileName);
-            image.setImageName(fileName);
-            image.setImageUrl("/" + environment.getProperty("upload.path") + "/" + fileName);
-            subContent.setImage(image);
-            productService.save(product);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return editProduct(product.getId(), model);
-
-    }
-
-    @PostMapping("/deleteImage/{subContentIndex}")
-    public String deleteImage(@ModelAttribute("product") Product product, @PathVariable("subContentIndex") int subContentIndex, Model model) {
-        try {
-            assert product.getSubContentList() != null;
-            SubContent subContent = product.getSubContentList().get(subContentIndex);
-            Image image = subContent.getImage();
-            subContent.setImage(null);
-            subContentService.save(subContent);
-            // delete image file
-            deleteSubContentImageFile(subContent);
-
-            assert image != null;
-            if (!ObjectUtils.isEmpty(image.getId())) {
-                imageService.deleteById(image.getId());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return editProduct(product.getId(), model);
-
-    }
-
-    @PostMapping("/deleteSubContent/{subContentIndex}")
-    public String deleteSubContent(@ModelAttribute("product") Product product, @PathVariable("subContentIndex") int subContentIndex, Model model) {
-        try {
-            assert product.getSubContentList() != null;
-            SubContent subContent = product.getSubContentList().get(subContentIndex);
-            product.getSubContentList().remove(subContentIndex);
-            productService.save(product);
-            deleteSubContentImageFile(subContent);
-            if (!ObjectUtils.isEmpty(subContent.getId())) {
-                subContentService.deleteById(subContent.getId());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return editProduct(product.getId(), model);
-
-    }
-
+    /**
+     * =================== PRIVATE =======================
+     **/
     private void deleteSubContentImageFile(SubContent subContent) {
         Image image = subContent.getImage();
         if (!ObjectUtils.isEmpty(image)) {

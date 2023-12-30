@@ -34,6 +34,9 @@ public class Article {
     @Column
     private Date createdAt;
 
+    @Column
+    private Date updatedAt;
+
     // on = 1 off = 0
     @Column
     private int status = 0;
