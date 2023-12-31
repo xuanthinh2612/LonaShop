@@ -11,9 +11,13 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container">
-                <div class="row col-md-10">
-                    <h2>Danh sách bài viết</h2>
-                    <span class="right-button m-2 right"><a th:href="@{/admin/article/new}" class="btn btn-success"> Tạo mới</a></span>
+                <div class="row my-3">
+                    <div class="col-12">
+                        <h2>Danh sách bài viết</h2>
+                    </div>
+                    <div class="col-12 d-flex justify-content-end">
+                        <a th:href="@{/admin/article/new}" class="btn btn-success"> Tạo mới</a>
+                    </div>
                 </div>
                 <table class="table table-bordered table-hover">
                     <thead class="table-dark">
@@ -28,7 +32,7 @@
                     <tbody>
                     <tr th:if="${articleList != null }" th:each="article : ${articleList}">
                         <td th:text="${article.getId()}"></td>
-                        <td><a th:href="|/admin/article/edit/${article.id}|" th:text="${article.getTitle()}"
+                        <td><a th:href="|/admin/article/show/${article.id}|" th:text="${article.getTitle()}"
                                class="text-decoration-none"></a></td>
                         <td th:text="${article.getShortDescription()}"></td>
                         <td>

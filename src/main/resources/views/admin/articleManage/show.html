@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:insert="~{/admin/layout/header::adminHeader}"></head>
+<body class="sb-nav-fixed">
+
+<!--  place navBar here-->
+<div th:insert="~{admin/layout/navBar::adminNavbar}"></div>
+<div id="layoutSidenav">
+    <!-- place sidebar here-->
+    <div th:insert="~{admin/layout/sideBar::adminSidebar}"></div>
+    <div id="layoutSidenav_content">
+
+
+        <div class="container mt-2">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-end">
+                    <a class="btn btn-outline-warning m-2"
+                       th:href="'/admin/article/edit/' + ${article.getId()}">Chỉnh sửa</a>
+                    <a class="btn btn-outline-danger m-2"
+                       th:onclick="'updateStatusAction(`delete`,' + ${article.getId()} + ')'">Xóa Bài Viết</a>
+                    <a class="btn btn-outline-success m-2"
+                       th:if="${article.status == 0}"
+                       th:onclick="'updateStatusAction(`enable`,'+ ${article.getId()} + ')'">Công khai</a>
+                    <a class="btn btn-outline-success m-2"
+                       th:if="${article.status == 1}"
+                       th:onclick="'updateStatusAction(`disable`,'+ ${article.getId()} + ')'">Hủy công khai</a>
+                    <a class="btn btn-outline-success m-2"
+                       th:if="${article.onTop == 0}"
+                       th:onclick="'updateStatusAction(`setOnTop`,' + ${article.getId()} + ')'">On Top</a>
+                    <a class="btn btn-outline-success m-2"
+                       th:if="${article.onTop == 1}"
+                       th:onclick="'updateStatusAction(`setOffTop`,' + ${article.getId()} + ')'">Off Top</a>
+                    <a class="btn btn-outline-dark m-2" th:href="@{/admin/article/index}">Quay lại danh
+                        sách</a>
+                </div>
+
+                <div class="col-8">
+                    <!-- Post content-->
+                    <article>
+                        <!-- Post header-->
+                        <header class="mb-4">
+                            <!-- Post title-->
+                            <h1 class="fw-bolder mb-1" th:text="${article.getTitle()}"></h1>
+                            <!-- Post meta content-->
+                            <div class="text-muted fst-italic mb-2" th:text="${article.getAuthor()}"></div>
+                            <!-- Post categories-->
+                            <a class="badge bg-secondary text-decoration-none link-light" href="">Blog</a>
+                        </header>
+                        <!-- Preview image figure-->
+                        <h5 class="fw-bolder mb-4 mt-5" th:text="${article.getShortDescription()}"></h5>
+                        <div th:if="${article.getSubContentList().size() > 0}" class="container px-4 px-lg-5 my-2"
+                             th:each="subContent : ${article.subContentList}">
+                            <div class="row gx-4 gx-lg-5 align-items-center">
+                                <div th:if="${subContent.image != null }" class="col-12 mb-3">
+                                    <img class="card-img-top mb-5 mb-md-0 w-100"
+                                         th:src="${subContent?.image?.getImageUrl()}" alt="..."/>
+                                </div>
+                                <div th:if="${subContent.image != null }" class="col-12 mb-3">
+                                    <span class="small" th:text="${subContent.image?.description}"></span>
+                                </div>
+                                <!--                                <div class="col-12">-->
+                                <!--                                    <span th:text="${subContent.note}"></span>-->
+                                <!--                                </div>-->
+                                <div th:if="${!#strings.isEmpty(subContent.title)}" class="col-12 mb-3">
+                                    <h4 th:text="${subContent.title}"></h4>
+                                </div>
+                                <div th:if="${!#strings.isEmpty(subContent.subTitle)}" class="col-12 mb-3">
+                                    <h5 th:text="${subContent.subTitle}"></h5>
+                                </div>
+                                <div th:if="${!#strings.isEmpty(subContent.content1)}" class="col-12">
+                                    <p th:text="${subContent.content1}"></p>
+                                </div>
+                                <div th:if="${!#strings.isEmpty(subContent.content2)}" class="col-12">
+                                    <p th:text="${subContent.content2}"></p>
+                                </div>
+                                <div th:if="${!#strings.isEmpty(subContent.content3)}" class="col-12">
+                                    <p th:text="${subContent.content3}"></p>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="container px-4 px-lg-5 my-2">
+                            <h6 class="fw-bolder" th:text="${article.getNote()}"></h6>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+        <!--  footer here-->
+        <div th:insert="~{admin/layout/footer::adminFooter}"></div>
+    </div>
+</div>
+<div th:insert="~{admin/layout/scriptSource::scriptSource}"></div>
+</body>
+
+<form id="actionForm" method="post" th:action="@{/admin/article/}">
+
+</form>
+
+<script>
+    function updateStatusAction(actionName, id) {
+        let form = document.getElementById('actionForm');
+
+        let action = form.getAttribute('action');
+        action = action + actionName + '/' + id;
+        form.setAttribute('action', action);
+
+        form.submit();
+    }
+
+</script>
+</html>

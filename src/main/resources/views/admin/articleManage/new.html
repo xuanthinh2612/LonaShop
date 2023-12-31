@@ -15,7 +15,7 @@
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">Tạo một bài blog mới</li>
                 </ol>
-                <form class="row g-3" method="post" id="updateForm"
+                <form class="row g-3" method="post" id="newArticleForm"
                       role="form" th:method="post" th:action="@{/admin/article}" th:object="${article}"
                       enctype="multipart/form-data">
                     <div class="mb-3">
@@ -50,21 +50,9 @@
                     <!--                        <p th:if="${#fields.hasErrors('category')}" th:errorclass="text-danger"-->
                     <!--                           th:errors="*{category}"></p>-->
                     <!--                    </div>-->
-
-<!--                    <div class="mb-3">-->
-<!--                        <label for="imageFiles" class="form-label">Chọn file ảnh cho sản phẩm</label>-->
-<!--                        <input class="form-control" type="file" id="imageFiles" name="imageFiles" onchange="initImage()" multiple-->
-<!--                               accept="image/*">-->
-<!--                    </div>-->
-
-
-
-
-
-
                     <div th:if="${article?.getSubContentList() == null || article?.getSubContentList()?.size() == 0}"
                          class="mb-3">
-                        <label class="form-label">Chọn file ảnh cho sản phẩm</label>
+                        <label class="form-label">Chọn ảnh cho bài viết</label>
                         <input th:onchange="|initImage()|" class="form-control" type="file" multiple name="imageFiles"
                                accept="image/*">
                     </div>
@@ -147,27 +135,9 @@
 
                         <label for="addMoreSubContent" class="btn btn-outline-primary">Thêm ảnh và mô tả</label>
                         <input id="addMoreSubContent" th:onchange="|initImage()|" class="form-control" type="file"
-                               multiple name="imagesFiles"
+                               multiple name="imageFiles"
                                accept="image/*" style="visibility:hidden;">
                     </div>
-
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary mb-3">Lưu sản phẩm</button>
-                        <button type="button" th:onclick="|cancelInitProduct()|" class="btn btn-danger mb-3">Cancel
-                        </button>
-                    </div>
-
-
-
-
-
-
-
-
-
-
-
-
                     <div class="mb-3">
                         <label for="note" class="form-label">Ghi chú</label>
                         <p class="small">Mục này sẽ xuất hiện dưới cùng bài viết</p>
@@ -176,7 +146,6 @@
                         <p th:if="${#fields.hasErrors('note')}" th:errorclass="text-danger"
                            th:errors="*{note}"></p>
                     </div>
-
                     <div class="col-auto">
                         <input type="submit" name="create" class="btn btn-primary mb-3" value="Tạo mới">
                         <input type="submit" name="cancel" class="btn btn-danger mb-3 mx-3" value="Cancel">
@@ -191,11 +160,56 @@
 <div th:insert="~{ admin/layout/scriptSource::scriptSource}"></div>
 <script>
     function initImage() {
-        let form = document.getElementById('updateForm');
+        let form = document.getElementById('newArticleForm');
         let action = "/admin/article/initImage";
         form.setAttribute('action', action);
         form.submit();
     }
+
+
+
+
+    function removeNewImage(imageIndex) {
+        let form = document.getElementById('newArticleForm');
+        let action = "/admin/article/removeNewImage/" + imageIndex;
+        form.setAttribute('action', action);
+        form.submit();
+    }
+
+    function removeSubContent(imageIndex) {
+        let form = document.getElementById('newArticleForm');
+        let action = "/admin/article/removeSubContent/" + imageIndex;
+        form.setAttribute('action', action);
+        form.submit();
+    }
+
+    function changeImage(imageIndex) {
+        let form = document.getElementById('newArticleForm');
+        let action = "/admin/article/changeImage/" + imageIndex;
+        form.setAttribute('action', action);
+        form.submit();
+    }
+
+<!--    function saveProduct(imageIndex) {-->
+<!--        let form = document.getElementById('newArticleForm');-->
+<!--        form.submit();-->
+<!--    }-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 </body>
 </html>

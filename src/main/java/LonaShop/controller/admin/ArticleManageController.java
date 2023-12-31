@@ -8,6 +8,7 @@ import LonaShop.model.Product;
 import LonaShop.model.SubContent;
 import LonaShop.service.ArticleService;
 import LonaShop.service.ImageService;
+import LonaShop.service.SubContentService;
 import LonaShop.service.file.FilesStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -41,6 +42,8 @@ public class ArticleManageController {
     private ImageService imageService;
 
     @Autowired
+    private SubContentService subContentService;
+    @Autowired
     private Helper helper;
 
     @ModelAttribute("article")
@@ -52,7 +55,7 @@ public class ArticleManageController {
      * List
      **/
 
-    @GetMapping("/list")
+    @GetMapping("/index")
     public String index(Model model) {
 
         List<Article> articleList = articleService.findAll();
@@ -165,59 +168,78 @@ public class ArticleManageController {
     }
 
     @PostMapping(params = "create")
-    public String createArticle(@ModelAttribute("article") Article article, BindingResult result, Model model) {
+    public String createArticle(@ModelAttribute("article") Article article, BindingResult result, Model model, SessionStatus status) {
 
         if (result.hasErrors()) {
-            return "/admin/article/new";
+            return "/admin/articleManage/new";
         }
         articleService.save(article);
-
-        return editArticle(article.getId(), model);
+        status.setComplete();
+        return showArticle(article.getId(), model);
     }
-
 
     /**
      * Detail
      **/
-    @PostMapping("/addImage")
-    public String addImage(@ModelAttribute("article") Article article, @RequestParam("imageFiles") MultipartFile[] imageFiles, BindingResult result, Model model) {
 
-        List<Image> imageList = new ArrayList<>();
-
-        for (MultipartFile file : imageFiles) {
-            String fileName = new Timestamp(System.currentTimeMillis()).getTime() + "-" + file.getOriginalFilename();
-            Image image = new Image();
-            try {
-                storageService.save(file, fileName);
-                image.setImageName(fileName);
-                image.setImageUrl("/" + environment.getProperty("upload.path") + "/" + fileName);
-                imageList.add(image);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-//        if (ObjectUtils.isEmpty(article.getImageList())) {
-//            article.setImageList(new ArrayList<>());
-//        }
-//        article.getImageList().addAll(imageList);
-//        articleService.save(article);
-        return editArticle(article.getId(), model);
+    @GetMapping("/show/{id}")
+    public String showArticle(@PathVariable("id") Long id, Model model) {
+        Article article = articleService.findById(id);
+        model.addAttribute("article", article);
+        return "/admin/articleManage/show";
     }
 
-    @PostMapping("/deleteImage/{indexImage}")
-    public String deleteImage(@ModelAttribute("article") Article article, @PathVariable("indexImage") int indexImage, BindingResult result, Model model) {
-
-        try {
-//            Image image = article.getImageList().get(indexImage);
-//            article.getImageList().remove(image);
-//            imageService.deleteById(image.getId());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return editArticle(article.getId(), model);
+    @PostMapping("/disable/{id}")
+    public String disableArticle(@PathVariable("id") Long id, Model model) {
+        Article article = articleService.findById(id);
+        article.setStatus(CommonConst.FLAG_OFF);
+        articleService.save(article);
+        return showArticle(article.getId(), model);
     }
+
+    @PostMapping("/enable/{id}")
+    public String enableArticle(@PathVariable("id") Long id, Model model) {
+        Article article = articleService.findById(id);
+        article.setStatus(CommonConst.FLAG_ON);
+        articleService.save(article);
+        return showArticle(article.getId(), model);
+    }
+
+    @PostMapping("/setOnTop/{id}")
+    public String setOnTop(@PathVariable("id") Long id, Model model) {
+        Article article = articleService.findById(id);
+        if (article.getStatus() == CommonConst.FLAG_ON) {
+            return showArticle(article.getId(), model);
+        }
+        article.setOnTop(CommonConst.FLAG_ON);
+        articleService.save(article);
+        return showArticle(article.getId(), model);
+    }
+
+    @PostMapping("/setOffTop/{id}")
+    public String setOffTop(@PathVariable("id") Long id, Model model) {
+        Article article = articleService.findById(id);
+        article.setOnTop(CommonConst.FLAG_OFF);
+        articleService.save(article);
+        return showArticle(article.getId(), model);
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteArticle(@PathVariable("id") Long id, Model model) {
+
+        Article article = articleService.findById(id);
+        List<SubContent> subContentList = article.getSubContentList();
+        for (SubContent subContent : subContentList) {
+            // delete image file
+            deleteSubContentImageFile(subContent);
+        }
+        articleService.deleteById(id);
+        return "redirect:/admin/article/index";
+    }
+
+    /**
+     * Edit
+     **/
 
     @GetMapping("/edit/{id}")
     public String editArticle(@PathVariable("id") Long id, Model model) {
@@ -226,7 +248,104 @@ public class ArticleManageController {
         return "admin/articleManage/edit";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/addImageAndSubContent")
+    public String addImageAndSubContent(@ModelAttribute("article") Article article, @RequestParam("imageFiles") MultipartFile[] imageFiles, Model model) {
+
+
+        List<SubContent> subContentList = article.getSubContentList();
+        if (ObjectUtils.isEmpty(subContentList)) {
+            subContentList = new ArrayList<>();
+        }
+
+        // save image file
+        for (MultipartFile imageFile : imageFiles) {
+
+            SubContent subContent = new SubContent();
+            String fileName = helper.genRandomFileName(imageFile.getOriginalFilename());
+            Image image = new Image();
+            try {
+                storageService.save(imageFile, fileName);
+                image.setImageName(fileName);
+                image.setImageUrl("/" + environment.getProperty("upload.path") + "/" + fileName);
+                subContent.setImage(image);
+                subContentList.add(subContent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        article.setSubContentList(subContentList);
+        articleService.save(article);
+        return editArticle(article.getId(), model);
+    }
+
+    @PostMapping("/deleteImage/{subContentIndex}")
+    public String deleteImage(@ModelAttribute("article") Article article, @PathVariable("subContentIndex") int subContentIndex, Model model) {
+        try {
+            assert article.getSubContentList() != null;
+            SubContent subContent = article.getSubContentList().get(subContentIndex);
+            // delete image file
+            deleteSubContentImageFile(subContent);
+
+            Image image = subContent.getImage();
+            subContent.setImage(null);
+            subContentService.save(subContent);
+
+            assert image != null;
+            if (!ObjectUtils.isEmpty(image.getId())) {
+                imageService.deleteById(image.getId());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return editArticle(article.getId(), model);
+
+    }
+
+    @PostMapping("/addImage/{subContentIndex}")
+    public String addImage(@ModelAttribute("article") Article article, @PathVariable("subContentIndex") int subContentIndex, @RequestParam("imageFile") MultipartFile imageFile, Model model) {
+
+        assert article.getSubContentList() != null;
+        SubContent subContent = article.getSubContentList().get(subContentIndex);
+
+        String fileName = new Timestamp(System.currentTimeMillis()).getTime() + "-" + imageFile.getOriginalFilename();
+        Image image = new Image();
+
+        try {
+            storageService.save(imageFile, fileName);
+            image.setImageName(fileName);
+            image.setImageUrl("/" + environment.getProperty("upload.path") + "/" + fileName);
+            subContent.setImage(image);
+            articleService.save(article);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return editArticle(article.getId(), model);
+
+    }
+
+
+    @PostMapping("/deleteSubContent/{subContentIndex}")
+    public String deleteSubContent(@ModelAttribute("article") Article article, @PathVariable("subContentIndex") int subContentIndex, Model model) {
+        try {
+            assert article.getSubContentList() != null;
+            SubContent subContent = article.getSubContentList().get(subContentIndex);
+            article.getSubContentList().remove(subContentIndex);
+            articleService.save(article);
+            deleteSubContentImageFile(subContent);
+            if (!ObjectUtils.isEmpty(subContent.getId())) {
+                subContentService.deleteById(subContent.getId());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return editArticle(article.getId(), model);
+
+    }
+
+    @PostMapping(params = "update")
     public String updateArticle(@ModelAttribute("article") Article article, BindingResult result, SessionStatus sessionStatus, Model model) {
 
         if (result.hasErrors()) {
@@ -235,55 +354,13 @@ public class ArticleManageController {
 
         articleService.save(article);
         sessionStatus.setComplete();
-        return "redirect:/admin/article/list";
+        return showArticle(article.getId(), model);
     }
 
-    @PostMapping("/delete/{id}")
-    public String deleteArticle(@PathVariable("id") Long id, Model model) {
-        articleService.deleteById(id);
-        return "redirect:/admin/article/list";
-    }
-
-    @PostMapping("/disable/{id}")
-    public String disableArticle(@PathVariable("id") Long id, Model model) {
-        Article article = articleService.findById(id);
-        article.setStatus(CommonConst.FLAG_OFF);
-        articleService.save(article);
-        return "redirect:/admin/article/list";
-    }
-
-    @PostMapping("/enable/{id}")
-    public String enableArticle(@PathVariable("id") Long id, Model model) {
-        Article article = articleService.findById(id);
-        article.setStatus(CommonConst.FLAG_ON);
-        articleService.save(article);
-        return "redirect:/admin/article/list";
-    }
-
-    @PostMapping("/show/{id}")
-    public String showArticle(@PathVariable("id") Long id, Model model) {
-        Article article = articleService.findById(id);
-        model.addAttribute("article", article);
-        return "/admin/article/show";
-    }
-
-    @PostMapping("/setOnTop/{id}")
-    public String setOnTop(@PathVariable("id") Long id, Model model) {
-        Article article = articleService.findById(id);
-        if (article.getStatus() == CommonConst.FLAG_OFF) {
-            return "redirect:/admin/article/list";
-        }
-        article.setOnTop(CommonConst.FLAG_ON);
-        articleService.save(article);
-        return "redirect:/admin/article/list";
-    }
-
-    @PostMapping("/setOffTop/{id}")
-    public String setOffTop(@PathVariable("id") Long id, Model model) {
-        Article article = articleService.findById(id);
-        article.setOnTop(CommonConst.FLAG_OFF);
-        articleService.save(article);
-        return "redirect:/admin/article/list";
+    @PostMapping(params = "cancelEdit")
+    public String cancelUpdateArticle(@ModelAttribute("article") Article article, BindingResult result, SessionStatus sessionStatus, Model model) {
+        sessionStatus.setComplete();
+        return showArticle(article.getId(), model);
     }
 
     /**

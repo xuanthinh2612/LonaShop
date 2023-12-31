@@ -241,8 +241,6 @@
 <div th:insert="~{admin/layout/scriptSource::scriptSource}"></div>
 </body>
 
-<form id="actionForm" method="post" th:action="@{/admin/product/}"></form>
-
 <script>
 
     function addMoreImage() {
@@ -259,10 +257,10 @@
     }
 
     function updateStatusAction(actionName, id) {
-        let form = document.getElementById('actionForm');
+        let form = document.getElementById('updateForm');
 
         let action = form.getAttribute('action');
-        action = action + actionName + '/' + id;
+        action = "/admin/product/" + actionName + '/' + id;
         form.setAttribute('action', action);
 
         form.submit();
