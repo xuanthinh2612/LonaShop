@@ -16,18 +16,17 @@ public class UserBaseController extends BaseController {
     private ProductService productService;
 
     protected List<Product> getAvailableProduct() {
-//        List<Product> productList = productService.findList().stream().filter(e -> e.getImages().size() > 0)
-//                .toList();
-//        List<Product> newList = new ArrayList<>();
-//
-//        for (Product product : productList) {
-//            if (product.getStatus() == CommonConst.ProductStatus.available.code()
-//                    || product.getStatus() == CommonConst.ProductStatus.sale.code()) {
-//                newList.add(product);
-//            }
-//        }
-//        return newList;
-        return null; // for test only
+        List<Product> productList = productService.findList(); //.stream().filter(e -> e.getImages().size() > 0).toList();
+        List<Product> newList = new ArrayList<>();
+
+        for (Product product : productList) {
+            if (product.getStatus() == CommonConst.ProductStatus.available.code()
+                    || product.getStatus() == CommonConst.ProductStatus.sale.code()) {
+                newList.add(product);
+            }
+        }
+        return newList;
+//        return null; // for test only
     }
 
 }

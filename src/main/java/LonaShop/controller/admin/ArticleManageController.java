@@ -4,7 +4,6 @@ import LonaShop.common.CommonConst;
 import LonaShop.controller.helper.Helper;
 import LonaShop.model.Article;
 import LonaShop.model.Image;
-import LonaShop.model.Product;
 import LonaShop.model.SubContent;
 import LonaShop.service.ArticleService;
 import LonaShop.service.ImageService;

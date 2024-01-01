@@ -28,8 +28,8 @@ public class DashBoardController extends UserBaseController {
 
     @GetMapping(value = {"/trang-chu", "", "/"})
     public String showDashBoard(Model model) {
-        Cover cover = coverService.findAll().get(0);
-        Image image = cover.getImages().get(0);
+//        Cover cover = coverService.findAll().get(0);
+//        Image image = cover.getImages().get(0);
 
         List<Article> articleList = articleService.findAll().stream().filter(e -> e.getStatus() == CommonConst.FLAG_ON)
                 .collect(Collectors.toList());
@@ -40,8 +40,8 @@ public class DashBoardController extends UserBaseController {
         model.addAttribute("articleList", articleList);
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("productList", productList);
-        model.addAttribute("image", image);
-        model.addAttribute("cover", cover);
+//        model.addAttribute("image", image);
+//        model.addAttribute("cover", cover);
         return "user/dashboard/index";
     }
 
