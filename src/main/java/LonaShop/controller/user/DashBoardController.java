@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,11 @@ public class DashBoardController extends UserBaseController {
     @Autowired
     private CategoryService categoryService;
 
+    @ModelAttribute("categoryList")
+    private List<Category> initCategoryList() {
+        return getListCategory();
+    }
+
     @GetMapping(value = {"/trang-chu", "", "/"})
     public String showDashBoard(Model model) {
 //        Cover cover = coverService.findAll().get(0);
@@ -33,15 +40,9 @@ public class DashBoardController extends UserBaseController {
 
         List<Article> articleList = articleService.findAll().stream().filter(e -> e.getStatus() == CommonConst.FLAG_ON)
                 .collect(Collectors.toList());
-
         List<Product> productList = getAvailableProduct();
-        List<Category> categoryList = categoryService.findList();
-
         model.addAttribute("articleList", articleList);
-        model.addAttribute("categoryList", categoryList);
         model.addAttribute("productList", productList);
-//        model.addAttribute("image", image);
-//        model.addAttribute("cover", cover);
         return "user/dashboard/index";
     }
 

@@ -207,7 +207,7 @@ public class ArticleManageController {
     @PostMapping("/setOnTop/{id}")
     public String setOnTop(@PathVariable("id") Long id, Model model) {
         Article article = articleService.findById(id);
-        if (article.getStatus() == CommonConst.FLAG_ON) {
+        if (article.getOnTop() == CommonConst.FLAG_ON) {
             return showArticle(article.getId(), model);
         }
         article.setOnTop(CommonConst.FLAG_ON);

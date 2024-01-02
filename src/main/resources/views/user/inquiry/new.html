@@ -6,7 +6,7 @@
 <br/><br/><br/>
 <div class="container mb-5">
     <div class="row col-md-8 offset-md-2">
-        <div class="card">
+        <div class="card p-0">
             <div class="card-header">
                 <h2 class="text-center">Liên Hệ Chúng tôi</h2>
             </div>
@@ -19,17 +19,22 @@
                            th:if="${#fields.hasErrors('customerName')}"></p>
                     </div>
 
-                    <div class="form-check mb-3">
-                        <label for="male" class="form-check-label">Nam</label>
-                        <input id="male" class="form-check-input" value="0" th:field="*{customerGender}" type="radio"/>
+                    <div class="form-group mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="0" th:field="*{customerGender}"
+                                   id="male">
+                            <label class="form-check-label" for="male">
+                                Nam
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="1" th:field="*{customerGender}" checked
+                                   id="female">
+                            <label class="form-check-label" for="female">
+                                Nữ
+                            </label>
+                        </div>
                     </div>
-
-                    <div class="form-check mb-3">
-                        <label for="female" class="form-check-label">Nữ</label>
-                        <input id="female" class="form-check-input" value="1" th:field="*{customerGender}"
-                               type="radio"/>
-                    </div>
-
 
                     <div class="form-group mb-3">
                         <label class="form-label">Số điện thoại</label>
@@ -62,8 +67,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label class="form-label">Nội dung hỏi đáp</label>
-                        <textarea class="form-control" placeholder="Ghi chú thêm cho cửa hàng" th:field="*{content}"
-                                  type="text">
+                        <textarea class="form-control" placeholder="Ghi chú thêm cho cửa hàng" th:field="*{content}">
 
                         </textarea>
                         <p th:errors="*{content}" class="text-danger"
@@ -71,17 +75,14 @@
                     </div>
                     <div class="form-group mb-3">
                         <label class="form-label">Ghi chú</label>
-                        <textarea class="form-control" placeholder="Ghi chú thêm cho cửa hàng" th:field="*{note}"
-                                  type="text">
-
+                        <textarea class="form-control" placeholder="Ghi chú thêm cho cửa hàng" th:field="*{note}">
                         </textarea>
                         <p th:errors="*{note}" class="text-danger"
                            th:if="${#fields.hasErrors('note')}"></p>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary" type="submit">Gửi câu hỏi</button>
-                        <a href="javascript:history.back()" class="btn btn-danger" type="button"> Trở
-                            về </a>
+                        <a href="/" class="btn btn-danger" type="button"> Hủy Bỏ </a>
                     </div>
                 </form>
             </div>

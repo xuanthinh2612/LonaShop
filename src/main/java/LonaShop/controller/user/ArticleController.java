@@ -2,12 +2,14 @@ package LonaShop.controller.user;
 
 import LonaShop.common.CommonConst;
 import LonaShop.model.Article;
+import LonaShop.model.Category;
 import LonaShop.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
@@ -15,10 +17,15 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/blog")
-public class ArticleController {
+public class ArticleController extends UserBaseController{
 
     @Autowired
     private ArticleService articleService;
+
+    @ModelAttribute("categoryList")
+    private List<Category> initCategoryList(){
+        return getListCategory();
+    }
 
     @GetMapping("")
     public String getListArticle(Model model) {

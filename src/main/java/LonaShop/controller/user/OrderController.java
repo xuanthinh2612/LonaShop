@@ -1,6 +1,7 @@
 package LonaShop.controller.user;
 
 import LonaShop.common.CommonConst;
+import LonaShop.model.Category;
 import LonaShop.model.Product;
 import LonaShop.model.UserOrder;
 import LonaShop.service.ProductService;
@@ -12,16 +13,22 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/order")
-public class OrderController {
+public class OrderController extends UserBaseController {
 
     @Autowired
     ProductService productService;
 
     @Autowired
     UserOrderService userOrderService;
+
+    @ModelAttribute("categoryList")
+    private List<Category> initCategoryList(){
+        return getListCategory();
+    }
 
     @GetMapping("/new/{id}")
     public String newOrder(@PathVariable("id") Long id, Model model){

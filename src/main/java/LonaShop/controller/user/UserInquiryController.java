@@ -1,6 +1,7 @@
 package LonaShop.controller.user;
 
 import LonaShop.common.CommonConst;
+import LonaShop.model.Category;
 import LonaShop.model.Inquiry;
 import LonaShop.service.InquiryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/inquiry")
-public class UserInquiryController {
+public class UserInquiryController extends UserBaseController {
 
     @Autowired
     private InquiryService inquiryService;
+
+    @ModelAttribute("categoryList")
+    private List<Category> initCategoryList(){
+        return getListCategory();
+    }
 
     @GetMapping("/new")
     public String newInquiry(Model model) {

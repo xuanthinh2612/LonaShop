@@ -2,7 +2,9 @@ package LonaShop.controller.user;
 
 import LonaShop.common.CommonConst;
 import LonaShop.controller.BaseController;
+import LonaShop.model.Category;
 import LonaShop.model.Product;
+import LonaShop.service.CategoryService;
 import LonaShop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,6 +16,8 @@ public class UserBaseController extends BaseController {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private CategoryService categoryService;
 
     protected List<Product> getAvailableProduct() {
         List<Product> productList = productService.findList(); //.stream().filter(e -> e.getImages().size() > 0).toList();
@@ -26,7 +30,10 @@ public class UserBaseController extends BaseController {
             }
         }
         return newList;
-//        return null; // for test only
+    }
+
+    protected List<Category> getListCategory() {
+        return categoryService.findList();
     }
 
 }

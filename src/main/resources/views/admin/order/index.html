@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:insert="~{/admin/layout/header::adminHeader}"></head>
 <body class="sb-nav-fixed">
 
@@ -11,14 +11,27 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Quản lý đơn hàng</h1>
-                <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item active" th:if="${orderStatus == 1}">Đơn chờ xác nhận</li>
-                    <li class="breadcrumb-item active" th:if="${orderStatus == 2}">Đơn đã xác nhận</li>
-                    <li class="breadcrumb-item active" th:if="${orderStatus == 3}">Đơn đang đóng gói</li>
-                    <li class="breadcrumb-item active" th:if="${orderStatus == 4}">Đơn đã giao</li>
-                    <li class="breadcrumb-item active" th:if="${orderStatus == 6}">Đơn đã hủy</li>
-                </ol>
+                <div class="row">
+                    <div class="col-12">
+                        <h1 class="mt-4">Quản lý đơn hàng</h1>
+                    </div>
+                    <div class="col-12">
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active" th:if="${orderStatus == 1}">Đơn chờ xác nhận</li>
+                            <li class="breadcrumb-item active" th:if="${orderStatus == 2}">Đơn đã xác nhận</li>
+                            <li class="breadcrumb-item active" th:if="${orderStatus == 3}">Đơn đang đóng gói</li>
+                            <li class="breadcrumb-item active" th:if="${orderStatus == 4}">Đơn đã giao</li>
+                            <li class="breadcrumb-item active" th:if="${orderStatus == 6}">Đơn đã hủy</li>
+                        </ol>
+                    </div>
+                    <div class="col-12  d-flex justify-content-end">
+                        <a class="btn btn-outline-primary m-3" th:href="@{/admin/order/list?status=1}">Chờ xác nhận</a>
+                        <a class="btn btn-primary m-3" th:href="@{/admin/order/list?status=2}">Đã xác nhận</a>
+                        <a class="btn btn-warning m-3" th:href="@{/admin/order/list?status=3}">Chờ đóng gói</a>
+                        <a class="btn btn-success m-3" th:href="@{/admin/order/list?status=4}">Đã giao</a>
+                        <a class="btn btn-dark m-3" th:href="@{/admin/order/list?status=6}">Đã hủy</a>
+                    </div>
+                </div>
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>

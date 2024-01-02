@@ -88,13 +88,13 @@
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
             <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
                 <h1 class="fa fa-check text-info m-0 mr-3"></h1>
-                <h5 class="font-weight-semi-bold m-0">Quality Product</h5>
+                <h5 class="font-weight-semi-bold m-0">Xách Tay Chính Hãng</h5>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
             <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
                 <h1 class="fa fa-shipping-fast text-info m-0 mr-2"></h1>
-                <h5 class="font-weight-semi-bold m-0">Free Shipping</h5>
+                <h5 class="font-weight-semi-bold m-0">Ship Toàn Quốc</h5>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
@@ -287,8 +287,6 @@
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1" th:each="product : ${productList}">
             <div class="product-item bg-light mb-4">
                 <div class="product-img position-relative overflow-hidden">
-
-
                     <a th:href="'/product/show/'+${product.getId()}">
                         <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem"
                              th:if="${product.getStatus() == 5}">Giảm giá
@@ -296,7 +294,6 @@
                         <!-- Product image-->
                         <img class="img-fluid w-100" th:src="${product.getAvatar().getImageUrl()}" alt="">
                     </a>
-
                     <div class="product-action">
                         <div class="text-center">
                             <a class="btn btn-outline-dark mt-auto" th:href="'/product/show/'+${product.getId()}">
@@ -391,9 +388,6 @@
             </div>
         </div>
     </div>
-
-
-</div>
 </div>
 <!-- Blog End -->
 
@@ -481,6 +475,8 @@
             overflow: hidden;
             -webkit-line-clamp: 2; /* Adjust the number of lines you want to display */
         }
+
+
 </style>
 
 </html>
