@@ -9,6 +9,7 @@ import LonaShop.service.UserOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +33,12 @@ public class OrderController extends UserBaseController {
 
     @GetMapping("/new/{id}")
     public String newOrder(@PathVariable("id") Long id, Model model){
-        UserOrder order = new UserOrder();
         Product product = productService.findById(id);
+
+        if (ObjectUtils.isEmpty(product) || isNotValidProduct(product)) {
+            return "redirect:/";
+        }
+        UserOrder order = new UserOrder();
         order.setProduct(product);
         model.addAttribute("product", product);
         model.addAttribute("order", order);
@@ -42,6 +47,11 @@ public class OrderController extends UserBaseController {
 
     @PostMapping("/create")
     public String createOrder(@ModelAttribute("order") UserOrder order, BindingResult result, Model model){
+        Product product = order.getProduct();
+        if (ObjectUtils.isEmpty(product) || isNotValidProduct(product)) {
+            return "redirect:/";
+        }
+
         order.setCreatedAt(new Date());
         order.setUpdatedAt(new Date());
         order.setStatus(CommonConst.ORDERED);
@@ -55,6 +65,11 @@ public class OrderController extends UserBaseController {
         // logic here after get current user
         // pending
         return "/user/order/histories";
+    }
+
+    private boolean isNotValidProduct(Product product) {
+        return product.getStatus() != CommonConst.ProductStatus.available.code()
+                && product.getStatus() != CommonConst.ProductStatus.sale.code();
     }
 
 }

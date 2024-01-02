@@ -5,12 +5,11 @@ import LonaShop.model.*;
 import LonaShop.service.ArticleService;
 import LonaShop.service.CategoryService;
 import LonaShop.service.CoverService;
+import LonaShop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 public class DashBoardController extends UserBaseController {
 
     @Autowired
-    private CoverService coverService;
+    private ProductService productService;
 
     @Autowired
     private ArticleService articleService;
@@ -35,8 +34,6 @@ public class DashBoardController extends UserBaseController {
 
     @GetMapping(value = {"/trang-chu", "", "/"})
     public String showDashBoard(Model model) {
-//        Cover cover = coverService.findAll().get(0);
-//        Image image = cover.getImages().get(0);
 
         List<Article> articleList = articleService.findAll().stream().filter(e -> e.getStatus() == CommonConst.FLAG_ON)
                 .collect(Collectors.toList());
@@ -50,6 +47,27 @@ public class DashBoardController extends UserBaseController {
     public String aboutUs(Model model) {
         model.addAttribute(CommonConst.PAGE_MODE, CommonConst.ABOUT_PAGE_MODE);
         return "/user/dashboard/about";
+    }
+
+    @GetMapping("/category/{id}")
+    public String searchByCategory(@PathVariable("id") Long id, Model model) {
+
+        List<Article> articleList = articleService.findAll().stream().filter(e -> e.getStatus() == CommonConst.FLAG_ON).toList();
+        List<Product> productList = getAvailableProduct().stream().filter(e -> e.getCategory().getId().equals(id)).toList();
+        model.addAttribute("articleList", articleList);
+        model.addAttribute("productList", productList);
+        return "/user/dashboard/index";
+    }
+
+    @GetMapping("/search")
+    public String searchProduct(@RequestParam("key") String key, Model model) {
+
+        List<Article> articleList = articleService.findAll().stream().filter(e -> e.getStatus() == CommonConst.FLAG_ON).toList();
+        List<Product> productList = productService.findByKey(key);
+        model.addAttribute("articleList", articleList);
+        model.addAttribute("productList", productList);
+
+        return "/user/dashboard/index";
     }
 
 }

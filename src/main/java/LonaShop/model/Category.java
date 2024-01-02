@@ -2,8 +2,12 @@ package LonaShop.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.lang.Nullable;
+
 import java.util.List;
 
 @Table
@@ -25,4 +29,12 @@ public class Category {
 
     @Column
     private String description;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @Nullable
+    private List<Product> productList;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @Nullable
+    private Image image;
 }

@@ -34,13 +34,19 @@
                 </div>
                 <p class="lead" th:text="${product.getSubDescription_1()}"></p>
                 <p class="lead" th:text="${product.getSubDescription_2()}"></p>
-                <div class="d-flex">
+                <div class="d-flex" th:if="${product.getStatus() != 4}">
                     <input class="form-control text-center me-3" id="inputQuantity" type="text" value="1"
                            style="max-width: 3rem"/>
-                    <a class="btn btn-outline-dark flex-shrink-0" th:href="'/order/new/' + ${product.getId()}">
+                    <a  class="btn btn-outline-dark flex-shrink-0" th:href="'/order/new/' + ${product.getId()}">
                         <i class="bi-cart-fill me-1"></i>
                         Đặt Mua Hàng
                     </a>
+                </div>
+                <div class="d-flex" th:if="${product.getStatus() == 4}">
+                    <button type="button"  class="btn btn-warning flex-shrink-0">
+                        <i class="bi-cart-fill me-1"></i>
+                        Sản phẩm tạm thời hết hàng
+                    </button>
                 </div>
             </div>
         </div>

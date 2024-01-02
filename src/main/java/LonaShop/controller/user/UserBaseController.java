@@ -25,7 +25,8 @@ public class UserBaseController extends BaseController {
 
         for (Product product : productList) {
             if (product.getStatus() == CommonConst.ProductStatus.available.code()
-                    || product.getStatus() == CommonConst.ProductStatus.sale.code()) {
+                    || product.getStatus() == CommonConst.ProductStatus.sale.code()
+                    || product.getStatus() == CommonConst.ProductStatus.soldOut.code()) {
                 newList.add(product);
             }
         }

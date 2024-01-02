@@ -65,10 +65,10 @@ public class Product {
     @Column
     private int status = 1;
 
-//    @Column
-//    private int remainAmount;
+    @Column
+    private Long remainAmount;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Category category;
 
     @ManyToMany(cascade = CascadeType.ALL)

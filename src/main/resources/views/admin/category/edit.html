@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 <head th:insert="~{/admin/layout/header::adminHeader}"></head>
 <body class="sb-nav-fixed">
 
@@ -13,7 +13,7 @@
             <div class="container-fluid px-4">
                 <h1 class="mt-4">Category</h1>
                 <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item active">Tạo 1 phân loại mới</li>
+                    <li class="breadcrumb-item active">Chỉnh sửa category</li>
                 </ol>
 
                 <form class="row g-3" role="form" th:method="post" th:action="@{/admin/category}"
@@ -23,15 +23,38 @@
                         <label for="name" class="form-label">Tên </label>
                         <input type="text" th:field="*{name}" class="form-control" id="name"
                                placeholder="Ví dụ: Nước mắm...">
-                        <p th:if="${#fields.hasErrors('name')}" th:errorclass="text-danger" th:errors="*{name}"/>
+                        <p th:if="${#fields.hasErrors('name')}" th:errorclass="text-danger" th:errors="*{name}"></p>
                     </div>
+
+                    <div th:if="${category.getImage() != null}"
+                         class="row gx-4 gx-lg-5 align-items-center mb-3">
+                        <div class="col-md-3">
+                            <img class="card-img-top mb-5 mb-md-0 w-100"
+                                 th:src="${category.getImage().getImageUrl()}" alt="..."/>
+                        </div>
+                        <div class="col-md-9">
+                            <p class="lead">
+                            <div class="mb-3">
+                                <label class="form-label">Mô tả ảnh(Tùy chọn)</label>
+                                <input class="form-control" th:field="*{image.description}">
+                            </div>
+                            </p>
+                        </div>
+                    </div>
+                    <div th:if="${category.getImage() == null}"
+                         class="row gx-4 gx-lg-5 align-items-center mb-3">
+                        <input th:onchange="|initImage()|" class="mb-3 form-control" type="file"
+                               name="imageFile" accept="image/*">
+                    </div>
+
                     <div class="mb-3">
                         <label for="description" class="form-label">Mô tả chi tiết</label>
                         <textarea class="form-control" id="description" th:field="*{description}" rows="3"></textarea>
                     </div>
                     <div class="col-auto">
-                        <input type="submit" name="update" class="btn btn-primary mb-3" value="Cập nhật">
-                        <input type="submit" name="cancel" class="btn btn-danger mb-3" value="Cancel">
+                        <input type="submit" name="update" class="btn btn-success mb-3" value="Cập nhật">
+                        <input type="submit" name="cancel" class="btn btn-primary mb-3" value="Cancel">
+                        <input type="submit" name="delete" class="btn btn-danger mb-3" value="Delete Category">
                     </div>
                 </form>
             </div>

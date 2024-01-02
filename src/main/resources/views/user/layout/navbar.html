@@ -92,8 +92,9 @@
                         <!--                            </div>-->
                         <!--                        </div>-->
 
-                        <a  th:each="category : ${categoryList}" th:href="@{/}" class="nav-item nav-link"
-                        th:text ="${category.getName()}">Link Text</a>
+                        <a th:each="category : ${categoryList}" th:href="|/category/${category.id}|"
+                           class="nav-item nav-link"
+                           th:text="${category.getName()}">Link Text</a>
                     </div>
                 </nav>
             </div>
@@ -140,12 +141,14 @@
                             </ul>
                         </div>
                         <div class="text-left">
-                            <form action="">
+                            <form id="searchForm" th:action="@{/search}" method="get">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Tìm kiếm">
+                                    <input name="key" type="text" class="form-control" placeholder="Tìm kiếm">
                                     <div class="input-group-append">
                                         <span class="input-group-text bg-transparent text-info">
-                                            <i class="fa fa-search"></i>
+                                            <button type="submit" class="bnt">
+                                                <i class="fa fa-search"></i>
+                                            </button>
                                         </span>
                                     </div>
                                 </div>

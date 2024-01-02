@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 <head th:insert="~{/admin/layout/header::adminHeader}"></head>
 <body class="sb-nav-fixed">
 
@@ -17,12 +17,33 @@
                 </ol>
 
                 <form class="row g-3" role="form" th:method="post" th:action="@{/admin/category}"
-                      th:object="${category}">
+                      th:object="${category}" id="newCategoryForm"
+                      enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="name" class="form-label">Tên </label>
                         <input type="text" th:field="*{name}" class="form-control" id="name"
-                               placeholder="Ví dụ: Nước mắm...">
+                               placeholder="Ví dụ: Giày, Áo Nam, Mỹ Phẩm...">
                         <p th:if="${#fields.hasErrors('name')}" th:errorclass="text-danger" th:errors="*{name}"></p>
+                    </div>
+                    <div th:if="${category.getImage() != null}"
+                         class="row gx-4 gx-lg-5 align-items-center mb-3">
+                        <div class="col-md-3">
+                            <img class="card-img-top mb-5 mb-md-0 w-100"
+                                 th:src="${category.getImage().getImageUrl()}" alt="..."/>
+                        </div>
+                        <div class="col-md-9">
+                            <p class="lead">
+                            <div class="mb-3">
+                                <label class="form-label">Mô tả ảnh</label>
+                                <input class="form-control" th:field="*{image.description}">
+                            </div>
+                            </p>
+                        </div>
+                    </div>
+                    <div th:if="${category.getImage() == null}"
+                         class="row gx-4 gx-lg-5 align-items-center mb-3">
+                        <input th:onchange="|initImage()|" class="mb-3 form-control" type="file"
+                               name="imageFile" accept="image/*">
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Mô tả chi tiết</label>
@@ -41,5 +62,13 @@
 </div>
 <div th:insert="~{ admin/layout/scriptSource::scriptSource}"></div>
 </body>
+<script>
+        function initImage() {
+        let form = document.getElementById('newCategoryForm');
+        let action = "/admin/category/initImage";
+        form.setAttribute('action', action);
+        form.submit();
+    }
+</script>
 </html>
 
