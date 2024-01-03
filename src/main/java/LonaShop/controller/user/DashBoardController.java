@@ -36,7 +36,7 @@ public class DashBoardController extends UserBaseController {
 
     @GetMapping(value = {"/trang-chu", "", "/"})
     public String showDashBoard(Model model) {
-
+        model.addAttribute(CommonConst.PAGE_MODE, CommonConst.HOME_PAGE_MODE);
         List<Cover> mainCoverList = coverService.findAll().stream().limit(3).toList(); // check again
         List<Cover> subCoverList = coverService.findAll().stream().limit(2).toList(); // check again
 

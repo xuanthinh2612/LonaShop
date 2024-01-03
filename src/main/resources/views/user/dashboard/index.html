@@ -106,7 +106,7 @@
 <!-- Categories End -->
 
 <!-- Products Start -->
-<div class="container-fluid pt-5 pb-3">
+<div class="container-fluid pt-5 pb-3" th:id="${pageMode == '4' ? 'scrollTarget' : ''}">
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span
             class="bg-secondary pr-3">Sản Phẩm</span>
     </h2>
@@ -209,16 +209,21 @@
         </div>
     </div>
 </div>
-</div>
 <!-- Offer End -->
 
 <!-- Back to Top -->
 <a href="#" class="btn btn-info back-to-top">TOP&nbsp;<i class="fa fa-angle-double-up"></i></a>
 
-
 <!-- Footer-->
 <div th:replace="~{user/layout/footer::footer}"></div>
+
+<script>
+    // Smoothly scroll to the element with the id "scrollTarget" after the page has loaded
+    window.onload = function() {
+        document.getElementById("scrollTarget").scrollIntoView({ behavior: 'smooth' });
+    };
+
+
+</script>
 </body>
-
-
 </html>
