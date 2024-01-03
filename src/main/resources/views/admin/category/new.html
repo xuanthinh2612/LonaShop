@@ -44,6 +44,7 @@
                          class="row gx-4 gx-lg-5 align-items-center mb-3">
                         <input th:onchange="|initImage()|" class="mb-3 form-control" type="file"
                                name="imageFile" accept="image/*">
+                        <p class="px-0 font-italic" th:if="${#fields.hasErrors('image')}" th:errorclass="text-danger" th:errors="*{image}"></p>
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Mô tả chi tiết</label>

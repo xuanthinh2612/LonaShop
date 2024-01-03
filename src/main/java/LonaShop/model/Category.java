@@ -2,13 +2,11 @@ package LonaShop.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.lang.Nullable;
-
-import java.util.List;
 
 @Table
 @Entity
@@ -28,13 +26,10 @@ public class Category {
     private String name;
 
     @Column
+    @NotEmpty(message = "Mô tả không thể để trống")
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @Nullable
-    private List<Product> productList;
-
     @OneToOne(cascade = CascadeType.ALL)
-    @Nullable
+    @NotNull(message = "Hãy chọn một ảnh")
     private Image image;
 }
