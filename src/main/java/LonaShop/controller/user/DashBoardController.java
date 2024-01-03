@@ -56,6 +56,7 @@ public class DashBoardController extends UserBaseController {
         List<Product> productList = getAvailableProduct().stream().filter(e -> e.getCategory().getId().equals(id)).toList();
         model.addAttribute("articleList", articleList);
         model.addAttribute("productList", productList);
+        model.addAttribute(CommonConst.PAGE_MODE, CommonConst.SEARCH_MODE);
         return "/user/dashboard/index";
     }
 
@@ -66,6 +67,7 @@ public class DashBoardController extends UserBaseController {
         List<Product> productList = productService.findByKey(key);
         model.addAttribute("articleList", articleList);
         model.addAttribute("productList", productList);
+        model.addAttribute(CommonConst.PAGE_MODE, CommonConst.SEARCH_MODE);
 
         return "/user/dashboard/index";
     }

@@ -18,9 +18,11 @@ public class CommonConst {
 
     // page mode
     public static final String PAGE_MODE = "pageMode";
+    public static final String HOME_PAGE_MODE = "0";
     public static final String ABOUT_PAGE_MODE = "1";
     public static final String BLOG_PAGE_MODE = "2";
     public static final String INQUIRY_PAGE_MODE = "3";
+    public static final String SEARCH_MODE = "4";
 
 
     // product status
