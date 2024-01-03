@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,13 @@ public class CoverController extends AdminBaseController {
     @GetMapping("/list")
     public String getAllCover(Model model) {
         List<Cover> coverList = coverService.findAll();
+
+        int totalMainCoverNum = coverService.getMainCoverList().size();
+        int totalSubCoverNum = coverService.getSubCoverList().size();
+
         model.addAttribute("coverList", coverList);
+        model.addAttribute("totalMainCoverNum", totalMainCoverNum);
+        model.addAttribute("totalSubCoverNum", totalSubCoverNum);
         return "admin/cover/index";
     }
 
@@ -98,42 +105,20 @@ public class CoverController extends AdminBaseController {
                 break;
             }
         }
+        Cover cover = coverService.findById(id);
 
-        if (isOnCover) {
+        if (!ObjectUtils.isEmpty(cover) && isOnCover) {
+            Image image = cover.getImage();
+            filesStorageService.deleteByFileName(image.getImageName());
             coverService.deleteById(id);
-            return "redirect:/admin/cover/list";
-        } else {
-            return "redirect:/admin/cover/list";
-        }
-    }
-
-    @PostMapping("/disable/{id}")
-    public String disable(@PathVariable("id") Long id, Model model) {
-
-        List<Cover> coverList = coverService.findAll();
-
-        boolean isOnCover = false;
-
-        for (Cover cover : coverList) {
-            if (cover.getStatus() == CommonConst.FLAG_ON && !Objects.equals(cover.getId(), id)) {
-                isOnCover = true;
-                break;
-            }
-        }
-        if (isOnCover) {
-            Cover cover = coverService.findById(id);
-            cover.setStatus(CommonConst.DISABLED);
-            coverService.save(cover);
-        } else {
-            return "redirect:/admin/cover/list";
         }
         return "redirect:/admin/cover/list";
     }
 
-    @PostMapping("/enable/{id}")
-    public String enable(@PathVariable("id") Long id, Model model) {
+    @PostMapping("/disable/{id}")
+    public String disable(@PathVariable("id") Long id, Model model) {
         Cover cover = coverService.findById(id);
-        cover.setStatus(CommonConst.FLAG_ON);
+        cover.setStatus(CommonConst.DISABLED);
         coverService.save(cover);
         return "redirect:/admin/cover/list";
     }
@@ -152,6 +137,16 @@ public class CoverController extends AdminBaseController {
         cover.setStatus(CommonConst.SUB_COVER);
         coverService.save(cover);
         return "redirect:/admin/cover/list";
+    }
+
+    //========================= PRIVATE METHOD =====================
+    private void deleteImageFile(Image image) {
+        try {
+            // delete image file
+            filesStorageService.deleteByFileName(image.getImageName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

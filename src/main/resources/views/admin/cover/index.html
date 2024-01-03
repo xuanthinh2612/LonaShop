@@ -11,9 +11,22 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container">
-                <div class="row col-md-10">
-                    <h2>Danh sách ảnh bìa</h2>
-                    <span class="right-button m-2 right"><a th:href="@{/admin/cover/new}" class="btn btn-success"> Tạo mới</a></span>
+                <div class="row">
+                    <div class="col-6">
+                        <h2>Danh sách ảnh bìa</h2>
+                    </div>
+                    <div class="col-6">
+                        <span class="right-button m-2 d-flex justify-content-end"><a th:href="@{/admin/cover/new}"
+                                                                                     class="btn btn-success"> Tạo mới</a></span>
+                    </div>
+                    <div class="row m-2">
+                        <div class="col-4"><span class="font-weight-bold">Tổng:&nbsp;</span><span
+                                th:text="${coverList.size()}"></span></div>
+                        <div class="col-4"><span class="font-weight-bold">Số lượng ảnh bìa chính:&nbsp;</span><span
+                                th:text="${totalMainCoverNum}"></span></div>
+                        <div class="col-4"><span class="font-weight-bold">Số lượng ảnh bìa phụ:&nbsp;</span><span
+                                th:text="${totalSubCoverNum}"></span></div>
+                    </div>
                 </div>
                 <table class="table table-bordered table-hover">
                     <thead class="table-dark">
@@ -22,7 +35,8 @@
                         <th>Tiêu đề</th>
                         <th>Mô tả</th>
                         <th>Ảnh</th>
-                        <th>Delete</th>
+                        <th>Trạng thái</th>
+                        <th>Tùy chọn</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -33,11 +47,25 @@
                         <td>
                             <img th:src="${cover.getImage()?.getImageUrl()}" style="height: 100px" class="p-2">
                         </td>
-                        <td><a th:onclick="|deleteCover(${cover.id})|" class="btn btn-outline-danger m-1">Xóa</a>
-                            <a th:if="${cover.status == 0}" th:onclick="|enableCover(${cover.id})|"
-                               class="btn btn-outline-primary m-1">Bật</a>
-                            <a th:if="${cover.status == 1}" th:onclick="|disableCover(${cover.id})|"
-                               class="btn btn-outline-warning m-1">Tắt</a>
+                        <td>
+                            <button th:if="${cover.status == 0}" disabled
+                                    class="btn btn-outline-warning">Disable
+                            </button>
+                            <button th:if="${cover.status == 1 }" disabled
+                                    class="btn btn-outline-primary">Ảnh bìa phụ
+                            </button>
+                            <button th:if="${cover.status == 2 }" disabled
+                                    class="btn btn-outline-success">Ảnh bìa chính
+                            </button>
+                        </td>
+                        <td><a th:onclick="|deleteCover(${cover.id})|" class="btn btn-danger m-1">Delete</a>
+                            <a th:if="${cover.status == 1 || cover.status == 2}"
+                               th:onclick="|disableCover(${cover.id})|"
+                               class="btn btn-outline-warning m-1">Disable</a>
+                            <a th:if="${cover.status != 1 }" th:onclick="|setToSubCover(${cover.id})|"
+                               class="btn btn-outline-primary m-1">Cài làm ảnh bìa phụ</a>
+                            <a th:if="${cover.status != 2 }" th:onclick="|setToMainCover(${cover.id})|"
+                               class="btn btn-outline-success m-1">Cài làm ảnh bìa chính</a>
                         </td>
                     </tr>
                     </tbody>
@@ -53,47 +81,38 @@
 <form id="actionForm" method="post"></form>
 
 <script>
-    function deleteCover(id) {
+    function setToMainCover(id) {
         let form = document.getElementById('actionForm');
-        let action = "/admin/cover/delete/" + id;
+        let action = "/admin/cover/setMainCover/" + id;
         form.setAttribute('action', action);
-
-        let input = document.createElement("input")
-        input.setAttribute("name", "id")
-        input.setAttribute("value", id)
-
-        form.appendChild(input)
-
         form.submit();
+    }
+    function setToSubCover(id) {
+        let form = document.getElementById('actionForm');
+        let action = "/admin/cover/setSubCover/" + id;
+        form.setAttribute('action', action);
+        form.submit();
+    }
+
+    function deleteCover(id) {
+        if (confirm("Bạn có thực sự muốn xóa?")) {
+            let form = document.getElementById('actionForm');
+            let action = "/admin/cover/delete/" + id;
+            form.setAttribute('action', action);
+            form.submit();
+        }
     }
 
     function disableCover(id) {
         let form = document.getElementById('actionForm');
         let action = "/admin/cover/disable/" + id;
         form.setAttribute('action', action);
-
-        let input = document.createElement("input")
-        input.setAttribute("name", "id")
-        input.setAttribute("value", id)
-
-        form.appendChild(input)
-
         form.submit();
     }
 
-    function enableCover(id) {
-        let form = document.getElementById('actionForm');
-        let action = "/admin/cover/enable/" + id;
-        form.setAttribute('action', action);
 
-        let input = document.createElement("input")
-        input.setAttribute("name", "id")
-        input.setAttribute("value", id)
 
-        form.appendChild(input)
 
-        form.submit();
-    }
 
 </script>
 </body>

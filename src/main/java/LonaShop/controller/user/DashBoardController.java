@@ -37,9 +37,8 @@ public class DashBoardController extends UserBaseController {
     @GetMapping(value = {"/trang-chu", "", "/"})
     public String showDashBoard(Model model) {
         model.addAttribute(CommonConst.PAGE_MODE, CommonConst.HOME_PAGE_MODE);
-        List<Cover> mainCoverList = coverService.findAll().stream().limit(3).toList(); // check again
-        List<Cover> subCoverList = coverService.findAll().stream().limit(2).toList(); // check again
-
+        List<Cover> mainCoverList = coverService.getMainCoverList().stream().limit(3).toList();
+        List<Cover> subCoverList = coverService.getSubCoverList().stream().limit(2).toList();
         List<Article> articleList = articleService.findAll().stream().filter(e -> e.getStatus() == CommonConst.FLAG_ON)
                 .collect(Collectors.toList());
         List<Product> productList = getAvailableProduct();

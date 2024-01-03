@@ -33,4 +33,14 @@ public class CoverServiceImpl implements CoverService {
     public List<Cover> findAll() {
         return coverRepository.findAll();
     }
+
+    @Override
+    public List<Cover> getMainCoverList() {
+        return coverRepository.getMainCoverNum();
+    }
+
+    @Override
+    public List<Cover> getSubCoverList() {
+        return coverRepository.getSubCoverNum();
+    }
 }
