@@ -3,6 +3,11 @@ package LonaShop.common;
 public class CommonConst {
 
     //    cover status
+    public static final int MAIN_COVER = 2;
+    public static final int SUB_COVER = 1;
+    public static final int DISABLED = 0;
+
+    // common flag
     public static final int FLAG_ON = 1;
     public static final int FLAG_OFF = 0;
 

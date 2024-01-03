@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:insert="~{/admin/layout/header::adminHeader}"></head>
 <body class="sb-nav-fixed">
 
@@ -31,9 +31,7 @@
                         <td th:text="${cover.title}"></td>
                         <td th:text="${cover.description}"></td>
                         <td>
-                            <div th:each="image: ${cover.getImages()}">
-                                <img th:src="${image.getImageUrl()}" style="height: 100px" class="p-2">
-                            </div>
+                            <img th:src="${cover.getImage()?.getImageUrl()}" style="height: 100px" class="p-2">
                         </td>
                         <td><a th:onclick="|deleteCover(${cover.id})|" class="btn btn-outline-danger m-1">Xóa</a>
                             <a th:if="${cover.status == 0}" th:onclick="|enableCover(${cover.id})|"
@@ -96,6 +94,7 @@
 
         form.submit();
     }
+
 </script>
 </body>
 </html>

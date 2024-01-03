@@ -26,6 +26,8 @@ public class DashBoardController extends UserBaseController {
 
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private CoverService coverService;
 
     @ModelAttribute("categoryList")
     private List<Category> initCategoryList() {
@@ -35,11 +37,16 @@ public class DashBoardController extends UserBaseController {
     @GetMapping(value = {"/trang-chu", "", "/"})
     public String showDashBoard(Model model) {
 
+        List<Cover> mainCoverList = coverService.findAll().stream().limit(3).toList(); // check again
+        List<Cover> subCoverList = coverService.findAll().stream().limit(2).toList(); // check again
+
         List<Article> articleList = articleService.findAll().stream().filter(e -> e.getStatus() == CommonConst.FLAG_ON)
                 .collect(Collectors.toList());
         List<Product> productList = getAvailableProduct();
         model.addAttribute("articleList", articleList);
         model.addAttribute("productList", productList);
+        model.addAttribute("mainCoverList", mainCoverList);
+        model.addAttribute("subCoverList", subCoverList);
         return "user/dashboard/index";
     }
 

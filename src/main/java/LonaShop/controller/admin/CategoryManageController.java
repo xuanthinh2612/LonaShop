@@ -105,8 +105,9 @@ public class CategoryManageController extends AdminBaseController {
     }
 
     @PostMapping(params = "update")
-    public String update(@ModelAttribute("category") Category category, Model model) {
+    public String update(@ModelAttribute("category") Category category, Model model, SessionStatus status) {
         categoryService.save(category);
+        status.setComplete();
         return "redirect:/admin/category/index";
     }
 
@@ -126,7 +127,7 @@ public class CategoryManageController extends AdminBaseController {
     public String deleteCategory(@ModelAttribute("category") Category category, Model model, SessionStatus status) {
         try {
             Image image = category.getImage();
-            category.setImage(null);
+            category.setImage(new Image()); // check this again
             categoryService.save(category);
             categoryService.deleteById(category.getId());
             if (!ObjectUtils.isEmpty(image)) {
