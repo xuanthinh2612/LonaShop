@@ -75,8 +75,7 @@ public class CoverController extends AdminBaseController {
         }
 
         Image image = new Image();
-        long timestamp = new Timestamp(System.currentTimeMillis()).getTime();
-        String fileName = "cover-" + timestamp + "-" + imageFile.getOriginalFilename();
+        String fileName = helper.genRandomFileName(imageFile.getOriginalFilename());
         try {
             filesStorageService.save(imageFile, fileName);
             image.setImageName(fileName);
@@ -140,13 +139,13 @@ public class CoverController extends AdminBaseController {
     }
 
     //========================= PRIVATE METHOD =====================
-    private void deleteImageFile(Image image) {
-        try {
-            // delete image file
-            filesStorageService.deleteByFileName(image.getImageName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    private void deleteImageFile(Image image) {
+//        try {
+//            // delete image file
+//            filesStorageService.deleteByFileName(image.getImageName());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }

@@ -152,10 +152,8 @@ public class ArticleManageController {
                 image = new Image();
                 subContent.setImage(image);
             }
-            // delete old image from upload file before set new image TODO
 
-            String fileName = new Timestamp(System.currentTimeMillis()).getTime() + "-" + imageFile.getOriginalFilename();
-
+            String fileName = helper.genRandomFileName(imageFile.getOriginalFilename());
             storageService.save(imageFile, fileName);
             image.setImageName(fileName);
             image.setImageUrl("/" + environment.getProperty("upload.path") + "/" + fileName);
@@ -307,7 +305,7 @@ public class ArticleManageController {
         assert article.getSubContentList() != null;
         SubContent subContent = article.getSubContentList().get(subContentIndex);
 
-        String fileName = new Timestamp(System.currentTimeMillis()).getTime() + "-" + imageFile.getOriginalFilename();
+        String fileName = helper.genRandomFileName(imageFile.getOriginalFilename());
         Image image = new Image();
 
         try {

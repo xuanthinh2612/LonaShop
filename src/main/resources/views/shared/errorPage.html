@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{/user/layout/header::header}"></head>
+<body>
+<nav th:replace="~{/user/layout/navbar::navbar}"></nav>
+<div class="container mb-5">
+    <div class="row col-md-8 offset-md-2">
+        <h2>Ôi Không...! Đã Có Lỗi Xảy Ra</h2>
+        <p th:text="${error}"></p>
+    </div>
+</div>
+
+<footer th:replace="~{/user/layout/footer::footer}"></footer>
+</body>
+</html>

@@ -43,4 +43,14 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findByKey(String searchKey) {
         return productRepository.findByKey(searchKey);
     }
+
+    @Override
+    public List<Product> findAvailableList() {
+        return productRepository.findAvailableList();
+    }
+
+    @Override
+    public List<Product> findAvailableListByCategoryId(Long id) {
+        return productRepository.findAvailableListByCategoryId(id);
+    }
 }

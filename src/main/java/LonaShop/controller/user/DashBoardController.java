@@ -1,7 +1,10 @@
 package LonaShop.controller.user;
 
 import LonaShop.common.CommonConst;
-import LonaShop.model.*;
+import LonaShop.model.Article;
+import LonaShop.model.Category;
+import LonaShop.model.Cover;
+import LonaShop.model.Product;
 import LonaShop.service.ArticleService;
 import LonaShop.service.CategoryService;
 import LonaShop.service.CoverService;
@@ -12,10 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("")
+@RequestMapping("" )
 public class DashBoardController extends UserBaseController {
 
     @Autowired
@@ -29,7 +31,7 @@ public class DashBoardController extends UserBaseController {
     @Autowired
     private CoverService coverService;
 
-    @ModelAttribute("categoryList")
+    @ModelAttribute("categoryList" )
     private List<Category> initCategoryList() {
         return getListCategory();
     }
@@ -39,9 +41,8 @@ public class DashBoardController extends UserBaseController {
         model.addAttribute(CommonConst.PAGE_MODE, CommonConst.HOME_PAGE_MODE);
         List<Cover> mainCoverList = coverService.getMainCoverList().stream().limit(3).toList();
         List<Cover> subCoverList = coverService.getSubCoverList().stream().limit(2).toList();
-        List<Article> articleList = articleService.findAll().stream().filter(e -> e.getStatus() == CommonConst.FLAG_ON)
-                .collect(Collectors.toList());
-        List<Product> productList = getAvailableProduct();
+        List<Article> articleList = articleService.findAvailableList().stream().limit(20).toList();
+        List<Product> productList = productService.findAvailableList();
         model.addAttribute("articleList", articleList);
         model.addAttribute("productList", productList);
         model.addAttribute("mainCoverList", mainCoverList);
@@ -55,25 +56,30 @@ public class DashBoardController extends UserBaseController {
         return "/user/dashboard/about";
     }
 
-    @GetMapping("/category/{id}")
-    public String searchByCategory(@PathVariable("id") Long id, Model model) {
+    @GetMapping("/category/{id}" )
+    public String searchByCategory(@PathVariable("id" ) Long id, Model model) {
 
-        List<Article> articleList = articleService.findAll().stream().filter(e -> e.getStatus() == CommonConst.FLAG_ON).toList();
-        List<Product> productList = getAvailableProduct().stream().filter(e -> e.getCategory().getId().equals(id)).toList();
+        List<Article> articleList = articleService.findAvailableList().stream().limit(20).toList();
         model.addAttribute("articleList", articleList);
+        List<Product> productList = productService.findAvailableListByCategoryId(id);
         model.addAttribute("productList", productList);
+        List<Cover> subCoverList = coverService.getSubCoverList().stream().limit(2).toList();
+        model.addAttribute("subCoverList", subCoverList);
         model.addAttribute(CommonConst.PAGE_MODE, CommonConst.SEARCH_MODE);
+
         return "/user/dashboard/index";
     }
 
-    @GetMapping("/search")
-    public String searchProduct(@RequestParam("key") String key, Model model) {
+    @GetMapping("/search" )
+    public String searchProduct(@RequestParam("key" ) String key, Model model) {
 
-        List<Article> articleList = articleService.findAll().stream().filter(e -> e.getStatus() == CommonConst.FLAG_ON).toList();
-        List<Product> productList = productService.findByKey(key);
+        List<Article> articleList = articleService.findAvailableList().stream().limit(20).toList();
         model.addAttribute("articleList", articleList);
+        List<Product> productList = productService.findByKey(key);
         model.addAttribute("productList", productList);
         model.addAttribute(CommonConst.PAGE_MODE, CommonConst.SEARCH_MODE);
+        List<Cover> subCoverList = coverService.getSubCoverList().stream().limit(2).toList();
+        model.addAttribute("subCoverList", subCoverList);
 
         return "/user/dashboard/index";
     }

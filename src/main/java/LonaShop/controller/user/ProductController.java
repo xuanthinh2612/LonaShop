@@ -1,5 +1,6 @@
 package LonaShop.controller.user;
 
+import LonaShop.exception.GlobalExceptionHandler;
 import LonaShop.model.Category;
 import LonaShop.model.Product;
 import LonaShop.service.ProductService;
@@ -15,27 +16,32 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/product")
+@RequestMapping("/product" )
 public class ProductController extends UserBaseController {
 
     @Autowired
     private ProductService productService;
 
-    @ModelAttribute("categoryList")
+    @ModelAttribute("categoryList" )
     private List<Category> initCategoryList() {
         return getListCategory();
     }
 
 
-    @GetMapping("/show/{id}")
-    public String showProductDetail(@PathVariable("id") Long id, Model model) {
+    @GetMapping("/show/{id}" )
+    public String showProductDetail(@PathVariable("id" ) Long id, Model model) {
 
-        Product product = productService.findById(id);
-        model.addAttribute("product", product);
+        try {
+            Product product = productService.findById(id);
+            model.addAttribute("product", product);
+            // show related product by category
+            List<Product> relatedProduct = productService.findAvailableListByCategoryId(product.getCategory().getId()).stream().limit(12L).toList(); // check again
+            model.addAttribute("relatedProduct", relatedProduct);
 
-        List<Product> relatedProduct = getAvailableProduct().stream().limit(12L).collect(Collectors.toList());
-        model.addAttribute("relatedProduct", relatedProduct);
-
-        return "/user/product/show";
+            return "/user/product/show";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/";
+        }
     }
 }

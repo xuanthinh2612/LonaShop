@@ -17,4 +17,7 @@ public interface ProductService {
     List<Product> findByProductName(String name);
 
     List<Product> findByKey(String searchKey);
+
+    List<Product> findAvailableList();
+    List<Product> findAvailableListByCategoryId(Long id);
 }

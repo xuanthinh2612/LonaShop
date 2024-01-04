@@ -8,13 +8,13 @@ import java.util.UUID;
 @Component
 public class Helper {
 
-    public String genRandomFileName(String fileName) {
+    public String genRandomFileName(String OriginalFilename) {
         return new Timestamp(System.currentTimeMillis()).getTime() + UUID.randomUUID().toString()
-                                 + "." + getExtension(fileName);
+                                 + "." + getExtension(OriginalFilename);
     }
 
-    private String getExtension(String fileName) {
-        int dotIndex = fileName.lastIndexOf('.');
-        return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
+    private String getExtension(String OriginalFilename) {
+        int dotIndex = OriginalFilename.lastIndexOf('.');
+        return (dotIndex == -1) ? "" : OriginalFilename.substring(dotIndex + 1);
     }
 }
