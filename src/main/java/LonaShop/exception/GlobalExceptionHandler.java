@@ -27,8 +27,14 @@ public class GlobalExceptionHandler {
         return "shared/errorPage"; // return the name of your custom error page
     }
     @ExceptionHandler(NoResourceFoundException.class)
-    public String handleNumberFormatException(NoResourceFoundException ex, Model model) {
+    public String handleNoResourceFoundException(NoResourceFoundException ex, Model model) {
         model.addAttribute("error", "Không Tìm Thấy Đường Dẫn");
+        return "shared/errorPage"; // return the name of your custom error page
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public String handleRuntimeException(RuntimeException ex, Model model) {
+        model.addAttribute("error", "Đã xảy ra lỗi trong hệ thống vui lòng liên hệ admin để kiểm tra: " + ex.getMessage());
         return "shared/errorPage"; // return the name of your custom error page
     }
 }

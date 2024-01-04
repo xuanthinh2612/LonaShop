@@ -68,7 +68,7 @@ public class Product {
     @Column
     private Long remainAmount;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Category category;
 
     @ManyToMany(cascade = CascadeType.ALL)

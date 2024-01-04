@@ -281,10 +281,10 @@ public class ProductManageController extends AdminBaseController {
             assert product.getSubContentList() != null;
             SubContent subContent = product.getSubContentList().get(subContentIndex);
             Image image = subContent.getImage();
-            subContent.setImage(null);
-            subContentService.save(subContent);
             // delete image file
             deleteSubContentImageFile(subContent);
+            subContent.setImage(null);
+            subContentService.save(subContent);
 
             assert image != null;
             if (!ObjectUtils.isEmpty(image.getId())) {
