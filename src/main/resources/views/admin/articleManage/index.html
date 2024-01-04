@@ -56,7 +56,7 @@
                         <td>
                             <a th:onclick="|deleteArticle(${article.id})|" class="btn btn-danger m-1">Xóa</a>
                             <a th:href="|/admin/article/edit/${article.id}|" class="btn btn-primary m-1">Sửa</a>
-                            <a th:if="${article.status == 0}" th:onclick="|enableArticle(${article.id})|"
+                            <a th:if="${article.status == 0}" th:onclick="'updateStatusAction(`enable`,'+ ${article.getId()} + ')'"
                                class="btn btn-outline-primary m-1">Công khai</a>
                             <a th:if="${article.status == 1}" th:onclick="|disableArticle(${article.id})|"
                                class="btn btn-outline-warning m-1">Hủy Công Khai</a>
@@ -109,6 +109,16 @@
         let form = document.getElementById('actionForm');
         let action = "/admin/article/setOffTop/" + id;
         form.setAttribute('action', action);
+        form.submit();
+    }
+
+    function updateStatusAction(actionName, id) {
+        let form = document.getElementById('actionForm');
+
+        let action = form.getAttribute('action');
+        action = "/admin/article/" + actionName + '/' + id;
+        form.setAttribute('action', action);
+
         form.submit();
     }
 

@@ -28,35 +28,16 @@
                     Blog
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-right"></i></div>
                 </a>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#inquiry"
-                   aria-expanded="false" aria-controls="collapseLayouts">
+                <a class="nav-link" th:href="@{/admin/inquiry/list?status=1}">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Hỏi đáp
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-right"></i></div>
                 </a>
-                <div class="collapse" id="inquiry" aria-labelledby="headingOne"
-                     data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" th:href="@{/admin/inquiry/list?status=1}">Chờ Xác nhận</a>
-                        <a class="nav-link" th:href="@{/admin/inquiry/list?status=0}">Đã Xác nhận</a>
-                    </nav>
-                </div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#oder"
-                   aria-expanded="false" aria-controls="collapseLayouts">
+                <a class="nav-link" th:href="@{/admin/order/list?status=1}">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Đơn hàng
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-right"></i></div>
                 </a>
-                <div class="collapse" id="oder" aria-labelledby="headingOne"
-                     data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" th:href="@{/admin/order/list?status=1}">Chờ xác nhận</a>
-                        <a class="nav-link" th:href="@{/admin/order/list?status=2}">Đã xác nhận</a>
-                        <a class="nav-link" th:href="@{/admin/order/list?status=3}">Chờ đóng gói</a>
-                        <a class="nav-link" th:href="@{/admin/order/list?status=4}">Đã giao</a>
-                        <a class="nav-link" th:href="@{/admin/order/list?status=6}">Đã hủy</a>
-                    </nav>
-                </div>
                 <div class="sb-sidenav-menu-heading">Quản lý User</div>
                 <a class="nav-link" th:href="@{/admin/users}">
                     <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>

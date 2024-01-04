@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "products")
+@Table(name = "products" )
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,15 +28,15 @@ public class Product {
     private Long id;
 
     @Column
-    @NotEmpty(message = "Tên sản phẩm không được để trống")
+    @NotEmpty(message = "Tên sản phẩm không được để trống" )
     private String name;
 
     @Column
-    @NotNull(message = "Giá sản phẩm không được để trống")
+    @NotNull(message = "Giá sản phẩm không được để trống" )
     private Long currentPrice;
 
     @Column
-    @NotEmpty(message = "Đơn vị sản phẩm không được để trống")
+    @NotEmpty(message = "Đơn vị sản phẩm không được để trống" )
     private String unit;
 
     @Column
@@ -44,16 +44,16 @@ public class Product {
     private Long oldPrice;
 
     @Column
-    @NotEmpty(message = "Hãy mô tả chi tiết về sản phẩm")
+    @NotEmpty(message = "Hãy mô tả chi tiết về sản phẩm" )
     private String description;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT" )
     private String subDescription_1;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT" )
     private String subDescription_2;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT" )
     private String subDescription_3;
 
     @Column
@@ -74,19 +74,29 @@ public class Product {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "products_sub_content_list",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "sub_content_list_id")
+            joinColumns = @JoinColumn(name = "product_id" ),
+            inverseJoinColumns = @JoinColumn(name = "sub_content_list_id" )
     )
     private List<SubContent> subContentList;
 
     public Image getAvatar() {
+        Image defaultAvatar = null;
+        Image avatar = null;
         for (SubContent subContent : subContentList) {
-            // for test only
-            if (!ObjectUtils.isEmpty(subContent.getImage())) {
-                return subContent.getImage();
+            // check avatar image and return image
+            Image image = subContent.getImage();
+            if (!ObjectUtils.isEmpty(image)) {
+                if (ObjectUtils.isEmpty(defaultAvatar)) {
+                    defaultAvatar = image;
+                }
+                if (image.isAvatar()) {
+                    avatar = image;
+                    break;
+                }
             }
         }
-        return null;
+
+        return ObjectUtils.isEmpty(avatar) ? defaultAvatar : avatar;
     }
 
 }

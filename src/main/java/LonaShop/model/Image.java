@@ -25,7 +25,10 @@ public class Image {
     @Column
     private String ImageUrl;
 
-    @Column(columnDefinition = "TEXT")
+    @Column
+    private boolean avatar = false;
+
+    @Column(columnDefinition = "TEXT" )
     private String description;
 
 }

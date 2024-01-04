@@ -2,10 +2,7 @@ package LonaShop.controller.admin;
 
 import LonaShop.common.CommonConst;
 import LonaShop.controller.helper.Helper;
-import LonaShop.model.Category;
-import LonaShop.model.Image;
-import LonaShop.model.Product;
-import LonaShop.model.SubContent;
+import LonaShop.model.*;
 import LonaShop.repository.ImageRepository;
 import LonaShop.service.CategoryService;
 import LonaShop.service.ImageService;
@@ -309,6 +306,40 @@ public class ProductManageController extends AdminBaseController {
             if (!ObjectUtils.isEmpty(subContent.getId())) {
                 subContentService.deleteById(subContent.getId());
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return editProduct(product.getId(), model);
+
+    }
+
+    @PostMapping("/setImageAsAvatar/{subContentIndex}" )
+    public String setImageAsAvatar(@ModelAttribute("product" ) Product product, @PathVariable("subContentIndex" ) int subContentIndex, Model model) {
+        try {
+            assert product.getSubContentList() != null;
+            SubContent subContent = product.getSubContentList().get(subContentIndex);
+            Image image = subContent.getImage();
+            assert image != null;
+            image.setAvatar(true);
+            imageService.save(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return editProduct(product.getId(), model);
+
+    }
+
+    @PostMapping("/removeImageFromAvatar/{subContentIndex}" )
+    public String removeImageFromAvatar(@ModelAttribute("product" ) Product product, @PathVariable("subContentIndex" ) int subContentIndex, Model model) {
+        try {
+            assert product.getSubContentList() != null;
+            SubContent subContent = product.getSubContentList().get(subContentIndex);
+            Image image = subContent.getImage();
+            assert image != null;
+            image.setAvatar(false);
+            imageService.save(image);
         } catch (Exception e) {
             e.printStackTrace();
         }

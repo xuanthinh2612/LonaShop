@@ -52,13 +52,23 @@ public class Article {
     private List<SubContent> subContentList;
 
     public Image getAvatar() {
+        Image defaultAvatar = null;
+        Image avatar = null;
         for (SubContent subContent : subContentList) {
-            // for test only
-            if (!ObjectUtils.isEmpty(subContent.getImage())) {
-                return subContent.getImage();
+            // check avatar image and return image
+            Image image = subContent.getImage();
+            if (!ObjectUtils.isEmpty(image)) {
+                if (ObjectUtils.isEmpty(defaultAvatar)) {
+                    defaultAvatar = image;
+                }
+                if (image.isAvatar()) {
+                    avatar = image;
+                    break;
+                }
             }
         }
-        return null;
+
+        return ObjectUtils.isEmpty(avatar) ? defaultAvatar : avatar;
     }
 
 }

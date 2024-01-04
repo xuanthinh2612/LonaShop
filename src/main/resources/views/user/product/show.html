@@ -15,7 +15,8 @@
                      th:src="${product.getAvatar().getImageUrl()}" alt="..."/>
             </div>
             <div class="col-md-6">
-                <div class="small mb-1" th:text="${product.getCategory().getName()}"></div>
+                <a class="small mb-1 text-muted" th:href="|/category/${product.getCategory().getId()}|"
+                   th:text="${product.getCategory().getName()}"></a>
                 <h5 class="display-5 fw-bolder"><span th:text="${product.getName()}"></span></h5>
                 <div class="fs-5 mb-1 text-muted">
                     <span class="py-5">Giá cũ:&emsp; </span>
@@ -37,13 +38,13 @@
                 <div class="d-flex" th:if="${product.getStatus() != 4}">
                     <input class="form-control text-center me-3" id="inputQuantity" type="text" value="1"
                            style="max-width: 3rem"/>
-                    <a  class="btn btn-outline-dark flex-shrink-0" th:href="'/order/new/' + ${product.getId()}">
+                    <a class="btn btn-outline-dark flex-shrink-0" th:href="'/order/new/' + ${product.getId()}">
                         <i class="bi-cart-fill me-1"></i>
                         Đặt Mua Hàng
                     </a>
                 </div>
                 <div class="d-flex" th:if="${product.getStatus() == 4}">
-                    <button type="button"  class="btn btn-warning flex-shrink-0">
+                    <button type="button" class="btn btn-warning flex-shrink-0">
                         <i class="bi-cart-fill me-1"></i>
                         Sản phẩm tạm thời hết hàng
                     </button>
@@ -71,7 +72,7 @@
                 <img class="card-img-top mb-5 mb-md-0 w-100"
                      th:src="${subContent?.image?.getImageUrl()}" alt="..."/>
             </div>
-            <div class="col-12 mb-3" th:if="${subContent.image != null }" >
+            <div class="col-12 mb-3" th:if="${subContent.image != null }">
                 <div class="col-8 font-italic">
                     <span class="small" th:text="${subContent.image?.description}"></span>
                 </div>
@@ -160,7 +161,5 @@
 
 <!-- Template Javascript -->
 <script src="/js/main.js"></script>
-<!-- Custom Javascript -->
-<script src="/js/customJs.js"></script>
 </body>
 </html>

@@ -176,6 +176,14 @@
                                             </p>
                                             <p class="lead">
                                                 <button type="button" class="btn btn-outline-danger"
+                                                        th:if="${!subContent.getImage().isAvatar()}"
+                                                        th:onclick="|setImageAsAvatar(${index.index})|">Set Avatar
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger"
+                                                        th:if="${subContent.getImage().isAvatar()}"
+                                                        th:onclick="|removeImageFromAvatar(${index.index})|">Hủy Avatar
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger"
                                                         th:onclick="|deleteImage(${index.index})|">Xóa ảnh
                                                 </button>
                                                 <button type="button" class="btn btn-outline-danger"
@@ -276,6 +284,20 @@
     function deleteSubContent(subContentIndex) {
         let form = document.getElementById('updateForm');
         let action = "/admin/product/deleteSubContent/" + subContentIndex;
+        form.setAttribute('action', action);
+        form.submit();
+    }
+
+    function setImageAsAvatar(subContentIndex) {
+        let form = document.getElementById('updateForm');
+        let action = "/admin/product/setImageAsAvatar/" + subContentIndex;
+        form.setAttribute('action', action);
+        form.submit();
+    }
+
+    function removeImageFromAvatar(subContentIndex) {
+        let form = document.getElementById('updateForm');
+        let action = "/admin/product/removeImageFromAvatar/" + subContentIndex;
         form.setAttribute('action', action);
         form.submit();
     }

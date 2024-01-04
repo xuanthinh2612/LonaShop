@@ -346,6 +346,41 @@ public class ArticleManageController {
 
     }
 
+    @PostMapping("/setImageAsAvatar/{subContentIndex}" )
+    public String setImageAsAvatar(@ModelAttribute("article" ) Article article, @PathVariable("subContentIndex" ) int subContentIndex, Model model) {
+        try {
+            assert article.getSubContentList() != null;
+            SubContent subContent = article.getSubContentList().get(subContentIndex);
+            Image image = subContent.getImage();
+            assert image != null;
+            image.setAvatar(true);
+            imageService.save(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return editArticle(article.getId(), model);
+
+    }
+
+    @PostMapping("/removeImageFromAvatar/{subContentIndex}" )
+    public String removeImageFromAvatar(@ModelAttribute("article" ) Article article, @PathVariable("subContentIndex" ) int subContentIndex, Model model) {
+        try {
+            assert article.getSubContentList() != null;
+            SubContent subContent = article.getSubContentList().get(subContentIndex);
+            Image image = subContent.getImage();
+            assert image != null;
+            image.setAvatar(false);
+            imageService.save(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return editArticle(article.getId(), model);
+
+    }
+
+
     @PostMapping(params = "update" )
     public String updateArticle(@ModelAttribute("article" ) Article article, BindingResult result, SessionStatus sessionStatus, Model model) {
 
