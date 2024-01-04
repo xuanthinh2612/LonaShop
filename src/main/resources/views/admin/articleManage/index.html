@@ -18,6 +18,16 @@
                     <div class="col-12 d-flex justify-content-end">
                         <a th:href="@{/admin/article/new}" class="btn btn-success"> Tạo mới</a>
                     </div>
+                    <div class="row m-2 col-12">
+                        <div class="col-6"></div>
+                        <div class="col-2"><span class="font-weight-bold">Tổng:&nbsp;</span><span
+                                th:text="${articleList.size()}"></span></div>
+                        <div class="col-2"><span class="font-weight-bold">Public:&nbsp;</span><span
+                                th:text="${nonPublicArticleNum}"></span></div>
+                        <div class="col-2"><span class="font-weight-bold">Không public:&nbsp;</span><span
+                                th:text="${publicArticleNum}"></span></div>
+                    </div>
+
                 </div>
                 <table class="table table-bordered table-hover">
                     <thead class="table-dark">
@@ -101,6 +111,7 @@
         form.setAttribute('action', action);
         form.submit();
     }
+
 </script>
 </body>
 </html>

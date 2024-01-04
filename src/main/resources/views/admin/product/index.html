@@ -18,6 +18,23 @@
                     <div class="col-12  d-flex justify-content-end">
                         <a th:href="@{/admin/product/new}" class="btn btn-primary m-3">Thêm mới sản phẩm</a>
                     </div>
+                    <div class="row m-2 col-12">
+                        <div class="col-2"><span class="text-uppercase">Tổng:&nbsp;</span><span
+                                th:text="${productList.size()}"></span></div>
+                        <div class="col-2"><span class="text-uppercase">Không giảm giá:&nbsp;</span><span
+                                th:text="${normalProNum}"></span></div>
+                        <div class="col-2"><span class="text-uppercase">Đang giảm giá:&nbsp;</span><span
+                                th:text="${saleProNum}"></span></div>
+                        <div class="col-2"><span class="text-uppercase">Hết hàng:&nbsp;</span><span
+                                th:text="${soldOutNum}"></span></div>
+                        <div class="col-2"><span class="text-uppercase">Chờ bán:&nbsp;</span><span
+                                th:text="${pendingNum}"></span></div>
+                        <div class="col-2"><span class="text-uppercase">Dừng bán:&nbsp;</span><span
+                                th:text="${disabledNum}"></span></div>
+                    </div>
+                    <div class="col-12 small font-italic m-2">(Chú ý: user không thể thấy các sản phẩm chờ bán và dừng
+                        bán.)
+                    </div>
                 </div>
                 <table class="table table-bordered table-hover">
                     <thead class="table-dark">
@@ -33,31 +50,31 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="product : ${productList}">
-                            <td rowspan="1" th:text="${product.id}"></td>
-                            <td><a class="text-decoration-none" th:href="'/admin/product/show/' + ${product.getId()}"
-                                   th:text="${product.name}"></a></td>
-                            <td  th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}"></td>
-                            <td th:text="${product.unit}"></td>
-                            <td th:text="${#numbers.formatInteger(product.getOldPrice(), 3, 'COMMA')}"></td>
-                            <td th:text="${product.category.name}"></td>
-                            <td th:text="${product.description}"></td>
-                            <td rowspan="1" th:if="${product.status == 1}">
-                                <button type="button" class="btn btn-outline-warning">Chờ bán</button>
-                            </td>
-                            <td rowspan="1" th:if="${product.status == 2}">
-                                <button type="button" class="btn btn-outline-success">Đang bán</button>
-                            </td>
-                            <td rowspan="1" th:if="${product.status == 3}">
-                                <button type="button" class="btn btn-outline-dark">Dừng Bán</button>
-                            </td>
-                            <td rowspan="1" th:if="${product.status == 4}">
-                                <button type="button" class="btn btn-outline-secondary">Hết hàng</button>
-                            </td>
-                            <td rowspan="1" th:if="${product.status == 5}">
-                                <button type="button" class="btn btn-outline-danger">Đang giảm giá</button>
-                            </td>
-                        </tr>
+                    <tr th:each="product : ${productList}">
+                        <td rowspan="1" th:text="${product.id}"></td>
+                        <td><a class="text-decoration-none" th:href="'/admin/product/show/' + ${product.getId()}"
+                               th:text="${product.name}"></a></td>
+                        <td th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}"></td>
+                        <td th:text="${product.unit}"></td>
+                        <td th:text="${#numbers.formatInteger(product.getOldPrice(), 3, 'COMMA')}"></td>
+                        <td th:text="${product.category.name}"></td>
+                        <td th:text="${product.description}"></td>
+                        <td rowspan="1" th:if="${product.status == 1}">
+                            <button type="button" class="btn btn-warning">Chờ bán</button>
+                        </td>
+                        <td rowspan="1" th:if="${product.status == 2}">
+                            <button type="button" class="btn btn-success">Đang bán</button>
+                        </td>
+                        <td rowspan="1" th:if="${product.status == 3}">
+                            <button type="button" class="btn btn-dark">Dừng Bán</button>
+                        </td>
+                        <td rowspan="1" th:if="${product.status == 4}">
+                            <button type="button" class="btn btn-secondary">Hết hàng</button>
+                        </td>
+                        <td rowspan="1" th:if="${product.status == 5}">
+                            <button type="button" class="btn btn-danger">Đang giảm giá</button>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

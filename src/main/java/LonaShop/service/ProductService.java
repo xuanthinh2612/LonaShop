@@ -19,5 +19,10 @@ public interface ProductService {
     List<Product> findByKey(String searchKey);
 
     List<Product> findAvailableList();
+
     List<Product> findAvailableListByCategoryId(Long id);
+
+    int countAvailable();
+
+    int countByStatus(int status);
 }

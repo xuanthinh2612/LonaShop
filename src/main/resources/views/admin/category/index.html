@@ -18,6 +18,11 @@
                     <div class="col-12  d-flex justify-content-end">
                         <a th:href="@{/admin/category/new}" class="btn btn-primary m-3">Thêm mới</a>
                     </div>
+                    <div class="row m-2 col-12">
+                        <div class="col-9"></div>
+                        <div class="col-3"><span class="font-weight-bold">Tổng:&nbsp;</span><span
+                                th:text="${categoryList.size()}"></span></div>
+                    </div>
                 </div>
                 <table class="table table-bordered table-hover">
                     <thead class="table-dark">
@@ -33,7 +38,8 @@
                         <td th:text="${category.id}"></td>
                         <td th:text="${category.name}"></td>
                         <td th:text="${category.description}"></td>
-                        <td><a th:href="|/admin/category/edit/${category.getId()}|" class="btn btn-outline-warning">Chỉnh Sửa</a></td>
+                        <td><a th:href="|/admin/category/edit/${category.getId()}|" class="btn btn-outline-warning">Chỉnh
+                            Sửa</a></td>
                     </tr>
                     </tbody>
                 </table>

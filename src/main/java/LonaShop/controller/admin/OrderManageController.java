@@ -13,14 +13,14 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/order")
+@RequestMapping("/admin/order" )
 public class OrderManageController {
 
     @Autowired
     private UserOrderService orderService;
 
-    @GetMapping("/list")
-    private String listOrder(@RequestParam("status") int status, Model model) {
+    @GetMapping("/list" )
+    private String listOrder(@RequestParam("status" ) int status, Model model) {
 
         if (ObjectUtils.isEmpty(status)) {
             status = CommonConst.ORDERED;
@@ -32,31 +32,18 @@ public class OrderManageController {
         return "admin/order/index";
     }
 
-    @PostMapping("/updateStatus/{id}")
-    private String updateStatus(@PathVariable("id") Long id, @RequestParam("status") int status, Model model) {
+    @PostMapping("/updateStatus/{id}" )
+    private String updateStatus(@PathVariable("id" ) Long id, @RequestParam("status" ) int status, Model model) {
         UserOrder order = orderService.findById(id);
-        switch (status) {
-            case CommonConst.CONFIRMED:
-                order.setStatus(CommonConst.CONFIRMED);
-                break;
-            case CommonConst.PACKING:
-                order.setStatus(CommonConst.PACKING);
-                break;
-            case CommonConst.DELIVERED:
-                order.setStatus(CommonConst.DELIVERED);
-                break;
-            case CommonConst.DENIED:
-                order.setStatus(CommonConst.DENIED);
-                break;
-        }
 
+        order.setStatus(status);
         order.setUpdatedAt(new Date());
         orderService.save(order);
         return listOrder(status, model);
     }
 
-    @PostMapping("/delete/{id}")
-    private String deleteOrder(@PathVariable("id") Long id, Model model) {
+    @PostMapping("/delete/{id}" )
+    private String deleteOrder(@PathVariable("id" ) Long id, Model model) {
         orderService.deleteById(id);
         return listOrder(CommonConst.ORDERED, model);
     }

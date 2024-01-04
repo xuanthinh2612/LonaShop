@@ -15,12 +15,18 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     // status = 2: available 5: sale 4: sold out
     @Query(value = "SELECT * FROM products WHERE name LIKE %:searchKey% AND (status = 2 OR status = 4 OR status = 5)", nativeQuery = true)
-    List<Product> findByKey(@Param("searchKey") String searchKey);
+    List<Product> findByKey(@Param("searchKey" ) String searchKey);
 
-    @Query(value = "SELECT * FROM products WHERE status = 2 OR status = 4 OR status = 5", nativeQuery = true )
+    @Query(value = "SELECT * FROM products WHERE status = 2 OR status = 4 OR status = 5", nativeQuery = true)
     List<Product> findAvailableList();
-    @Query(value = "SELECT * FROM products WHERE category_id = :id AND (status = 2 OR status = 4 OR status = 5)", nativeQuery = true )
+
+    @Query(value = "SELECT * FROM products WHERE category_id = :id AND (status = 2 OR status = 4 OR status = 5)", nativeQuery = true)
     List<Product> findAvailableListByCategoryId(Long id);
 
+    @Query(value = "SELECT count(*) FROM products WHERE status = 2 OR status = 4 OR status = 5", nativeQuery = true)
+    int countAvailable();
+
+    @Query(value = "SELECT count(*) FROM products WHERE status = :status", nativeQuery = true)
+    int countByStatus(@Param("status" ) int status);
 
 }

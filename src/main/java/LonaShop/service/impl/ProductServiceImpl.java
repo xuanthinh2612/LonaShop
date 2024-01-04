@@ -53,4 +53,14 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAvailableListByCategoryId(Long id) {
         return productRepository.findAvailableListByCategoryId(id);
     }
+
+    @Override
+    public int countAvailable() {
+        return productRepository.countAvailable();
+    }
+
+    @Override
+    public int countByStatus(int status) {
+        return productRepository.countByStatus(status);
+    }
 }

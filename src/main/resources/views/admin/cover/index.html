@@ -19,12 +19,13 @@
                         <span class="right-button m-2 d-flex justify-content-end"><a th:href="@{/admin/cover/new}"
                                                                                      class="btn btn-success"> Tạo mới</a></span>
                     </div>
-                    <div class="row m-2">
-                        <div class="col-4"><span class="font-weight-bold">Tổng:&nbsp;</span><span
+                    <div class="row m-2 col-12">
+                        <div class="col-6"></div>
+                        <div class="col-2"><span class="font-weight-bold">Tổng:&nbsp;</span><span
                                 th:text="${coverList.size()}"></span></div>
-                        <div class="col-4"><span class="font-weight-bold">Số lượng ảnh bìa chính:&nbsp;</span><span
+                        <div class="col-2"><span class="font-weight-bold">Số lượng ảnh bìa chính:&nbsp;</span><span
                                 th:text="${totalMainCoverNum}"></span></div>
-                        <div class="col-4"><span class="font-weight-bold">Số lượng ảnh bìa phụ:&nbsp;</span><span
+                        <div class="col-2"><span class="font-weight-bold">Số lượng ảnh bìa phụ:&nbsp;</span><span
                                 th:text="${totalSubCoverNum}"></span></div>
                     </div>
                 </div>
@@ -109,6 +110,8 @@
         form.setAttribute('action', action);
         form.submit();
     }
+
+
 
 
 

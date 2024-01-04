@@ -40,4 +40,14 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> findAvailableList() {
         return articleRepository.findAvilableList();
     }
+
+    @Override
+    public int countNonPublic() {
+        return articleRepository.countNonPublic();
+    }
+
+    @Override
+    public int countPublic() {
+        return articleRepository.countPublic();
+    }
 }
