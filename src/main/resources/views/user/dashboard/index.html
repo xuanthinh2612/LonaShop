@@ -156,6 +156,11 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div th:if="${productList?.size() == 0}" class=" col-12 text-center small text-mute mx-5">
+                Không tìm thấy sản phẩm nào, xin vui lòng kiểm tra lại.
+            </div>
+        </div>
     </div>
 </div>
 <!-- Products End -->
@@ -217,15 +222,6 @@
 
 <!-- Template Javascript -->
 <script src="/js/main.js"></script>
-<!-- Custom Javascript -->
-<script src="/js/customJs.js"></script>
 
-<script>
-    // Smoothly scroll to the element with the id "scrollTarget" after the page has loaded
-    window.onload = function() {
-        document.getElementById("scrollTarget").scrollIntoView({ behavior: 'smooth' });
-    };
-
-</script>
 </body>
 </html>
