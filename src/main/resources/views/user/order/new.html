@@ -11,7 +11,7 @@
                 <h2 class="text-center">Thông Tin Người Đặt Hàng</h2>
             </div>
             <div class="card-body">
-                <form method="post" role="form" th:action="@{/order/create}" th:object="${order}">
+                <form method="post" role="form" th:object="${order}" th:action="@{/order/create}" >
                     <input type="hidden" th:field="*{product}">
                     <div class="form-group mb-3">
                         <label class="form-label">Họ và Tên</label>

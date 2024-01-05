@@ -4,7 +4,7 @@
 <body>
 <!-- Responsive navbar-->
 <!-- Navigation-->
-<nav th:replace="~{/user/layout/navbar::navbar}"></nav>
+<div th:replace="~{/user/layout/navbar::navbar}"></div>
 
 <!-- Carousel Start -->
 <div class="container-fluid mb-3" th:if="${#strings.isEmpty(pageMode) || pageMode != '4'}">

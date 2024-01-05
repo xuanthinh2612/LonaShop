@@ -15,18 +15,19 @@ import java.util.List;
 public class UserDto {
 
     private Long id;
-    @NotEmpty
+    @NotEmpty(message = "Vui lòng nhập họ")
     private String firstName;
-    @NotEmpty
+    @NotEmpty(message = "Vui lòng tên")
     private String lastName;
 
     @Email
+    @NotEmpty(message = "Vui lòng nhập email")
     private String email;
-    @NotEmpty(message = "Mật khẩu không được bỏ trống")
 
-    @NotEmpty(message = "Số điện thoại không được bỏ trống")
+    @NotEmpty(message = "Vui lòng nhập số điện thoại")
     private String phoneNumber;
 
+    @NotEmpty(message = "Vui lòng nhập password")
     private String password;
 
     private String address;

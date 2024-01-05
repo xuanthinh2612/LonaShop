@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="~{/user/layout/header::header}"></head>
 <body>
-<nav th:replace="~{/user/layout/navbar::navbar}"></nav>
+<div th:insert="~{/user/layout/navbar::navbar}"></div>
 <br/><br/><br/>
 <div class="container mb-5">
     <div class="row col-md-8 offset-md-2">
@@ -11,7 +11,7 @@
                 <h2 class="text-center">Liên Hệ Chúng tôi</h2>
             </div>
             <div class="card-body">
-                <form method="post" role="form" th:action="@{/inquiry/create}" th:object="${inquiry}">
+                <form method="post" role="form" th:object="${inquiry}" th:action="@{/inquiry/create}" >
                     <div class="form-group mb-3">
                         <label class="form-label">Họ và Tên</label>
                         <input class="form-control" placeholder="Họ và Tên" th:field="*{customerName}" type="text"/>

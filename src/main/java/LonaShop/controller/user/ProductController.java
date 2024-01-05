@@ -1,6 +1,5 @@
 package LonaShop.controller.user;
 
-import LonaShop.exception.GlobalExceptionHandler;
 import LonaShop.model.Category;
 import LonaShop.model.Product;
 import LonaShop.service.ProductService;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/product" )

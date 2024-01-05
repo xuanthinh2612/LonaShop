@@ -1,5 +1,6 @@
 package LonaShop.config;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -78,7 +79,7 @@ public class ApplicationConfig implements WebMvcConfigurer {
 
     // upload file image and view
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(@NotNull ResourceHandlerRegistry registry) {
         exposeDirectory(environment.getProperty("upload.path"), registry);
     }
 
