@@ -25,7 +25,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin/article" )
 @SessionAttributes("article" )
-public class ArticleManageController {
+public class ArticleManageController extends AdminBaseController {
 
     @Autowired
     private Environment environment;

@@ -23,9 +23,9 @@
                         <div class="col-2"><span class="font-weight-bold">Tổng:&nbsp;</span><span
                                 th:text="${articleList.size()}"></span></div>
                         <div class="col-2"><span class="font-weight-bold">Public:&nbsp;</span><span
-                                th:text="${nonPublicArticleNum}"></span></div>
-                        <div class="col-2"><span class="font-weight-bold">Không public:&nbsp;</span><span
                                 th:text="${publicArticleNum}"></span></div>
+                        <div class="col-2"><span class="font-weight-bold">Không public:&nbsp;</span><span
+                                th:text="${nonPublicArticleNum}"></span></div>
                     </div>
 
                 </div>
@@ -56,7 +56,8 @@
                         <td>
                             <a th:onclick="|deleteArticle(${article.id})|" class="btn btn-danger m-1">Xóa</a>
                             <a th:href="|/admin/article/edit/${article.id}|" class="btn btn-primary m-1">Sửa</a>
-                            <a th:if="${article.status == 0}" th:onclick="'updateStatusAction(`enable`,'+ ${article.getId()} + ')'"
+                            <a th:if="${article.status == 0}"
+                               th:onclick="'updateStatusAction(`enable`,'+ ${article.getId()} + ')'"
                                class="btn btn-outline-primary m-1">Công khai</a>
                             <a th:if="${article.status == 1}" th:onclick="|disableArticle(${article.id})|"
                                class="btn btn-outline-warning m-1">Hủy Công Khai</a>
@@ -80,7 +81,9 @@
 </div>
 <div th:insert="~{admin/layout/scriptSource::scriptSource}"></div>
 
-<form id="actionForm" method="post"></form>
+<form id="actionForm" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+</form>
 
 <script>
 
@@ -121,6 +124,8 @@
 
         form.submit();
     }
+
+
 
 </script>
 </body>

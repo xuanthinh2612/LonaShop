@@ -1,6 +1,6 @@
     // Smoothly scroll to the element with the id "scrollTarget" after the page has loaded
     window.onload = function() {
-        document.getElementById("scrollTarget").scrollIntoView({ behavior: 'smooth' });
+        document.getElementById("scrollTarget")?.scrollIntoView({ behavior: 'smooth' });
     };
 
  // close collapse when click outside the collapsibleNav

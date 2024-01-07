@@ -24,23 +24,33 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NumberFormatException.class)
     public String handleNumberFormatException(NumberFormatException ex, Model model) {
+        ex.printStackTrace();
         model.addAttribute("error", "Invalid ID format");
         return "shared/errorPage"; // return the name of your custom error page
     }
     @ExceptionHandler(NoResourceFoundException.class)
     public String handleNoResourceFoundException(NoResourceFoundException ex, Model model) {
+        ex.printStackTrace();
         model.addAttribute("error", "Không Tìm Thấy Đường Dẫn");
         return "shared/errorPage"; // return the name of your custom error page
     }
 
     @ExceptionHandler(RuntimeException.class)
     public String handleRuntimeException(RuntimeException ex, Model model) {
-        model.addAttribute("error", "Đã xảy ra lỗi trong hệ thống vui lòng liên hệ admin để kiểm tra: " + ex.getMessage());
+        model.addAttribute("error", "Đã xảy ra lỗi trong hệ thống vui lòng liên hệ admin để kiểm tra.");
+        ex.printStackTrace();
         return "shared/errorPage"; // return the name of your custom error page
     }
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public String handleRuntimeException(HttpRequestMethodNotSupportedException ex, Model model) {
-        model.addAttribute("error", "Đã xảy ra lỗi trong hệ thống vui lòng liên hệ admin để kiểm tra: " + ex.getMessage());
+        ex.printStackTrace();
+        model.addAttribute("error", "Đã xảy ra lỗi trong hệ thống vui lòng liên hệ admin để kiểm tra.");
+        return "shared/errorPage"; // return the name of your custom error page
+    }
+    @ExceptionHandler(Exception.class)
+    public String handleGlobalException(Exception ex, Model model) {
+        ex.printStackTrace();
+        model.addAttribute("error", "Đã xảy ra lỗi trong hệ thống vui lòng liên hệ admin để kiểm tra.");
         return "shared/errorPage"; // return the name of your custom error page
     }
 }

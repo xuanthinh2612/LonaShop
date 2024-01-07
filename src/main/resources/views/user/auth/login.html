@@ -15,7 +15,7 @@
                 <div class="alert alert-danger"> Email hoặc mật khẩu không chính xác.</div>
             </div>
             <div th:if="${param.logout}">
-                <div class="alert alert-success"> Bạn đã đăng xuất.</div>
+                <div class="alert alert-success"> Đăng xuất thành công.</div>
             </div>
 
             <div class="card">
@@ -42,6 +42,11 @@
                             <button type="submit" class="btn btn-info">Đăng nhập</button>
                             <p> Bạn chưa có tài khoản?
                                 <a class="text-info" th:href="@{/register}">Đăng ký tại đây</a>
+                            </p>
+                        </div>
+                        <div class="form-group mb-3">
+                            <p> Quên mật khẩu?
+                                <a class="text-info" th:href="@{inquiry/new}">liên hệ admin</a>
                             </p>
                         </div>
                     </form>

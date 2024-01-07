@@ -13,17 +13,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/")
-public class AuthController extends UserBaseController{
+public class AuthController extends UserBaseController {
 
     @Autowired
     private UserService userService;
 
     // handler method to handle login request
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login(Model model, RedirectAttributes attributes) {
+        if (isLoggedIn()) {
+            attributes.addFlashAttribute("msg", "Bạn đang login");
+            return "redirect:/trang-chu";
+        }
         return "user/auth/login";
     }
 
@@ -34,7 +39,11 @@ public class AuthController extends UserBaseController{
 
     // handler method to handle user registration form request
     @GetMapping("/register")
-    public String showRegistrationForm(Model model) {
+    public String showRegistrationForm(Model model, RedirectAttributes attributes) {
+        if (isLoggedIn()) {
+            attributes.addFlashAttribute("msg", "Bạn đang login, vui lòng đăng xuất trước khi tạo tài khoản mới");
+            return "redirect:/trang-chu";
+        }
         // create model object to store form data
         UserDto user = new UserDto();
         model.addAttribute("user", user);
@@ -43,11 +52,27 @@ public class AuthController extends UserBaseController{
 
     // handler method to handle user registration form submit request
     @PostMapping(value = "register", params = "save")
-    public String registration(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model) {
-        User existingUser = userService.findUserByEmail(userDto.getEmail());
+    public String registration(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model,
+                               RedirectAttributes attributes) {
+        if (isLoggedIn()) {
+            attributes.addFlashAttribute("msg", "Bạn đang login, vui lòng đăng xuất trước khi tạo tài khoản mới");
+            return "redirect:/trang-chu";
+        }
 
-        if (!ObjectUtils.isEmpty(existingUser)) {
+        User userByEmail = userService.findUserByEmail(userDto.getEmail());
+        if (!ObjectUtils.isEmpty(userByEmail)) {
             result.rejectValue("email", null, "Email của bạn đã được đăng ký bới một tài khoản khác, Xin vui lòng kiểm tra lại.");
+        }
+
+        User userByPhoneNumber = userService.findUserByPhoneNumber(userDto.getPhoneNumber());
+        if (!ObjectUtils.isEmpty(userByPhoneNumber)) {
+            result.rejectValue("phoneNumber", null, "Số điện thoại của bạn đã được đăng ký bới một tài khoản khác, Xin vui lòng kiểm tra lại.");
+        }
+
+        String password = userDto.getPassword();
+        String confirmPassword = userDto.getConfirmPassword();
+        if (!password.equals(confirmPassword)) {
+            result.rejectValue("confirmPassword", null, "Nhập lại mật khẩu chưa đúng.");
         }
 
         if (result.hasErrors()) {
@@ -56,12 +81,19 @@ public class AuthController extends UserBaseController{
         }
 
         userService.saveUser(userDto);
-        return "redirect:/register?success";
+
+        attributes.addFlashAttribute("msg", "Bạn đã đăng ký tài khoản thành công, vui lòng đăng nhập hệ thống!");
+        return "redirect:/login";
     }
 
     @PostMapping(value = "register", params = "cancel")
     public String RegisterCancel(Model model) {
         return "redirect:/trang-chu";
+    }
+
+    private boolean isLoggedIn() {
+        UserDto userDto = getCurrentLoggedInUserDto();
+        return !ObjectUtils.isEmpty(userDto);
     }
 
 }

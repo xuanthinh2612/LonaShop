@@ -1,13 +1,11 @@
 package LonaShop.controller.user;
 
-import LonaShop.model.Category;
 import LonaShop.model.Product;
 import LonaShop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -19,12 +17,6 @@ public class ProductController extends UserBaseController {
 
     @Autowired
     private ProductService productService;
-
-    @ModelAttribute("categoryList" )
-    private List<Category> initCategoryList() {
-        return getListCategory();
-    }
-
 
     @GetMapping("/show/{id}" )
     public String showProductDetail(@PathVariable("id" ) Long id, Model model) {

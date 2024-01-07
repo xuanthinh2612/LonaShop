@@ -14,7 +14,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin/order" )
-public class OrderManageController {
+public class OrderManageController extends AdminBaseController {
 
     @Autowired
     private UserOrderService orderService;

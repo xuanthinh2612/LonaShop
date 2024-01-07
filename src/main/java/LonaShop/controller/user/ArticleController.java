@@ -24,11 +24,6 @@ public class ArticleController extends UserBaseController {
     @Autowired
     private ArticleService articleService;
 
-    @ModelAttribute("categoryList" )
-    private List<Category> initCategoryList() {
-        return getListCategory();
-    }
-
     @GetMapping("" )
     public String getListArticle(Model model) {
 
@@ -54,13 +49,14 @@ public class ArticleController extends UserBaseController {
             return "redirect:/trang-chu";
         }
 
-        List<Article> relatedList = new ArrayList<>(articleService.findAvailableList().stream().limit(10L).toList());
-
-        relatedList.remove(article);
+        List<Article> relatedListBottom = new ArrayList<>(articleService.findAvailableList().stream().limit(20).toList());
+        relatedListBottom.remove(article);
+        List<Article> relatedListSideBar = relatedListBottom.stream().limit(5).toList();
 
         model.addAttribute(CommonConst.PAGE_MODE, CommonConst.BLOG_PAGE_MODE);
         model.addAttribute("article", article);
-        model.addAttribute("relatedList", relatedList);
+        model.addAttribute("relatedListSideBar", relatedListSideBar);
+        model.addAttribute("relatedListBottom", relatedListBottom);
         return "user/article/show";
     }
 

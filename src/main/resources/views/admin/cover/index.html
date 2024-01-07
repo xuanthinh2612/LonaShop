@@ -79,7 +79,11 @@
 </div>
 <div th:insert="~{admin/layout/scriptSource::scriptSource}"></div>
 
-<form id="actionForm" method="post"></form>
+<form id="actionForm" th:method="post" th:action="@{/}">
+<!--    <input type="hidden"-->
+<!--           th:name="${_csrf.parameterName}"-->
+<!--           th:value="${_csrf.token}" />-->
+</form>
 
 <script>
     function setToMainCover(id) {

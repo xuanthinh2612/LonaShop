@@ -117,5 +117,21 @@
             </div>
         </div>
     </div>
+<!--    Message alert -->
+    <div class="container-fluid m-3" th:if="${msg}">
+        <div class="row px-xl-5">
+            <div class="alert alert-success" th:text="${msg}"> Messenger.</div>
+        </div>
+    </div>
+    <div class="container-fluid m-3" th:if="${error}">
+        <div class="row px-xl-5">
+            <div class="alert alert-danger" th:text="${error}"> Error Messenger.</div>
+        </div>
+    </div>
+    <div class="container-fluid m-3" th:if="${warningMsg}">
+        <div class="row px-xl-5">
+            <div class="alert alert-warning" th:text="${warningMsg}">Warning Messenger.</div>
+        </div>
+    </div>
 </div>
 <!-- Navbar End -->

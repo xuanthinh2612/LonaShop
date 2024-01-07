@@ -27,8 +27,7 @@
                 <table class="table table-bordered table-hover">
                     <thead class="table-dark">
                     <tr>
-                        <th>Họ</th>
-                        <th>Tên</th>
+                        <th>Họ và Tên</th>
                         <th>Email</th>
                         <th>Số điện thoại</th>
                         <th>Địa chỉ</th>
@@ -40,8 +39,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="user : ${users}">
-                        <td th:text="${user.firstName}"></td>
-                        <td th:text="${user.lastName}"></td>
+                        <td th:text="${user.name}"></td>
                         <td th:text="${user.email}"></td>
                         <td th:text="${user.phoneNumber}"></td>
                         <td th:text="${user.address}"></td>

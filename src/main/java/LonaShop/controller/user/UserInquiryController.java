@@ -22,11 +22,6 @@ public class UserInquiryController extends UserBaseController {
     @Autowired
     private InquiryService inquiryService;
 
-    @ModelAttribute("categoryList")
-    private List<Category> initCategoryList(){
-        return getListCategory();
-    }
-
     @GetMapping("/new")
     public String newInquiry(Model model) {
         Inquiry inquiry = new Inquiry();

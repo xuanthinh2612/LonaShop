@@ -12,7 +12,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin/inquiry")
-public class InquiryManageController {
+public class InquiryManageController extends AdminBaseController {
 
     @Autowired
     private InquiryService inquiryService;

@@ -10,6 +10,7 @@ public interface UserService {
     void saveUser(UserDto userDto);
 
     User findUserByEmail(String email);
+    User findUserByPhoneNumber(String phoneNumber);
     UserDto findUserDtoByEmail(String email);
 
     List<UserDto> findAllUsers();

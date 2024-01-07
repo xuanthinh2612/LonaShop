@@ -2,7 +2,6 @@ package LonaShop.controller.user;
 
 import LonaShop.common.CommonConst;
 import LonaShop.model.Article;
-import LonaShop.model.Category;
 import LonaShop.model.Cover;
 import LonaShop.model.Product;
 import LonaShop.service.ArticleService;
@@ -10,12 +9,13 @@ import LonaShop.service.CategoryService;
 import LonaShop.service.CoverService;
 import LonaShop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -34,14 +34,8 @@ public class DashBoardController extends UserBaseController {
     @Autowired
     private CoverService coverService;
 
-
-    @ModelAttribute("categoryList")
-    private List<Category> initCategoryList() {
-        return getListCategory();
-    }
-
     @GetMapping(value = {"/trang-chu", "", "/"})
-    public String showDashBoard(Model model) {
+    public String showDashBoard(Model model, RedirectAttributes attributes) {
         model.addAttribute(CommonConst.PAGE_MODE, CommonConst.HOME_PAGE_MODE);
         List<Cover> mainCoverList = coverService.getMainCoverList().stream().limit(3).toList();
         List<Cover> subCoverList = coverService.getSubCoverList().stream().limit(2).toList();
