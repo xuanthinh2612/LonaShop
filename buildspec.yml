@@ -1,0 +1,130 @@
+#version: 0.2
+#
+#phases:
+#  install:
+#    runtime-versions:
+#      java: corretto17
+#
+#  pre_build:
+#    commands:
+#      - echo "Pre-build phase"
+#      # Các bước chuẩn bị trước khi xây dựng ứng dụng, ví dụ: tải các dependency Maven
+#
+#  build:
+#    commands:
+#      - echo "Build phase"
+#      - bash ./gradlew bootWar
+#      # Hoặc sử dụng Maven: mvn clean install
+#
+#  post_build:
+#    commands:
+#      - echo "Post-build phase"
+#
+#artifacts:
+#  files: build/libs/ROOT.war
+#  # Định nghĩa các artifacts (file cần triển khai), đảm bảo đúng đường dẫn
+#
+#cache:
+#  paths:
+#    - '$HOME/.m2/repository'
+#    - '$HOME/.gradle'
+#    # Cache để giữ lại dependency Maven hoặc Gradle giữa các lần build
+
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+  pre_build:
+    commands:
+      - echo "Pre_build"
+      # clean all build file from last time
+      # add quyền s3 cho app deploy trước khi xóa
+      - aws s3 rm s3://codepipeline-ap-northeast-1-320420027669/code-pipeline-v2/ --recursive
+  build:
+    commands:
+      - echo "Build"
+      - bash ./gradlew bootJar
+      - cp build/libs/LonaShop-0.0.1-SNAPSHOT.jar ROOT.jar
+  post_build:
+    commands:
+      - echo "Post_build"
+artifacts:
+  files:
+    - ROOT.jar
+    - appspec.yml
+    - scripts/*.sh
+    - scripts/*.service
+cache:
+  paths:
+    - '$HOME/.m2/repository'
+    - '$HOME/.gradle'
+    # Cache để giữ lại dependency Maven hoặc Gradle giữa các lần build
+
+#ver 3.0
+#version: 0.2
+#
+#phases:
+#  pre_build:
+#    commands:
+#      - echo start pre build.
+#
+#      # ログインユーザーの確認
+#      - id
+#      # OS情報の確認
+#      - cat /etc/system-release
+#      - cat /etc/os-release
+#      # 各種パッケージの最新化
+#      - yum update -y
+#      # タイムゾーンの変更
+#      - date
+#      - cp /usr/share/zoneinfo/Japan /etc/localtime
+#      - date
+#      # Javaのインストール
+#      - yum install -y java-17-amazon-corretto
+#      - java -version
+#      - /usr/sbin/alternatives --set java /usr/lib/jvm/java-17-amazon-corretto.aarch64/bin/java
+#      - java -version
+#      - /usr/sbin/alternatives --display java
+#      # JAVA_HOME環境変数の設定
+#      - export JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto.aarch64
+#      # Mavenのインストール
+#      - wget https://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+#      - sed -i s/\$releasever/7/g /etc/yum.repos.d/epel-apache-maven.repo
+#      - sed -i s/\$basearch/x86_64/g /etc/yum.repos.d/epel-apache-maven.repo
+#      - yum install -y apache-maven
+#      - mvn -version
+#
+#      - echo finish pre build.
+#
+#  build:
+#    commands:
+#      - echo start build.
+#
+#      # Spring Bootプロジェクトのビルド（jarの作成）
+#      - mvn package
+#      - ls -l target
+#
+#      - echo finish build.
+#
+#  post_build:
+#    commands:
+#      - echo start post build.
+#
+#      # S3にアップロードするファイルを所定のディレクトリにコピー
+#      - mkdir artifacts
+#      - cp target/spring-boot-demo-0.0.1-SNAPSHOT.jar artifacts
+#      - cp codedeploy/appspec.yml artifacts
+#      - cp codedeploy/spring-boot-demo-restart.sh artifacts
+#
+#      - echo finish post build.
+#
+#artifacts:
+#  # S3にアップロードするファイルを指定
+#  files:
+#    - spring-boot-demo-0.0.1-SNAPSHOT.jar
+#    - appspec.yml
+#    - spring-boot-demo-restart.sh
+#  # ベースディレクトリ
+#  base-directory: artifacts

@@ -1,0 +1,41 @@
+#ver 3.0
+version: 0.0
+os: linux
+files:
+  # source path build artifacts
+  - source: /
+    destination: /server
+    overwrite: true
+    file_exists_behavior: OVERWRITE
+#permissions:
+#  - object: /home/ubuntu
+#    pattern: "app"
+#    owner: ubuntu
+#    group: ubuntu
+#    type:
+#      - directory
+#  - object: /home/ubuntu/opt/tomcat/webapps
+#    pattern: "**"
+#    owner: ubuntu
+#    group: ubuntu
+#    mode: 444
+#    type:
+#      - file
+
+hooks:
+  ApplicationStop:
+    - location: scripts/stop_server.sh
+      timeout: 3600
+  BeforeInstall:
+    - location: scripts/server_clear.sh
+      timeout: 300
+  AfterInstall:
+    - location: scripts/fix_privileges.sh
+      timeout: 300
+  ApplicationStart:
+    - location: scripts/start_server.sh
+      timeout: 3600
+  ValidateService:
+    - location: scripts/validate_service.sh
+      timeout: 3600
+      runas: ubuntu

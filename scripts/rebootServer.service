@@ -1,0 +1,16 @@
+[Unit]
+Description=Spring Boot application Loan Anh Shop
+After=syslog.target
+
+[Service]
+ExecStart=/usr/bin/java -jar /server/ROOT.jar >> /server/logs/application.log 2>&1
+WorkingDirectory=/server
+User=root
+Group=root
+Type=simple
+Restart=always
+RestartSec=5
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
