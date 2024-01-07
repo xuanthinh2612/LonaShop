@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("")
-public class AuthController {
+@RequestMapping("/")
+public class AuthController extends UserBaseController{
 
     @Autowired
     private UserService userService;
 
     // handler method to handle login request
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
         return "user/auth/login";
     }
 
@@ -42,7 +42,7 @@ public class AuthController {
     }
 
     // handler method to handle user registration form submit request
-    @PostMapping("/register/save")
+    @PostMapping(value = "register", params = "save")
     public String registration(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model) {
         User existingUser = userService.findUserByEmail(userDto.getEmail());
 
@@ -57,6 +57,11 @@ public class AuthController {
 
         userService.saveUser(userDto);
         return "redirect:/register?success";
+    }
+
+    @PostMapping(value = "register", params = "cancel")
+    public String RegisterCancel(Model model) {
+        return "redirect:/trang-chu";
     }
 
 }

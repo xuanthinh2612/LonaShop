@@ -4,6 +4,7 @@ import LonaShop.model.Category;
 import LonaShop.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,6 +35,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public String handleRuntimeException(RuntimeException ex, Model model) {
+        model.addAttribute("error", "Đã xảy ra lỗi trong hệ thống vui lòng liên hệ admin để kiểm tra: " + ex.getMessage());
+        return "shared/errorPage"; // return the name of your custom error page
+    }
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public String handleRuntimeException(HttpRequestMethodNotSupportedException ex, Model model) {
         model.addAttribute("error", "Đã xảy ra lỗi trong hệ thống vui lòng liên hệ admin để kiểm tra: " + ex.getMessage());
         return "shared/errorPage"; // return the name of your custom error page
     }

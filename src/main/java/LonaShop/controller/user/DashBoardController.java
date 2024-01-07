@@ -10,6 +10,9 @@ import LonaShop.service.CategoryService;
 import LonaShop.service.CoverService;
 import LonaShop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("" )
+@RequestMapping("")
 public class DashBoardController extends UserBaseController {
 
     @Autowired
@@ -31,7 +34,8 @@ public class DashBoardController extends UserBaseController {
     @Autowired
     private CoverService coverService;
 
-    @ModelAttribute("categoryList" )
+
+    @ModelAttribute("categoryList")
     private List<Category> initCategoryList() {
         return getListCategory();
     }
@@ -56,8 +60,8 @@ public class DashBoardController extends UserBaseController {
         return "/user/dashboard/about";
     }
 
-    @GetMapping("/category/{id}" )
-    public String searchByCategory(@PathVariable("id" ) Long id, Model model) {
+    @GetMapping("/category/{id}")
+    public String searchByCategory(@PathVariable("id") Long id, Model model) {
 
         List<Article> articleList = articleService.findAvailableList().stream().limit(20).toList();
         model.addAttribute("articleList", articleList);
@@ -70,8 +74,9 @@ public class DashBoardController extends UserBaseController {
         return "/user/dashboard/index";
     }
 
-    @GetMapping("/search" )
-    public String searchProduct(@RequestParam("key" ) String key, Model model) {
+
+    @GetMapping("/search")
+    public String searchProduct(@RequestParam("key") String key, Model model) {
 
         List<Article> articleList = articleService.findAvailableList().stream().limit(20).toList();
         model.addAttribute("articleList", articleList);
@@ -83,5 +88,4 @@ public class DashBoardController extends UserBaseController {
 
         return "/user/dashboard/index";
     }
-
 }

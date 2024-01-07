@@ -15,10 +15,8 @@ import java.util.List;
 public class UserDto {
 
     private Long id;
-    @NotEmpty(message = "Vui lòng nhập họ")
-    private String firstName;
-    @NotEmpty(message = "Vui lòng tên")
-    private String lastName;
+    @NotEmpty(message = "Vui lòng nhập đầy đủ họ và tên")
+    private String name;
 
     @Email
     @NotEmpty(message = "Vui lòng nhập email")

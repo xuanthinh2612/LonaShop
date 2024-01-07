@@ -1,176 +1,3 @@
-<!--<div>-->
-
-<!--    &lt;!&ndash;    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top" >&ndash;&gt;-->
-<!--    &lt;!&ndash;        <div class="container px-4 px-lg-5">&ndash;&gt;-->
-<!--    &lt;!&ndash;            <a class="btn d-flex align-items-center justify-content-between bg-transparent"&ndash;&gt;-->
-<!--    &lt;!&ndash;               data-toggle="collapse"&ndash;&gt;-->
-<!--    &lt;!&ndash;               href="#navbar-vertical" style="height: 65px; padding: 0 30px;">&ndash;&gt;-->
-<!--    &lt;!&ndash;                <h6 class="text-dark text-uppercase m-0">&ndash;&gt;-->
-<!--    &lt;!&ndash;                        <span class="col-2 py-1 mr-2">&ndash;&gt;-->
-<!--    &lt;!&ndash;                            <i class="fa fa-bars"></i>&ndash;&gt;-->
-<!--    &lt;!&ndash;                        </span>&ndash;&gt;-->
-<!--    &lt;!&ndash;                    <span class="h5 text-uppercase text-light bg-info px-2">LONA</span>&ndash;&gt;-->
-<!--    &lt;!&ndash;                    <span class="h5 text-uppercase text-info bg-light px-2 ml-n1">SHOP</span>&ndash;&gt;-->
-<!--    &lt;!&ndash;                </h6>&ndash;&gt;-->
-<!--    &lt;!&ndash;            </a>&ndash;&gt;-->
-
-<!--    &lt;!&ndash;            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"&ndash;&gt;-->
-<!--    &lt;!&ndash;                    data-bs-target="#navbarSupportedContent"&ndash;&gt;-->
-<!--    &lt;!&ndash;                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span&ndash;&gt;-->
-<!--    &lt;!&ndash;                    class="navbar-toggler-icon"></span></button>&ndash;&gt;-->
-<!--    &lt;!&ndash;            <div class="collapse navbar-collapse" id="navbarSupportedContent">&ndash;&gt;-->
-<!--    &lt;!&ndash;                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">&ndash;&gt;-->
-<!--    &lt;!&ndash;                    <li class="nav-item"><a class="nav-link"&ndash;&gt;-->
-<!--    &lt;!&ndash;                                            th:classappend="${(pageMode != '1')&&(pageMode!='2')&&(pageMode!='3')} ? 'active' : ''"&ndash;&gt;-->
-<!--    &lt;!&ndash;                                            aria-current="page" th:href="@{/trang-chu}">Trang&ndash;&gt;-->
-<!--    &lt;!&ndash;                        Chủ</a></li>&ndash;&gt;-->
-<!--    &lt;!&ndash;                    <li class="nav-item"><a class="nav-link" th:classappend="${pageMode == '1'} ? 'active' : ''"&ndash;&gt;-->
-<!--    &lt;!&ndash;                                            th:href="@{/trang-chu/about}">Giới Thiệu</a></li>&ndash;&gt;-->
-<!--    &lt;!&ndash;                    <li class="nav-item"><a class="nav-link" th:classappend="${pageMode == '2'} ? 'active' : ''"&ndash;&gt;-->
-<!--    &lt;!&ndash;                                            th:href="@{/blog}">Blog</a></li>&ndash;&gt;-->
-<!--    &lt;!&ndash;                    <li class="nav-item"><a class="nav-link" th:classappend="${pageMode == '3'} ? 'active' : ''"&ndash;&gt;-->
-<!--    &lt;!&ndash;                                            th:href="@{/inquiry/new}">Liên hệ</a></li>&ndash;&gt;-->
-<!--    &lt;!&ndash;                </ul>&ndash;&gt;-->
-<!--    &lt;!&ndash;                <div class="d-flex">&ndash;&gt;-->
-<!--    &lt;!&ndash;                    <button class="btn btn-outline-light" type="button">&ndash;&gt;-->
-<!--    &lt;!&ndash;                        <i class="bi-cart-fill me-1"></i>&ndash;&gt;-->
-<!--    &lt;!&ndash;                        Giỏ Hàng&ndash;&gt;-->
-<!--    &lt;!&ndash;                        <span class="badge bg-light text-dark ms-1 rounded-pill">1</span>&ndash;&gt;-->
-<!--    &lt;!&ndash;                    </button>&ndash;&gt;-->
-<!--    &lt;!&ndash;                </div>&ndash;&gt;-->
-<!--    &lt;!&ndash;                <div class="d-flex">&ndash;&gt;-->
-<!--    &lt;!&ndash;                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">&ndash;&gt;-->
-<!--    &lt;!&ndash;                        <li class="nav-item dropdown">&ndash;&gt;-->
-<!--    &lt;!&ndash;                            <a class="nav-link dropdown-toggle active " id="navbarDropdown" href="#" role="button"&ndash;&gt;-->
-<!--    &lt;!&ndash;                               data-bs-toggle="dropdown" aria-expanded="false">Tài Khoản</a>&ndash;&gt;-->
-<!--    &lt;!&ndash;                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">&ndash;&gt;-->
-<!--    &lt;!&ndash;                                <li class="nav-item">&ndash;&gt;-->
-<!--    &lt;!&ndash;                                    <a class="dropdown-item" th:href="@{/register}">Đăng ký</a>&ndash;&gt;-->
-<!--    &lt;!&ndash;                                </li>&ndash;&gt;-->
-<!--    &lt;!&ndash;                                <li>&ndash;&gt;-->
-<!--    &lt;!&ndash;                                    <hr class="dropdown-divider"/>&ndash;&gt;-->
-<!--    &lt;!&ndash;                                </li>&ndash;&gt;-->
-<!--    &lt;!&ndash;                                <li><a class="dropdown-item" th:href="@{/logout}">Đăng Xuất</a></li>&ndash;&gt;-->
-<!--    &lt;!&ndash;                            </ul>&ndash;&gt;-->
-<!--    &lt;!&ndash;                        </li>&ndash;&gt;-->
-<!--    &lt;!&ndash;                    </ul>&ndash;&gt;-->
-<!--    &lt;!&ndash;                </div>&ndash;&gt;-->
-<!--    &lt;!&ndash;            </div>&ndash;&gt;-->
-<!--    &lt;!&ndash;        </div>&ndash;&gt;-->
-<!--    &lt;!&ndash;    </nav>&ndash;&gt;-->
-
-
-<!--    &lt;!&ndash; Navbar Start &ndash;&gt;-->
-<!--    <div class="container-fluid bg-light mb-30">-->
-<!--        <div class="row px-xl-5">-->
-<!--            <div class="col-lg-3 d-none d-lg-block">-->
-<!--                <a class="btn d-flex align-items-center justify-content-between bg-transparent"-->
-<!--                   data-toggle="collapse"-->
-<!--                   href="#navbar-vertical" style="height: 65px; padding: 0 30px;">-->
-<!--                    <h6 class="text-dark text-uppercase m-0">-->
-<!--                        <img src="/img/logoBig.png" alt="Lona Shop Logo" style="width: 70%">-->
-<!--                        &lt;!&ndash;                        Create logo by this element &ndash;&gt;-->
-<!--                        &lt;!&ndash;                        <span class="py-1 mr-2">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            <i class="fa fa-bars"></i>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                        </span>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                        <span class="h5 text-uppercase text-light bg-info px-2">LONA</span>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                        <span class="h5 text-uppercase text-info bg-light px-2 ml-n1">SHOP</span>&ndash;&gt;-->
-<!--                    </h6>-->
-<!--                </a>-->
-<!--                <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light"-->
-<!--                     id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">-->
-<!--                    <div class="navbar-nav w-100">-->
-
-<!--                        &lt;!&ndash;                        ON MOUSE HOVER action&ndash;&gt;-->
-<!--                        &lt;!&ndash;                        <div class="nav-item dropdown dropright">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dresses <i&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    class="fa fa-angle-right float-right mt-1"></i></a>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            <div class="dropdown-menu position-absolute rounded-0 border-0 m-0">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <a href="" class="dropdown-item">Men's Dresses</a>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <a href="" class="dropdown-item">Women's Dresses</a>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <a href="" class="dropdown-item">Baby's Dresses</a>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                        </div>&ndash;&gt;-->
-
-<!--                        <a th:each="category : ${categoryList}" th:href="|/category/${category.id}|"-->
-<!--                           class="nav-item nav-link"-->
-<!--                           th:text="${category.getName()}">Link Text</a>-->
-<!--                    </div>-->
-<!--                </nav>-->
-<!--            </div>-->
-<!--            <div class="col-lg-9 py-3">-->
-<!--                <nav class="navbar navbar-expand-lg bg-transparent navbar-light py-3 py-lg-0 px-0"-->
-<!--                     style="padding: 0 30px;">-->
-<!--                    <div class="row ">-->
-<!--                        <div class="col-8">-->
-<!--                            <a th:href="@{/trang-chu}" class="text-decoration-none d-block d-lg-none">-->
-<!--                                <img src="/img/logoSmall.png" alt="Lona Shop Logo" style="width: 66%">-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                        <div class="col-4">-->
-<!--                            <button type="button" class="navbar-toggler navbar-nav ml-auto py-0" data-toggle="collapse"-->
-<!--                                    data-target="#navbarCollapse">-->
-<!--                                <span class="navbar-toggler-icon"></span>-->
-<!--                            </button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">-->
-<!--                        <div class="navbar-nav mr-auto py-0">-->
-<!--                            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">-->
-<!--                                <li class="nav-item">-->
-<!--                                    <a class="nav-link"-->
-<!--                                       th:classappend="${(pageMode != '1')&&(pageMode!='2')&&(pageMode!='3')} ? 'active' : ''"-->
-<!--                                       aria-current="page" th:href="@{/}">Trang-->
-<!--                                        Chủ</a>-->
-<!--                                </li>-->
-<!--                                <li class="nav-item">-->
-<!--                                    <a class="nav-link"-->
-<!--                                       th:classappend="${pageMode == '1'} ? 'active' : ''"-->
-<!--                                       th:href="@{/trang-chu/about}">Giới Thiệu</a>-->
-<!--                                </li>-->
-<!--                                <li class="nav-item">-->
-<!--                                    <a class="nav-link"-->
-<!--                                       th:classappend="${pageMode == '2'} ? 'active' : ''"-->
-<!--                                       th:href="@{/blog}">Blog</a>-->
-<!--                                </li>-->
-<!--                                <li class="nav-item">-->
-<!--                                    <a class="nav-link"-->
-<!--                                       th:classappend="${pageMode == '3'} ? 'active' : ''"-->
-<!--                                       th:href="@{/inquiry/new}">Liên hệ</a>-->
-<!--                                </li>-->
-<!--                            </ul>-->
-<!--                        </div>-->
-<!--                        <div class="text-left">-->
-<!--                            <form id="searchForm" th:action="@{/search}" method="get">-->
-<!--                                <div class="input-group">-->
-<!--                                    <input name="key" type="text" class="form-control" placeholder="Tìm kiếm">-->
-<!--                                    <div class="input-group-append">-->
-<!--                                        <button type="submit" class="input-group-text bg-transparent text-info">-->
-<!--                                            <i class="fa fa-search"></i>-->
-<!--                                        </button>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </form>-->
-<!--                        </div>-->
-<!--                        <div class="navbar-nav ml-auto py-0 d-none d-lg-block">-->
-<!--                            <a href="" class="btn px-0">-->
-<!--                                <i class="fas fa-heart text-info"></i>-->
-<!--                                <span class="badge text-dark border border-dark rounded-circle"-->
-<!--                                      style="padding-bottom: 2px;">0</span>-->
-<!--                            </a>-->
-<!--                            <a href="" class="btn px-0 ml-3">-->
-<!--                                <i class="fas fa-shopping-cart text-info"></i>-->
-<!--                                <span class="badge text-dark border border-dark rounded-circle"-->
-<!--                                      style="padding-bottom: 2px;">0</span>-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </nav>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-<!--&lt;!&ndash; Navbar End &ndash;&gt;-->
 <div th:fragment="navbar">
     <!-- Navbar Start -->
     <div class="container-fluid bg-light mb-30">
@@ -198,7 +25,7 @@
                     <div class="row ">
                         <div class="col-8">
                             <a th:href="@{/trang-chu}" class="text-decoration-none d-block d-lg-none">
-                                <img th:src="@{//img/logoSmall.png}" alt="Lona Shop Logo" style="width: 66%">
+                                <img th:src="@{/img/logoSmall.png}" alt="Lona Shop Logo" style="width: 66%">
                             </a>
                         </div>
                         <div class="col-4">
@@ -222,7 +49,8 @@
                                        th:href="@{/trang-chu/about}">Giới Thiệu</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/blog}" th:classappend="${pageMode == '2' ? 'active' : ''}"
+                                    <a class="nav-link" th:href="@{/blog}"
+                                       th:classappend="${pageMode == '2' ? 'active' : ''}"
                                     >Blog</a>
                                 </li>
                                 <li class="nav-item">
@@ -255,6 +83,34 @@
                                 <span class="badge text-dark border border-dark rounded-circle"
                                       style="padding-bottom: 2px;">0</span>
                             </a>
+                            <a class="btn px-0 ml-3 dropdown-toggle" href="#" role="button" id="navbarDropdown"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user fa-fw text-info"></i>
+                                <span class="badge text-dark" th:if="${#strings.isEmpty(currentUser)}"
+                                      style="padding-bottom: 2px;">Tài Khoản</span>
+                                <span th:if="${!#strings.isEmpty(currentUser)}" th:text="${currentUser.name}"></span>
+                            </a>
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                                <li class="nav-item dropdown">
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li class="nav-item" th:if="${#strings.isEmpty(currentUser)}">
+                                            <a class="dropdown-item" th:href="@{/register}">Đăng ký</a>
+                                        </li>
+                                        <li class="nav-item" th:if="${!#strings.isEmpty(currentUser)}">
+                                            <a class="dropdown-item" th:href="@{/}">Trang Cá Nhân</a>
+                                        </li>
+                                        <li>
+                                            <hr class="dropdown-divider"/>
+                                        </li>
+                                        <li th:if="${#strings.isEmpty(currentUser)}">
+                                            <a class="dropdown-item" th:href="@{/login}">Đăng Nhập</a>
+                                        </li>
+                                        <li class="nav-item" th:if="${!#strings.isEmpty(currentUser)}">
+                                            <a class="dropdown-item" th:href="@{/logout}">Đăng Xuất</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </nav>

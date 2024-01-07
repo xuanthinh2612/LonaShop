@@ -9,7 +9,6 @@ import LonaShop.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +31,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(UserDto userDto) {
         User user = new User();
-        user.setName(userDto.getFirstName() + " " + userDto.getLastName());
+        user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
         user.setPhoneNumber(userDto.getPhoneNumber());
         // encrypt the password using spring security
@@ -42,7 +41,7 @@ public class UserServiceImpl implements UserService {
         if (role == null) {
             role = checkRoleExist();
         }
-        user.setRoles(Arrays.asList(role));
+        user.setRoles(List.of(role));
         userRepository.save(user);
 
     }
@@ -55,15 +54,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> findAllUsers() {
         List<User> users = userRepository.findAll();
-        return users.stream().map((user) -> mapToUserDto(user)).collect(Collectors.toList());
+        return users.stream().map(this::mapToUserDto).collect(Collectors.toList());
 
+    }
+
+    @Override
+    public UserDto findUserDtoByEmail(String email) {
+        User user = findUserByEmail(email);
+        return mapToUserDto(user);
     }
 
     private UserDto mapToUserDto(User user) {
         UserDto userDto = new UserDto();
-        String[] str = user.getName().split(" ");
-        userDto.setFirstName(str[0]);
-        userDto.setLastName(str[1]);
+        userDto.setName(user.getName());
         userDto.setEmail(user.getEmail());
         userDto.setPhoneNumber(user.getPhoneNumber());
         userDto.setAddress(user.getAddress());
@@ -71,9 +74,25 @@ public class UserServiceImpl implements UserService {
         userDto.setAge(user.getAge());
         userDto.setGender(user.getGender());
         userDto.setActiveStatus(user.isActiveStatus());
-        userDto.setRoles(user.getRoles().stream().map((role) -> role.getName()).collect(Collectors.toList()));
+        userDto.setRoles(user.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
         return userDto;
     }
+
+//    private User mapUserDtoToUser(UserDto userDto) {
+//        User user = new User();
+//        String[] str = user.getName().split(" ");
+//        user.setFirstName(str[0]);
+//        user.setLastName(str[1]);
+//        user.setEmail(user.getEmail());
+//        user.setPhoneNumber(user.getPhoneNumber());
+//        user.setAddress(user.getAddress());
+//        user.setId(user.getId());
+//        user.setAge(user.getAge());
+//        user.setGender(user.getGender());
+//        user.setActiveStatus(user.isActiveStatus());
+//        user.setRoles(user.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
+//        return userDto;
+//    }
 
     private Role checkRoleExist() {
         Role role = new Role();
