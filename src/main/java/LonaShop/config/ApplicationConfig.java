@@ -77,24 +77,9 @@ public class ApplicationConfig implements WebMvcConfigurer {
         return viewResolver;
     }
 
-    // upload file image and view
-//    @Override
-//    public void addResourceHandlers(@NotNull ResourceHandlerRegistry registry) {
-//        exposeDirectory(environment.getProperty("upload.path"), registry);
-//    }
-
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/uploads/**").addResourceLocations("file:uploads/");
     }
-
-//    private void exposeDirectory(String dirName, ResourceHandlerRegistry registry) {
-//        Path uploadDir = Paths.get(dirName);
-//        String uploadPath = uploadDir.toFile().getAbsolutePath();
-//
-//        if (dirName.startsWith("../")) dirName = dirName.replace("../", "");
-//
-//        registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/" + uploadPath + "/");
-//    }
 
 }

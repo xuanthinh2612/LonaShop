@@ -68,12 +68,14 @@
     <div th:if="${product.getSubContentList().size() > 0}" class="container px-4 px-lg-5 my-5"
          th:each="subContent : ${product.subContentList}">
         <div class="row gx-4 gx-lg-5 align-items-center">
-            <div th:if="${subContent.image != null }" class="col-8 mb-3">
-                <img class="card-img-top mb-5 mb-md-0 w-100"
-                     th:src="${subContent?.image?.getImageUrl()}" alt="..."/>
+            <div th:if="${subContent.image != null }" class="col-12 mb-3 d-flex justify-content-center align-items-center">
+                <div class="col-lg-8 col-md-12 col-sm-12">
+                    <img class="card-img-top mb-md-0 w-100"
+                         th:src="${subContent?.image?.getImageUrl()}" alt="..."/>
+                </div>
             </div>
             <div class="col-12 mb-3" th:if="${subContent.image != null }">
-                <div class="col-8 font-italic">
+                <div class="col-12 font-italic text-center">
                     <span class="small" th:text="${subContent.image?.description}"></span>
                 </div>
                 <div th:if="${subContent.image != null }" class="col-4">
