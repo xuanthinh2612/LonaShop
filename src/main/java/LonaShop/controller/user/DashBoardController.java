@@ -8,6 +8,7 @@ import LonaShop.service.ArticleService;
 import LonaShop.service.CategoryService;
 import LonaShop.service.CoverService;
 import LonaShop.service.ProductService;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,7 @@ import java.util.List;
 @RequestMapping("")
 public class DashBoardController extends UserBaseController {
 
+    private static final Logger logger =  Logger.getLogger(DashBoardController.class);
     @Autowired
     private ProductService productService;
 
@@ -36,6 +38,12 @@ public class DashBoardController extends UserBaseController {
 
     @GetMapping(value = {"/trang-chu", "", "/"})
     public String showDashBoard(Model model, RedirectAttributes attributes) {
+        logger.debug("Debug message");
+        logger.info("Info message");
+        logger.warn("Warning message");
+        logger.error("Error message");
+        logger.fatal("Fatal message");
+
         model.addAttribute(CommonConst.PAGE_MODE, CommonConst.HOME_PAGE_MODE);
         List<Cover> mainCoverList = coverService.getMainCoverList().stream().limit(3).toList();
         List<Cover> subCoverList = coverService.getSubCoverList().stream().limit(2).toList();
