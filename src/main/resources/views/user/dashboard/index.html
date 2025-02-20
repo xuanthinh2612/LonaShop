@@ -114,16 +114,19 @@
     <div class="row px-xl-5">
         <div class="col-lg-3 col-md-4 col-sm-6 col-6 pb-1" th:each="product : ${productList}">
             <div class="product-item bg-light mb-4">
-                <div class="product-img position-relative overflow-hidden">
+                <div class="product-img position-relative overflow-hidden p-2" style="height: 15rem">
                     <a th:href="'/product/show/'+${product.getId()}">
-                        <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem"
+                        <div class="badge bg-danger text-white position-absolute"
+                             style="top: 1rem; right: 1rem; z-index: 1;"
                              th:if="${product.getStatus() == 5}">Giảm giá
                         </div>
-                        <div class="badge bg-warning text-white position-absolute" style="top: 0.5rem; right: 0.5rem"
+                        <div class="badge bg-warning text-white position-absolute"
+                             style="top: 1rem; right: 1rem; z-index: 1;"
                              th:if="${product.getStatus() == 4}">Hết Hàng
                         </div>
                         <!-- Product image-->
-                        <img class="img-fluid w-100" th:src="${product.getAvatar().getImageUrl()}" alt="">
+                        <img class="img-fluid w-100 h-100" th:src="${product.getAvatar().getImageUrl()}" alt=""
+                             style="object-fit: cover;">
                     </a>
                     <div class="product-action">
                         <div class="text-center">
@@ -132,97 +135,171 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-center py-4">
-                    <a class="h5 text-decoration-none text-uppercase" th:href="'/product/show/'+${product.getId()}"
-                       th:text="${product.getName()}">Product Name</a>
+                <div style="width: 100%; height: 1px; background: rgba(0, 0, 0, 0.2); box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);"></div>
+                <div class="text-center py-2" style="height: 8rem;">
+                    <div style="height: 3rem;">
+                        <a class="h6 text-decoration-none limited-span-2-line"
+                           th:href="'/product/show/'+${product.getId()}"
+                           th:text="${product.getName()}"
+                           th:title="${product.getName()}">Product Name</a>
+                    </div>
                     <div class="d-flex align-items-center justify-content-center mt-2">
                         <h6>
-                            <span>VNĐ&nbsp;</span>
-                            <span th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}">current price
+                            <span style="color: #ff3259">VNĐ&nbsp;</span>
+                            <span style="color: #ff3259"
+                                  th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}">current price
                             </span>
                         </h6>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
                         <h6 class="text-muted ml-2" th:if="${!#strings.isEmpty(product.getOldPrice())}">
+                            <span>Giá cũ:&nbsp;</span>
                             <del>
                                 <span th:text="${#numbers.formatInteger(product.getOldPrice(), 3, 'COMMA')}">old price</span>
                             </del>
+                            </del>
                         </h6>
                     </div>
-<!--                    <div class="d-flex align-items-center justify-content-center mb-1">-->
-<!--                        <small class="fa fa-star text-primary mr-1"></small>-->
-<!--                        <small class="fa fa-star text-primary mr-1"></small>-->
-<!--                        <small class="fa fa-star text-primary mr-1"></small>-->
-<!--                        <small class="fa fa-star text-primary mr-1"></small>-->
-<!--                        <small class="fa fa-star text-primary mr-1"></small>-->
-<!--                    </div>-->
+                    <!--                    <div class="d-flex align-items-center justify-content-center mb-1">-->
+                    <!--                        <small class="fa fa-star text-primary mr-1"></small>-->
+                    <!--                        <small class="fa fa-star text-primary mr-1"></small>-->
+                    <!--                        <small class="fa fa-star text-primary mr-1"></small>-->
+                    <!--                        <small class="fa fa-star text-primary mr-1"></small>-->
+                    <!--                        <small class="fa fa-star text-primary mr-1"></small>-->
+                    <!--                    </div>-->
                 </div>
+                </hr>
             </div>
-        </div>
-        <div class="row">
-            <div th:if="${productList?.size() == 0}" class=" col-12 text-center small text-mute mx-5">
-                Không tìm thấy sản phẩm nào, xin vui lòng kiểm tra lại.
+            <div class="row">
+                <div th:if="${productList?.size() == 0}" class=" col-12 text-center small text-mute mx-5">
+                    Không tìm thấy sản phẩm nào, xin vui lòng kiểm tra lại.
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Products End -->
+    <!-- Products End -->
 
-<!-- Blog Start -->
-<div class="container pt-5 pb-3">
-    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Blog</span>
-    </h2>
-    <div class="row px-xl-5">
-        <div class="col-lg-3 col-md-4 col-sm-6 pb-1" th:each="article : ${articleList}">
-            <div class="product-item bg-light mb-4">
-                <div class="position-relative overflow-hidden">
-                    <a th:href="|/blog/show/${article.getId()}|">
-                        <img class="img-fluid w-100"
-                             th:src="${article.getAvatar().getImageUrl()}"
-                             alt="">
-                    </a>
-                </div>
-                <div class="text-center py-4">
-                    <a class="h5 text-decoration-none limited-span-2-line"
-                       th:href="|/blog/show/${article.getId()}|"
-                       th:text="${article.getTitle()}">Blog title</a>
-                    <div class="d-flex align-items-center justify-content-center mt-2 ">
-                        <p class="card-text limited-span-2-line" th:text="${article.getShortDescription()}">Blog short
-                            description</p>
+    <!-- Blog Start -->
+    <div class="container pt-5 pb-3">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span
+                class="bg-secondary pr-3">Blog</span>
+        </h2>
+        <div class="row px-xl-5">
+            <div class="col-lg-8 col-sm-12 pb-1">
+                <div class="product-item bg-light mb-4">
+                    <div class="position-relative overflow-hidden d-flex align-items-center justify-content-center"
+                         style="height: 25rem; overflow: hidden;display: flex;">
+                        <a th:href="|/blog/show/${mainArticle.getId()}|">
+                            <img class="img-fluid" style="width: 100%;height: 100%; object-fit: cover;"
+                                 th:src="${mainArticle.getAvatar().getImageUrl()}" alt="">
+                        </a>
                     </div>
-                    <div class="d-flex align-items-center justify-content-center mb-1">
-                        <a class="btn btn-info btn-sm mt-2" th:href="|/blog/show/${article.getId()}|">Đọc thêm</a>
+                    <div class="p-2">
+                        <a class="h5 text-decoration-none limited-span-1-line"
+                           th:href="|/blog/show/${mainArticle.getId()}|"
+                           th:text="${mainArticle.getTitle()}"
+                           style="height: 2rem;"
+                        >Blog title</a>
+                        <div class="d-flex align-items-center justify-content-center mt-2 ">
+                            <p class="card-text limited-span-3-line"
+                               th:text="${mainArticle.getShortDescription()}">Blog
+                                short
+                                description</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-12 pb-1">
+                <div class="product-item bg-light ">
+                    <div class="position-relative overflow-hidden d-flex align-items-center justify-content-center"
+                         style="height: 10rem; width: rem; overflow: hidden;display: flex;">
+                        <a th:href="|/blog/show/${mainArticle.getId()}|">
+                            <img class="img-fluid" style="width: 100%;height: 100%; object-fit: cover;"
+                                 th:src="${mainArticle.getAvatar().getImageUrl()}" alt="">
+                        </a>
+                    </div>
+                    <div class="p-2">
+                        <a class="h5 text-decoration-none limited-span-1-line" style="height: 2rem;"
+                           th:href="|/blog/show/${mainArticle.getId()}|"
+                           th:text="${mainArticle.getTitle()}">Blog title</a>
+                        <div class="d-flex align-items-center justify-content-center mt-2 ">
+                            <p class="card-text limited-span-2-line"
+                               th:text="${mainArticle.getShortDescription()}">
+                                Blog short description
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-item bg-light mb-4">
+                    <div class="position-relative overflow-hidden d-flex align-items-center justify-content-center"
+                         style="height: 10rem; width: rem; overflow: hidden;display: flex;">
+                        <a th:href="|/blog/show/${mainArticle.getId()}|">
+                            <img class="img-fluid" style="width: 100%;height: 100%; object-fit: cover;"
+                                 th:src="${mainArticle.getAvatar().getImageUrl()}" alt="">
+                        </a>
+                    </div>
+                    <div class="p-2">
+                        <a class="h5 text-decoration-none limited-span-1-line" style="height: 2rem;"
+                           th:href="|/blog/show/${mainArticle.getId()}|"
+                           th:text="${mainArticle.getTitle()}">Blog title</a>
+                        <div class="d-flex align-items-center justify-content-center mt-2 ">
+                            <p class="card-text limited-span-2-line"
+                               th:text="${mainArticle.getShortDescription()}">
+                                Blog short description
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12 pb-1" th:each="article : ${articleList}">
+                <div class="product-item bg-light mb-4">
+                    <div class="position-relative overflow-hidden"
+                         style="height: 20rem; overflow: hidden;display: flex;">
+                        <a th:href="|/blog/show/${article.getId()}|">
+                            <img class="img-fluid" style="width: 100%;height: 100%; object-fit: cover;"
+                                 th:src="${article.getAvatar().getImageUrl()}" alt="">
+                        </a>
+                    </div>
+                    <div class="p-2">
+                        <a class="h5 text-decoration-none limited-span-2-line" style="height: 3rem;"
+                           th:href="|/blog/show/${article.getId()}|" th:text="${article.getTitle()}">Blog title</a>
+                        <div class="d-flex align-items-center justify-content-center mt-2 ">
+                            <p class="card-text limited-span-2-line" th:text="${article.getShortDescription()}">Blog
+                                short description</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Blog End -->
+    <!-- Blog End -->
 
-<!-- Offer Start -->
-<div class="container pt-5 pb-3">
-    <div class="row px-xl-5">
-        <div class="col-md-6" th:each="cover, index : ${subCoverList}">
-            <div class="product-offer mb-30" style="height: 300px;">
-                <img class="img-fluid" th:src="${cover.getImage()?.getImageUrl()}" alt="">
-                <div class="offer-text">
-                    <h6 class="text-white text-uppercase" th:text="${cover.getDescription()}">Cover Description</h6>
-                    <h3 class="text-white mb-3" th:text="${cover.getTitle()}">Cover Title</h3>
-                    <a th:href="${cover.getTargetLink()}" class="btn btn-info">Xem Ngay</a>
+    <!-- Offer Start -->
+    <div class="container pt-5 pb-3">
+        <div class="row px-xl-5">
+            <div class="col-md-6" th:each="cover, index : ${subCoverList}">
+                <div class="product-offer mb-30" style="height: 300px;">
+                    <img class="img-fluid" th:src="${cover.getImage()?.getImageUrl()}" alt="">
+                    <div class="offer-text">
+                        <h6 class="text-white text-uppercase" th:text="${cover.getDescription()}">Cover Description</h6>
+                        <h3 class="text-white mb-3" th:text="${cover.getTitle()}">Cover Title</h3>
+                        <a th:href="${cover.getTargetLink()}" class="btn btn-info">Xem Ngay</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Offer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-info back-to-top">TOP&nbsp;<i class="fa fa-angle-double-up"></i></a>
+
+    <!-- Footer-->
+    <div th:replace="~{user/layout/footer::footer}"></div>
+
+    <!-- Template Javascript -->
+    <script src="/js/main.js"></script>
 </div>
-<!-- Offer End -->
-
-<!-- Back to Top -->
-<a href="#" class="btn btn-info back-to-top">TOP&nbsp;<i class="fa fa-angle-double-up"></i></a>
-
-<!-- Footer-->
-<div th:replace="~{user/layout/footer::footer}"></div>
-
-<!-- Template Javascript -->
-<script src="/js/main.js"></script>
-
 </body>
 </html>

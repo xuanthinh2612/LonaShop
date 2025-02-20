@@ -1,6 +1,7 @@
 package LonaShop.controller.user;
 
 import LonaShop.common.CommonConst;
+import LonaShop.controller.helper.Helper;
 import LonaShop.model.Article;
 import LonaShop.model.Cover;
 import LonaShop.model.Product;
@@ -35,6 +36,8 @@ public class DashBoardController extends UserBaseController {
     private CategoryService categoryService;
     @Autowired
     private CoverService coverService;
+    @Autowired
+    private Helper helper;
 
     @GetMapping(value = {"/trang-chu", "", "/"})
     public String showDashBoard(Model model, RedirectAttributes attributes) {
@@ -49,6 +52,9 @@ public class DashBoardController extends UserBaseController {
         List<Cover> subCoverList = coverService.getSubCoverList().stream().limit(2).toList();
         List<Article> articleList = articleService.findAvailableList().stream().limit(20).toList();
         List<Product> productList = productService.findAvailableList();
+        Article mainArticle = helper.getMainArticle(articleList);
+
+        model.addAttribute("mainArticle", mainArticle);
         model.addAttribute("articleList", articleList);
         model.addAttribute("productList", productList);
         model.addAttribute("mainCoverList", mainCoverList);

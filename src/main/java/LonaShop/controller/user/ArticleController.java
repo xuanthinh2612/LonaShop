@@ -1,6 +1,7 @@
 package LonaShop.controller.user;
 
 import LonaShop.common.CommonConst;
+import LonaShop.controller.helper.Helper;
 import LonaShop.model.Article;
 import LonaShop.model.Category;
 import LonaShop.service.ArticleService;
@@ -24,6 +25,9 @@ public class ArticleController extends UserBaseController {
     @Autowired
     private ArticleService articleService;
 
+    @Autowired
+    private Helper helper;
+
     @GetMapping("" )
     public String getListArticle(Model model) {
 
@@ -33,7 +37,7 @@ public class ArticleController extends UserBaseController {
             return "redirect:/trang-chu";
         }
 
-        Article mainArticle = getMainArticle(articleList);
+        Article mainArticle = helper.getMainArticle(articleList);
 
         model.addAttribute(CommonConst.PAGE_MODE, CommonConst.BLOG_PAGE_MODE);
         model.addAttribute("articleList", articleList);
@@ -60,13 +64,4 @@ public class ArticleController extends UserBaseController {
         return "user/article/show";
     }
 
-    private Article getMainArticle(List<Article> articleList) {
-
-        for (Article article : articleList) {
-            if (article.getOnTop() == CommonConst.FLAG_ON) {
-                return article;
-            }
-        }
-        return articleList.get(0);
-    }
 }

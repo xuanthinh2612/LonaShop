@@ -7,7 +7,7 @@
 <!-- Page Content-->
 <div class=" container pb-3">
     <!-- Heading Row-->
-    <div class="row gx-4 gx-lg-5 align-items-center my-5">
+    <div class="row px-xl-5 align-items-center my-5">
         <div class="col-lg-7">
             <img class="img-fluid mb-4 mb-lg-0"
                  th:src="${mainArticle.getAvatar().getImageUrl()}"
@@ -24,7 +24,7 @@
     </div>
 </div>
 <!-- Blog Start -->
-<div class="container-fluid pt-5 pb-3">
+<div class="container pt-5 pb-3">
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span
             class="bg-secondary pr-3">Blog</span>
     </h2>
@@ -54,17 +54,17 @@
             </div>
         </div>
     </div>
+    <!-- Blog End -->
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-info back-to-top">TOP&nbsp;<i class="fa fa-angle-double-up"></i></a>
+
+    <!-- Footer-->
+
+    <!-- Template Javascript -->
+    <script src="/js/main.js"></script>
+    <!-- Custom Javascript -->
+    <script src="/js/customJs.js"></script>
+    <div th:replace="~{user/layout/footer::footer}"></div>
 </div>
-<!-- Blog End -->
-<!-- Back to Top -->
-<a href="#" class="btn btn-info back-to-top">TOP&nbsp;<i class="fa fa-angle-double-up"></i></a>
-
-<!-- Footer-->
-<div th:replace="~{user/layout/footer::footer}"></div>
-
-<!-- Template Javascript -->
-<script src="/js/main.js"></script>
-<!-- Custom Javascript -->
-<script src="/js/customJs.js"></script>
 </body>
 </html>

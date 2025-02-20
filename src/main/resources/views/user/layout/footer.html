@@ -16,7 +16,7 @@
             </div>
             <div class="col-lg-8 col-md-12">
                 <div class="row">
-                    <div class="col-md-4 mb-5">
+                    <div class="col-md-6 mb-5">
                         <h5 class="text-dark text-uppercase mb-4">Quick Access</h5>
                         <div class="d-flex flex-column justify-content-start">
                             <a class="text-dark mb-2" href="/trang-chu"><i class="fa fa-angle-right mr-2"></i>Home</a>
@@ -24,9 +24,6 @@
                             <a class="text-dark mb-2" href="/blog"><i class="fa fa-angle-right mr-2"></i>Blog</a>
                             <a class="text-dark mb-2" href="/inquiry/new"><i class="fa fa-angle-right mr-2"></i>Hỏi Đáp</a>
                         </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <h5 class="text-dark text-uppercase mb-4">My Account</h5>
                         <div class="d-flex flex-column justify-content-start" th:if="${#strings.isEmpty(currentUser)}">
                             <a class="text-dark mb-2" href="/register"><i class="fa fa-angle-right mr-2"></i>Đăng Ký</a>
                             <a class="text-dark mb-2" href="/login"><i class="fa fa-angle-right mr-2"></i>Đăng Nhập</a>
@@ -35,8 +32,9 @@
                             <a class="text-dark mb-2" href="/trang-chu"><i class="fa fa-angle-right mr-2"></i>Trang Cá Nhân</a>
                             <a class="text-dark mb-2" href="/logout"><i class="fa fa-angle-right mr-2"></i>Đăng xuất</a>
                         </div>
+
                     </div>
-                    <div class="col-md-4 mb-5">
+                    <div class="col-md-6 mb-5">
                         <h5 class="text-dark text-uppercase mb-4">Quick Register</h5>
                         <p>Đăng ký thành viên để nhận được nhiều ưu đãi hơn</p>
                         <form th:action="@{/register}" method="post">
@@ -61,9 +59,7 @@
         <div class="row border-top mx-xl-5 py-4" style="border-color: rgba(256, 256, 256, .1) !important;">
             <div class="col-md-6 px-xl-0">
                 <p class="mb-md-0 text-center text-md-left text-dark">
-                    &copy; <a class="text-dark" href="#">loananhshop.com</a>. All Rights Reserved. Designed
-                    by
-                    <a class="text-dark" href="https://htmlcodex.com">Loan Anh Shop</a>
+                    &copy; <a class="text-dark" href="#">loananhshop.com</a>. All Rights Reserved.
                 </p>
             </div>
             <div class="col-md-6 px-xl-0 text-center text-md-right">
