@@ -22,3 +22,11 @@
     overflow: hidden;
     -webkit-line-clamp: 10; /* Adjust the number of lines you want to display */
 }
+
+.bottom-controls {
+    position: absolute;
+    bottom: 10px;
+    left: 30px;
+    display: flex;
+    gap: 10px;
+}

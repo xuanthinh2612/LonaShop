@@ -11,7 +11,7 @@
                 <h2 class="text-center">Liên Hệ Chúng tôi</h2>
             </div>
             <div class="card-body">
-                <form method="post" role="form" th:object="${inquiry}" th:action="@{/inquiry/create}" >
+                <form method="post" role="form" th:object="${inquiry}" th:action="@{/inquiry/create}">
                     <div class="form-group mb-3">
                         <label class="form-label">Họ và Tên</label>
                         <input class="form-control" placeholder="Họ và Tên" th:field="*{customerName}" type="text"/>
@@ -88,14 +88,15 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <!-- Back to Top -->
 <a href="#" class="btn btn-info back-to-top">TOP&nbsp;<i class="fa fa-angle-double-up"></i></a>
 
 <!-- Footer-->
-<div th:replace="~{user/layout/footer::footer}"></div>
+<div class="container">
+    <div th:replace="~{user/layout/footer::footer}"></div>
+</div>
 
 <!-- Template Javascript -->
 <script src="/js/main.js"></script>

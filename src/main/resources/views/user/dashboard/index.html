@@ -51,7 +51,6 @@
 </div>
 <!-- Carousel End -->
 
-
 <!-- Featured Start -->
 <div class="container pt-5" th:if="${#strings.isEmpty(pageMode) || pageMode != '4'}">
     <div class="row px-xl-5 pb-3">
@@ -160,13 +159,6 @@
                             </del>
                         </h6>
                     </div>
-                    <!--                    <div class="d-flex align-items-center justify-content-center mb-1">-->
-                    <!--                        <small class="fa fa-star text-primary mr-1"></small>-->
-                    <!--                        <small class="fa fa-star text-primary mr-1"></small>-->
-                    <!--                        <small class="fa fa-star text-primary mr-1"></small>-->
-                    <!--                        <small class="fa fa-star text-primary mr-1"></small>-->
-                    <!--                        <small class="fa fa-star text-primary mr-1"></small>-->
-                    <!--                    </div>-->
                 </div>
                 </hr>
             </div>
@@ -185,6 +177,7 @@
                 class="bg-secondary pr-3">Blog</span>
         </h2>
         <div class="row px-xl-5">
+            <!--            Blog Main start-->
             <div class="col-lg-8 col-sm-12 pb-1">
                 <div class="product-item bg-light mb-4">
                     <div class="position-relative overflow-hidden d-flex align-items-center justify-content-center"
@@ -198,7 +191,7 @@
                         <a class="h5 text-decoration-none limited-span-1-line"
                            th:href="|/blog/show/${mainArticle.getId()}|"
                            th:text="${mainArticle.getTitle()}"
-                           style="height: 2rem;"
+                           style="height: 1.5rem;"
                         >Blog title</a>
                         <div class="d-flex align-items-center justify-content-center mt-2 ">
                             <p class="card-text limited-span-3-line"
@@ -209,17 +202,20 @@
                     </div>
                 </div>
             </div>
+            <!--            Blog Main End-->
+
+            <!--            Blog side-->
             <div class="col-lg-4 col-sm-12 pb-1">
-                <div class="product-item bg-light ">
+                <div class="product-item bg-light pb-2">
                     <div class="position-relative overflow-hidden d-flex align-items-center justify-content-center"
-                         style="height: 10rem; width: rem; overflow: hidden;display: flex;">
+                         style="height: 10rem; overflow: hidden;display: flex;">
                         <a th:href="|/blog/show/${mainArticle.getId()}|">
                             <img class="img-fluid" style="width: 100%;height: 100%; object-fit: cover;"
                                  th:src="${mainArticle.getAvatar().getImageUrl()}" alt="">
                         </a>
                     </div>
                     <div class="p-2">
-                        <a class="h5 text-decoration-none limited-span-1-line" style="height: 2rem;"
+                        <a class="h5 text-decoration-none limited-span-1-line" style="height: 1.5rem;"
                            th:href="|/blog/show/${mainArticle.getId()}|"
                            th:text="${mainArticle.getTitle()}">Blog title</a>
                         <div class="d-flex align-items-center justify-content-center mt-2 ">
@@ -232,14 +228,14 @@
                 </div>
                 <div class="product-item bg-light mb-4">
                     <div class="position-relative overflow-hidden d-flex align-items-center justify-content-center"
-                         style="height: 10rem; width: rem; overflow: hidden;display: flex;">
+                         style="height: 10rem; overflow: hidden;display: flex;">
                         <a th:href="|/blog/show/${mainArticle.getId()}|">
                             <img class="img-fluid" style="width: 100%;height: 100%; object-fit: cover;"
                                  th:src="${mainArticle.getAvatar().getImageUrl()}" alt="">
                         </a>
                     </div>
                     <div class="p-2">
-                        <a class="h5 text-decoration-none limited-span-1-line" style="height: 2rem;"
+                        <a class="h5 text-decoration-none limited-span-1-line" style="height: 1.5rem;"
                            th:href="|/blog/show/${mainArticle.getId()}|"
                            th:text="${mainArticle.getTitle()}">Blog title</a>
                         <div class="d-flex align-items-center justify-content-center mt-2 ">
@@ -250,6 +246,8 @@
                         </div>
                     </div>
                 </div>
+                <!--                Blog side end-->
+
             </div>
 
             <div class="col-lg-6 col-sm-12 pb-1" th:each="article : ${articleList}">
@@ -279,7 +277,7 @@
     <div class="container pt-5 pb-3">
         <div class="row px-xl-5">
             <div class="col-md-6" th:each="cover, index : ${subCoverList}">
-                <div class="product-offer mb-30" style="height: 300px;">
+                <div class="product-offer mb-30" style="height: 20rem;">
                     <img class="img-fluid" th:src="${cover.getImage()?.getImageUrl()}" alt="">
                     <div class="offer-text">
                         <h6 class="text-white text-uppercase" th:text="${cover.getDescription()}">Cover Description</h6>

@@ -24,28 +24,26 @@
     </div>
 </div>
 <!-- Blog Start -->
-<div class="container pt-5 pb-3">
+<div class="container">
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span
             class="bg-secondary pr-3">Blog</span>
     </h2>
     <div class="row px-xl-5">
-        <div class="col-lg-3 col-md-4 col-sm-6 pb-1" th:each="article : ${articleList}">
+        <div class="col-lg-3 pb-1" th:each="article : ${articleList}">
             <div class="product-item bg-light mb-4">
-                <div class="position-relative overflow-hidden">
+                <div class="position-relative overflow-hidden"
+                     style="height: 10rem; overflow: hidden;display: flex;">
                     <a th:href="|/blog/show/${article.getId()}|">
-                        <img class="img-fluid w-100"
-                             th:src="${article.getAvatar().getImageUrl()}"
-                             alt="">
+                        <img class="img-fluid" style="width: 100%;height: 100%; object-fit: cover;"
+                             th:src="${article.getAvatar().getImageUrl()}" alt="">
                     </a>
                 </div>
-                <div class="text-center py-4">
-                    <a class="h5 text-decoration-none limited-span-2-line"
-                       th:href="|/blog/show/${article.getId()}|"
-                       th:text="${article.getTitle()}">Blog title</a>
-                    <div class="d-flex align-items-center justify-content-center mt-2 ">
+                <div class="p-2">
+                    <a class="h6 text-decoration-none limited-span-2-line" style="height: 2.5rem;"
+                       th:href="|/blog/show/${article.getId()}|" th:text="${article.getTitle()}">Blog title</a>
+                    <div class="small d-flex align-items-center justify-content-center mt-2 ">
                         <p class="card-text limited-span-2-line" th:text="${article.getShortDescription()}">Blog
-                            short
-                            description</p>
+                            short description</p>
                     </div>
                     <div class="d-flex align-items-center justify-content-center mb-1">
                         <a class="btn btn-info btn-sm mt-2" th:href="|/blog/show/${article.getId()}|">Đọc thêm</a>
@@ -53,7 +51,6 @@
                 </div>
             </div>
         </div>
-    </div>
     <!-- Blog End -->
     <!-- Back to Top -->
     <a href="#" class="btn btn-info back-to-top">TOP&nbsp;<i class="fa fa-angle-double-up"></i></a>
@@ -64,7 +61,11 @@
     <script src="/js/main.js"></script>
     <!-- Custom Javascript -->
     <script src="/js/customJs.js"></script>
+</div>
+<!-- Footer-->
+<div class="container">
     <div th:replace="~{user/layout/footer::footer}"></div>
 </div>
+
 </body>
 </html>

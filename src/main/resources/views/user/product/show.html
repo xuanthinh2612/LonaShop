@@ -5,45 +5,49 @@
 <!-- Navigation-->
 <nav th:replace="~{/user/layout/navbar::navbar}"></nav>
 
-<!-- Product Details section-->
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6">
+<div class="container">
+    <section class="bg-light">
+        <div class="row gx-4 gx-lg-5 p-3">
+            <div class="col-md-6 overflow-hidden" style="height: 30rem;">
                 <img th:if="${product.getAvatar() != null}"
-                     class="card-img-top mb-5 mb-md-0 w-100"
+                     class="card-img-top mb-5 mb-md-0 w-100 h-100"
+                     style="object-fit: cover;"
                      th:src="${product.getAvatar().getImageUrl()}" alt="..."/>
             </div>
-            <div class="col-md-6">
-                <a class="small mb-1 text-muted" th:href="|/category/${product.getCategory().getId()}|"
-                   th:text="${product.getCategory().getName()}"></a>
-                <h5 class="display-5 fw-bolder"><span th:text="${product.getName()}"></span></h5>
-                <div class="fs-5 mb-1 text-muted">
-                    <span class="py-5">Giá cũ:&emsp; </span>
-                    <span class="text-decoration-line-through"
-                          th:text="${#numbers.formatInteger(product.getOldPrice(), 3, 'COMMA')}"></span>
-                    <span>VNĐ</span>
-                    <br>
+            <div class="col-md-6 text-justify" style="height: 30rem;">
+                <div class="overflow-hidden" style="height: 25rem;">
+                    <div class="py-1">
+                        <a class="small mb-1 text-muted" th:href="|/category/${product.getCategory().getId()}|"
+                           th:text="${product.getCategory().getName()}"></a>
+                    </div>
+                    <div class="py-1 fs-5 fw-bolder"><span th:text="${product.getName()}"></span></div>
+                    <div class="small  py-1 mb-1 text-muted p-2">
+                        <span>Giá cũ:&emsp; </span>
+                        <span class="text-decoration-line-through"
+                              th:text="${#numbers.formatInteger(product.getOldPrice(), 3, 'COMMA')}"></span>
+                        <span>VNĐ</span>
+                        <br>
+                    </div>
+                    <div class="py-2 text-danger mb-3">
+                        <span class="my-3">Giá Khuyến Mãi:&emsp;</span>
+                        <span class="fw-bold"
+                              th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}">
+                                        </span>
+                        <span>&nbsp VNĐ/</span><span th:text="${product.getUnit()}"></span>
+                    </div>
+                    <p class="small" th:text="${product.getSubDescription_1()}"></p>
+                    <p class="small" th:text="${product.getSubDescription_2()}"></p>
+                    <p class="small" th:text="${product.getSubDescription_3()}"></p>
                 </div>
-                <div class="fs-5 mb-5 text-danger">
-                    <span class="my-3">Giá Khuyến Mãi:&emsp;</span>
-                    <span class="fw-bold"
-                          th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}">
-                                    </span>
-                    <span>&nbsp VNĐ/</span>
-                    <span th:text="${product.getUnit()}"></span>
-                </div>
-                <p class="" th:text="${product.getSubDescription_1()}"></p>
-                <p class="" th:text="${product.getSubDescription_2()}"></p>
-                <div class="d-flex" th:if="${product.getStatus() != 4}">
-                    <input class="form-control text-center me-3" id="inputQuantity" type="text" value="1"
-                           style="max-width: 3rem"/>
+                <div class="bottom-controls" th:if="${product.getStatus() != 4}">
+                    <input class="form-control text-center me-3" id="inputQuantity" type="number" value="1"
+                           style="width: 5rem" min="1"/>
                     <a class="btn btn-outline-dark flex-shrink-0" th:href="'/order/new/' + ${product.getId()}">
                         <i class="bi-cart-fill me-1"></i>
                         Đặt Mua Hàng
                     </a>
                 </div>
-                <div class="d-flex" th:if="${product.getStatus() == 4}">
+                <div class="bottom-controls" th:if="${product.getStatus() == 4}">
                     <button type="button" class="btn btn-warning flex-shrink-0">
                         <i class="bi-cart-fill me-1"></i>
                         Sản phẩm tạm thời hết hàng
@@ -51,22 +55,16 @@
                 </div>
             </div>
         </div>
-    </div>
-</section>
-
-
-<div class="container pt-5 pb-3">
-    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Thông Tin Chi Tiết Sản Phẩm</span>
-    </h2>
+    </section>
 </div>
 
 <!-- Product Details section-->
-<section class="py-1 bg-light">
-    <div class="container px-4 px-lg-5 my-5" th:if="${!#strings.isEmpty(product.getSubDescription_3())}">
-        <p class="lead mt-5" th:text="${product.getSubDescription_3()}"></p>
-    </div>
-    <div th:if="${product.getSubContentList().size() > 0}" class="container px-4 px-lg-5 my-5"
-         th:each="subContent : ${product.subContentList}">
+<div class="container text-justify py-3">
+    <h2 class="section-title position-relative text-uppercase my-3">
+        <span class="bg-secondary pr-3">Chi Tiết Sản Phẩm</span>
+    </h2>
+    <section class="p-5 bg-light">
+        <div th:if="${product.getSubContentList().size() > 0}" th:each="subContent : ${product.subContentList}">
         <div class="row gx-4 gx-lg-5 align-items-center">
             <div th:if="${subContent.image != null }" class="col-12 mb-3 d-flex justify-content-center align-items-center">
                 <div class="col-lg-8 col-md-12 col-sm-12">
@@ -99,56 +97,64 @@
         </div>
     </div>
 </section>
+</div>
 
 
 <!-- Related items section-->
 <div class="container pt-5 pb-3">
     <h3 class="section-title position-relative text-uppercase mb-4"><span class="bg-secondary pr-3">Sản Phẩm Bạn Có Thể Quan Tâm</span>
     </h3>
-    <div class="row">
-        <div class="col-lg-3 col-md-4 col-sm-6 pb-1" th:each="product : ${relatedProduct}">
+    <div class="row px-xl-5">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-6 pb-1" th:each="product : ${relatedProduct}">
             <div class="product-item bg-light mb-4">
-                <div class="product-img position-relative overflow-hidden">
+                <div class="product-img position-relative overflow-hidden p-2" style="height: 15rem">
                     <a th:href="'/product/show/'+${product.getId()}">
-                        <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem"
+                        <div class="badge bg-danger text-white position-absolute"
+                             style="top: 1rem; right: 1rem; z-index: 1;"
                              th:if="${product.getStatus() == 5}">Giảm giá
                         </div>
+                        <div class="badge bg-warning text-white position-absolute"
+                             style="top: 1rem; right: 1rem; z-index: 1;"
+                             th:if="${product.getStatus() == 4}">Hết Hàng
+                        </div>
                         <!-- Product image-->
-                        <img class="img-fluid w-100" th:src="${product.getAvatar().getImageUrl()}" alt="">
+                        <img class="img-fluid w-100 h-100" th:src="${product.getAvatar().getImageUrl()}" alt=""
+                             style="object-fit: cover;">
                     </a>
-
                     <div class="product-action">
                         <div class="text-center">
-                            <a class="btn btn-outline-dark mt-auto"
-                               th:href="'/product/show/'+${product.getId()}">
+                            <a class="btn btn-outline-dark mt-auto" th:href="'/product/show/'+${product.getId()}">
                                 Xem Chi Tiết</a>
                         </div>
                     </div>
                 </div>
-                <div class="text-center py-4">
-                    <a class="h5 text-decoration-none text-uppercase"
-                       th:href="'/product/show/'+${product.getId()}"
-                       th:text="${product.getName()}">Product Name</a>
+                <div style="width: 100%; height: 1px; background: rgba(0, 0, 0, 0.2); box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);"></div>
+                <div class="text-center py-2" style="height: 8rem;">
+                    <div style="height: 3rem;">
+                        <a class="h6 text-decoration-none limited-span-2-line"
+                           th:href="'/product/show/'+${product.getId()}"
+                           th:text="${product.getName()}"
+                           th:title="${product.getName()}">Product Name</a>
+                    </div>
                     <div class="d-flex align-items-center justify-content-center mt-2">
                         <h6>
-                            <span>VNĐ&nbsp;</span>
-                            <span th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}">current price
+                            <span style="color: #ff3259">VNĐ&nbsp;</span>
+                            <span style="color: #ff3259"
+                                  th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}">current price
                             </span>
                         </h6>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
                         <h6 class="text-muted ml-2" th:if="${!#strings.isEmpty(product.getOldPrice())}">
+                            <span>Giá cũ:&nbsp;</span>
                             <del>
                                 <span th:text="${#numbers.formatInteger(product.getOldPrice(), 3, 'COMMA')}">old price</span>
                             </del>
+                            </del>
                         </h6>
                     </div>
-                    <div class="d-flex align-items-center justify-content-center mb-1">
-                        <small class="fa fa-star text-primary mr-1"></small>
-                        <small class="fa fa-star text-primary mr-1"></small>
-                        <small class="fa fa-star text-primary mr-1"></small>
-                        <small class="fa fa-star text-primary mr-1"></small>
-                        <small class="fa fa-star text-primary mr-1"></small>
-                    </div>
                 </div>
+                </hr>
             </div>
         </div>
     </div>
@@ -159,7 +165,9 @@
 <a href="#" class="btn btn-info back-to-top">TOP&nbsp;<i class="fa fa-angle-double-up"></i></a>
 
 <!-- Footer-->
-<div th:replace="~{user/layout/footer::footer}"></div>
+<div class="container">
+    <div th:replace="~{user/layout/footer::footer}"></div>
+</div>
 
 <!-- Template Javascript -->
 <script src="/js/main.js"></script>

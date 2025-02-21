@@ -41,11 +41,11 @@ public class DashBoardController extends UserBaseController {
 
     @GetMapping(value = {"/trang-chu", "", "/"})
     public String showDashBoard(Model model, RedirectAttributes attributes) {
-        logger.debug("Debug message");
-        logger.info("Info message");
-        logger.warn("Warning message");
-        logger.error("Error message");
-        logger.fatal("Fatal message");
+//        logger.debug("Debug message");
+//        logger.info("Info message");
+//        logger.warn("Warning message");
+//        logger.error("Error message");
+//        logger.fatal("Fatal message");
 
         model.addAttribute(CommonConst.PAGE_MODE, CommonConst.HOME_PAGE_MODE);
         List<Cover> mainCoverList = coverService.getMainCoverList().stream().limit(3).toList();
@@ -70,13 +70,16 @@ public class DashBoardController extends UserBaseController {
 
     @GetMapping("/category/{id}")
     public String searchByCategory(@PathVariable("id") Long id, Model model) {
-
+        List<Cover> mainCoverList = coverService.getMainCoverList().stream().limit(3).toList();
+        model.addAttribute("mainCoverList", mainCoverList);
         List<Article> articleList = articleService.findAvailableList().stream().limit(20).toList();
         model.addAttribute("articleList", articleList);
-        List<Product> productList = productService.findAvailableListByCategoryId(id);
-        model.addAttribute("productList", productList);
         List<Cover> subCoverList = coverService.getSubCoverList().stream().limit(2).toList();
         model.addAttribute("subCoverList", subCoverList);
+        Article mainArticle = helper.getMainArticle(articleList);
+        model.addAttribute("mainArticle", mainArticle);
+        List<Product> productList = productService.findAvailableListByCategoryId(id);
+        model.addAttribute("productList", productList);
         model.addAttribute(CommonConst.PAGE_MODE, CommonConst.SEARCH_MODE);
 
         return "/user/dashboard/index";
@@ -86,13 +89,18 @@ public class DashBoardController extends UserBaseController {
     @GetMapping("/search")
     public String searchProduct(@RequestParam("key") String key, Model model) {
 
-        List<Article> articleList = articleService.findAvailableList().stream().limit(20).toList();
-        model.addAttribute("articleList", articleList);
-        List<Product> productList = productService.findByKey(key);
-        model.addAttribute("productList", productList);
-        model.addAttribute(CommonConst.PAGE_MODE, CommonConst.SEARCH_MODE);
+        List<Cover> mainCoverList = coverService.getMainCoverList().stream().limit(3).toList();
+        model.addAttribute("mainCoverList", mainCoverList);
         List<Cover> subCoverList = coverService.getSubCoverList().stream().limit(2).toList();
         model.addAttribute("subCoverList", subCoverList);
+        List<Article> articleList = articleService.findAvailableList().stream().limit(20).toList();
+        model.addAttribute("articleList", articleList);
+        Article mainArticle = helper.getMainArticle(articleList);
+        model.addAttribute("mainArticle", mainArticle);
+        List<Product> productList = productService.findByKey(key);
+        model.addAttribute("productList", productList);
+
+        model.addAttribute(CommonConst.PAGE_MODE, CommonConst.SEARCH_MODE);
 
         return "/user/dashboard/index";
     }
