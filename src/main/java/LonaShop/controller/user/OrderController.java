@@ -25,7 +25,7 @@ public class OrderController extends UserBaseController {
     UserOrderService userOrderService;
 
     @GetMapping("/new/{id}")
-    public String newOrder(@PathVariable("id") Long id, Model model){
+    public String newOrder(@PathVariable("id") Long id, @RequestParam("inputQuantity") Long inputQuantity, Model model){
         Product product = productService.findById(id);
 
         if (ObjectUtils.isEmpty(product) || isNotValidProduct(product)) {
@@ -35,6 +35,7 @@ public class OrderController extends UserBaseController {
         order.setProduct(product);
         model.addAttribute("product", product);
         model.addAttribute("order", order);
+        model.addAttribute("inputQuantity", inputQuantity);
         return "user/order/new";
     }
 

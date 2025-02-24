@@ -53,13 +53,13 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="order : ${orderList}">
+                            <tr th:each="order : ${orderList}" >
                                 <td th:text="${order.getId()}"></td>
                                 <td th:text="${order.getCustomerName()}"></td>
                                 <td th:text="${order.getCustomerPhoneNumber()}"></td>
                                 <td th:text="${order.getCustomerAge()}"></td>
                                 <td th:text="${order.getCustomerAddress()}"></td>
-                                <td th:text="${order.getProduct().getName()}"></td>
+                                <td th:text="${order.getProduct() != null ? order.getProduct().getName() : '' }"></td>
                                 <td th:text="${order.getQuantity()}"></td>
                                 <td th:text="${order.getCreatedAt()}"></td>
                                 <td>
@@ -67,7 +67,6 @@
                                     <a th:if="${orderStatus == 2}" th:onclick="'submitStatus(' + ${order.getId()} + ',3)'" class="btn btn-outline-warning mb-1"> Đóng gói</a>
                                     <a th:if="${orderStatus == 3}" th:onclick="'submitStatus(' + ${order.getId()} + ',4)'" class="btn btn-outline-primary mb-1"> Đã giao</a>
                                     <a th:if="${orderStatus == 1}" th:onclick="'submitStatus(' + ${order.getId()} + ',6)'" class="btn btn-danger mb-1"> Từ chối</a>
-
                                 </td>
                             </tr>
                             </tbody>

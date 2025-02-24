@@ -5,124 +5,133 @@
 <nav th:replace="~{/user/layout/navbar::navbar}"></nav>
 <br/><br/><br/>
 <div class="container mb-5">
-    <div class="row col-md-8 offset-md-2">
-        <div class="card p-0">
-            <div class="card-header">
-                <h2 class="text-center">Thông Tin Người Đặt Hàng</h2>
+    <div class="row">
+        <div class="col-lg-8 col-md-8">
+            <div>
+                <section class="py-5 bg-light ">
+                    <h3 class="pl-3 text-uppercase">
+                        <span>Chi tiết sản phẩm</span>
+                    </h3>
+                    <div class="row gx-4 gx-lg-5 align-items-center p-4">
+                        <div class="col-lg-2 col-md-2 col-sm-6 overflow-hidden p-4">
+                            <img class="card-img-top mb-5 mb-md-0" th:src="${product.getAvatar().getImageUrl()}"
+                                 style="height: 5rem;width: 5rem;"
+                                 alt="..."/></div>
+                        <div class="col-lg-10 col-md-10 col-sm-6">
+                            <div class="fw-bolder">
+                                <a class="text-dark" th:href="'/product/show/'+${product.getId()}">
+                                    <span th:text="${product.getName()}"></span>
+                                </a>
+                            </div>
+                            <div class="small" th:text="${product.getCategory().getName()}"></div>
+                            <div class="text-danger">
+                                <span>Giá:&emsp;</span>
+                                <span class="fw-bold"
+                                      th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}"></span>
+                                <span>&nbspđ/</span>
+                                <span th:text="${product.getUnit()}"></span>
+                                <input th:value="${product.getCurrentPrice()}" hidden id="productPrice">
+                            </div>
+                            <div class="row py-2">
+                                <div class="col-lg-3 col-6">Số lượng:</div>
+                                <div class="col-lg-3 col-6">
+                                    <input class="form-control text-center me-3" id="inputQuantity" type="number"
+                                           th:value="${inputQuantity}" style="width: 5rem" min="1"
+                                    onchange="loadSubTotalMoneyAndQuantity()"/>
+                                </div>
+                            </div>
+                            <div class="row py-2 justify-content-end">
+                                <div class="col-lg-3 col-6">Thành tiền:</div>
+                                <div class="col-lg-3 col-6 text-danger align-items-right">
+                                        <span class="fw-bold" id="subTotalMoney">000000000000</span>
+                                        <span>&nbspVNĐ</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
-            <div class="card-body">
-                <form method="post" role="form" th:object="${order}" th:action="@{/order/create}" >
-                    <input type="hidden" th:field="*{product}">
-                    <div class="form-group mb-3">
-                        <label class="form-label">Họ và Tên</label>
-                        <input class="form-control" placeholder="Họ và Tên" th:field="*{customerName}" type="text"/>
-                        <p th:errors="*{customerName}" class="text-danger"
-                           th:if="${#fields.hasErrors('customerName')}"></p>
-                    </div>
-                    <div class="form-group mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" value="0" th:field="*{customerGender}"
-                                   id="male">
-                            <label class="form-check-label" for="male">
-                                Nam
-                            </label>
+        </div>
+        <div class="col-lg-4 col-md-4">
+            <div class="card p-0">
+                <div class="card-header">
+                    <h6 class="text-center">Thông Tin Người Đặt Hàng</h6>
+                </div>
+                <div class="card-body">
+                    <form method="post" role="form" th:object="${order}" th:action="@{/order/create}">
+                        <input type="hidden" th:field="*{product}">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Họ và Tên</label>
+                            <input class="form-control" placeholder="Họ và Tên" th:field="*{customerName}" type="text"/>
+                            <p th:errors="*{customerName}" class="text-danger"
+                               th:if="${#fields.hasErrors('customerName')}"></p>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" value="1" th:field="*{customerGender}" checked
-                                   id="female">
-                            <label class="form-check-label" for="female">
-                                Nữ
-                            </label>
+                        <div class="form-group mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="0" th:field="*{customerGender}"
+                                       id="male">
+                                <label class="form-check-label" for="male">
+                                    Nam
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="1" th:field="*{customerGender}"
+                                       checked
+                                       id="female">
+                                <label class="form-check-label" for="female">
+                                    Nữ
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label class="form-label">Số điện thoại</label>
-                        <input class="form-control" placeholder="Nhập số điện thoại" th:field="*{customerPhoneNumber}"
-                               type="text"/>
-                        <p th:errors="*{customerPhoneNumber}" class="text-danger"
-                           th:if="${#fields.hasErrors('customerPhoneNumber')}"></p>
-                    </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Số điện thoại</label>
+                            <input class="form-control" placeholder="Nhập số điện thoại"
+                                   th:field="*{customerPhoneNumber}"
+                                   type="text"/>
+                            <p th:errors="*{customerPhoneNumber}" class="text-danger"
+                               th:if="${#fields.hasErrors('customerPhoneNumber')}"></p>
+                        </div>
 
-                    <div class="form-group mb-3">
-                        <label class="form-label">Email</label>
-                        <input class="form-control" placeholder="Nhập email" th:field="*{customerEmail}"
-                               type="email"/>
-                        <p th:errors="*{customerEmail}" class="text-danger"
-                           th:if="${#fields.hasErrors('customerEmail')}"></p>
-                    </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Email</label>
+                            <input class="form-control" placeholder="Nhập email" th:field="*{customerEmail}"
+                                   type="email"/>
+                            <p th:errors="*{customerEmail}" class="text-danger"
+                               th:if="${#fields.hasErrors('customerEmail')}"></p>
+                        </div>
 
-                    <div class="form-group mb-3">
-                        <label class="form-label"> Địa chỉ</label>
-                        <input class="form-control"
-                               placeholder="nhập địa chỉ nhận hàng" th:field="*{customerAddress}" type="text"/>
-                        <p th:errors="*{customerAddress}" class="text-danger"
-                           th:if="${#fields.hasErrors('customerAddress')}"></p>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label class="form-label">Số lượng</label>
-                        <input class="form-control" placeholder="Số lượng" th:field="*{quantity}" type="text"/>
-                        <p th:errors="*{quantity}" class="text-danger"
-                           th:if="${#fields.hasErrors('quantity')}"></p>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label class="form-label">Tuổi</label>
-                        <input class="form-control" placeholder="Tuổi" th:field="*{customerAge}" type="text"/>
-                        <p th:errors="*{customerAge}" class="text-danger"
-                           th:if="${#fields.hasErrors('customerAge')}"></p>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label class="form-label">Ghi chú</label>
-                        <textarea class="form-control" placeholder="Ghi chú thêm cho cửa hàng" th:field="*{note}">
+                        <div class="form-group mb-3">
+                            <label class="form-label"> Địa chỉ</label>
+                            <input class="form-control"
+                                   placeholder="nhập địa chỉ nhận hàng" th:field="*{customerAddress}" type="text"/>
+                            <p th:errors="*{customerAddress}" class="text-danger"
+                               th:if="${#fields.hasErrors('customerAddress')}"></p>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Tuổi</label>
+                            <input class="form-control" placeholder="Tuổi" th:field="*{customerAge}" type="text"/>
+                            <p th:errors="*{customerAge}" class="text-danger"
+                               th:if="${#fields.hasErrors('customerAge')}"></p>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Ghi chú</label>
+                            <textarea class="form-control" placeholder="Ghi chú thêm cho cửa hàng" th:field="*{note}">
                         </textarea>
-                        <p th:errors="*{note}" class="text-danger"
-                           th:if="${#fields.hasErrors('note')}"></p>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary" type="submit"> Đặt Mua</button>
-                        <a href="javascript:history.back()" class="btn btn-danger" onclick="bac" type="button">Trở
-                            về</a>
-                    </div>
-                </form>
+                            <p th:errors="*{note}" class="text-danger"
+                               th:if="${#fields.hasErrors('note')}"></p>
+                        </div>
+                        <input hidden class="form-control" th:field="*{quantity}" type="text" name="quantity" id="quantity"/>
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit"> Đặt Mua</button>
+                            <a href="javascript:history.back()" class="btn btn-danger" onclick="bac" type="button">Trở
+                                về</a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Product section-->
-<section class="py-5 bg-light ">
-    <div class="container ">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span>Chi tiết sản phẩm</span>
-        </h2>
-        <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6">
-                <img class="card-img-top mb-5 mb-md-0 w-100"
-                     th:src="${product.getAvatar().getImageUrl()}" alt="..."/></div>
-            <div class="col-md-6">
-                <div class="small mb-1" th:text="${product.getCategory().getName()}"></div>
-                <h1 class="display-5 fw-bolder">
-                    <a class="text-dark " th:href="'/product/show/'+${product.getId()}">
-                        <span th:text="${product.getName()}"></span>
-                    </a>
-                </h1>
-                <div class="fs-5 mb-1 text-muted">
-                    <span class="py-5">Giá cũ:&emsp; </span>
-                    <span class="text-decoration-line-through"
-                          th:text="${#numbers.formatInteger(product.getOldPrice(), 3, 'COMMA')}"></span>
-                    <span>VNĐ</span><br>
-                </div>
-                <div class="fs-5 mb-5 text-danger">
-                    <span class="my-3">Giá Khuyến Mãi:&emsp;</span>
-                    <span class="fw-bold"
-                          th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}"></span>
-                    <span>&nbspđ/</span>
-                    <span th:text="${product.getUnit()}"></span>
-                </div>
-                <p class="lead" th:text="${product.getSubDescription_1()}"></p>
-                <p class="lead" th:text="${product.getSubDescription_2()}"></p>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- Back to Top -->
 <a href="#" class="btn btn-info back-to-top">TOP&nbsp;<i class="fa fa-angle-double-up"></i></a>
@@ -136,5 +145,20 @@
 <script src="/js/main.js"></script>
 <!-- Custom Javascript -->
 <script src="/js/customJs.js"></script>
+<script>
+
+    function loadSubTotalMoneyAndQuantity() {
+        let price = document.getElementById("productPrice").value
+        let quantity = document.getElementById("inputQuantity").value
+        let subTotalMoney = (price * quantity).toLocaleString("vi-VN").replace(/\./g, ",");
+        document.getElementById("subTotalMoney").innerHTML  = subTotalMoney
+        document.getElementById("quantity").value = quantity
+
+    }
+
+    window.onload = function () {
+    loadSubTotalMoneyAndQuantity();
+    };
+</script>
 </body>
 </html>
