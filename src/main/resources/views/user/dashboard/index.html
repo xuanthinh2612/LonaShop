@@ -193,7 +193,7 @@
                            th:text="${mainArticle.getTitle()}"
                            style="height: 1.5rem;"
                         >Blog title</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2 ">
+                        <div class="d-flex align-items-center mt-2 " style="height: 4.5rem;">
                             <p class="card-text limited-span-3-line"
                                th:text="${mainArticle.getShortDescription()}">Blog
                                 short
@@ -218,7 +218,7 @@
                         <a class="h5 text-decoration-none limited-span-1-line" style="height: 1.5rem;"
                            th:href="|/blog/show/${mainArticle.getId()}|"
                            th:text="${mainArticle.getTitle()}">Blog title</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2 ">
+                        <div class="d-flex align-items-center justify-content-center mt-2 " style="height: 3rem;">
                             <p class="card-text limited-span-2-line"
                                th:text="${mainArticle.getShortDescription()}">
                                 Blog short description
@@ -238,7 +238,7 @@
                         <a class="h5 text-decoration-none limited-span-1-line" style="height: 1.5rem;"
                            th:href="|/blog/show/${mainArticle.getId()}|"
                            th:text="${mainArticle.getTitle()}">Blog title</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2 ">
+                        <div class="d-flex align-items-center justify-content-center mt-2" style="height: 3rem;">
                             <p class="card-text limited-span-2-line"
                                th:text="${mainArticle.getShortDescription()}">
                                 Blog short description
@@ -255,14 +255,14 @@
                     <div class="position-relative overflow-hidden"
                          style="height: 20rem; overflow: hidden;display: flex;">
                         <a th:href="|/blog/show/${article.getId()}|">
-                            <img class="img-fluid" style="width: 100%;height: 100%; object-fit: cover;"
+                            <img class="img-fluid" style="object-fit: cover;"
                                  th:src="${article.getAvatar().getImageUrl()}" alt="">
                         </a>
                     </div>
                     <div class="p-2">
                         <a class="h5 text-decoration-none limited-span-2-line" style="height: 3rem;"
                            th:href="|/blog/show/${article.getId()}|" th:text="${article.getTitle()}">Blog title</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2 ">
+                        <div class="d-flex mt-2 ">
                             <p class="card-text limited-span-2-line" th:text="${article.getShortDescription()}">Blog
                                 short description</p>
                         </div>
