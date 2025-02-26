@@ -41,14 +41,16 @@
                         <table id="datatablesSimple">
                             <thead>
                             <tr>
-                                <th>Mã đơn hàng</th>
-                                <th>Tên khách hàng</th>
+                                <th>Mã đơn</th>
+                                <th>Tên</th>
                                 <th>SĐT</th>
                                 <th>Tuổi</th>
                                 <th>Địa chỉ</th>
                                 <th>Sản phẩm</th>
                                 <th>Số lượng</th>
                                 <th>Ngày tạo</th>
+                                <th>Ghi chú</th>
+                                <th>Tổng tiền</th>
                                 <th>Tùy chọn</th>
                             </tr>
                             </thead>
@@ -62,6 +64,8 @@
                                 <td th:text="${order.getProduct() != null ? order.getProduct().getName() : '' }"></td>
                                 <td th:text="${order.getQuantity()}"></td>
                                 <td th:text="${order.getCreatedAt()}"></td>
+                                <td th:text="${order.getNote()}"></td>
+                                <td th:text="${#numbers.formatInteger(order.getTotalAmount(), 3, 'COMMA')}"></td>
                                 <td>
                                     <a th:if="${orderStatus == 1}" th:onclick="'submitStatus(' + ${order.getId()} + ',2)'" class="btn btn-outline-success mb-1"> Xác Nhận</a>
                                     <a th:if="${orderStatus == 2}" th:onclick="'submitStatus(' + ${order.getId()} + ',3)'" class="btn btn-outline-warning mb-1"> Đóng gói</a>

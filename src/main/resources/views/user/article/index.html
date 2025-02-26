@@ -14,11 +14,11 @@
                  alt="..."/>
         </div>
         <div class="col-lg-5">
-            <h1 class="font-weight-light">
-                <a class="text-decoration-none text-dark limited-span-2-line"
+            <h3 class="font-weight-light">
+                <a class="text-decoration-none text-dark limited-span-3-line"
                    th:text="${mainArticle.getTitle()}"
                    th:href="|/blog/show/${mainArticle.getId()}|"></a>
-            </h1>
+            </h3>
             <p class="limited-span-10-line" th:text="${mainArticle.getShortDescription()}"></p>
             <a class="btn btn-info" th:href="|/blog/show/${mainArticle.getId()}|">Đọc thêm</a>
         </div>
@@ -35,7 +35,7 @@
                 <div class="position-relative overflow-hidden"
                      style="height: 10rem; overflow: hidden;display: flex;">
                     <a th:href="|/blog/show/${article.getId()}|">
-                        <img class="img-fluid" style="object-fit: cover;"
+                        <img class="img-fluid" style="object-fit: cover;height:10rem;width:15rem"
                              th:src="${article.getAvatar().getImageUrl()}" alt="">
                     </a>
                 </div>

@@ -52,6 +52,15 @@ public class UserOrder {
     @Column
     private Date updatedAt;
 
+    @Column
+    private Long totalAmount;
+
+    @Column
+    private int payType;
+
+    @Column
+    private int payStatus;
+
     @ManyToOne
     private Product product;
 

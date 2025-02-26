@@ -25,7 +25,7 @@ public class OrderController extends UserBaseController {
     UserOrderService userOrderService;
 
     @GetMapping("/new/{id}")
-    public String newOrder(@PathVariable("id") Long id, @RequestParam("inputQuantity") Long inputQuantity, Model model){
+    public String newOrder(@PathVariable("id") Long id, @RequestParam("inputQuantity") Long inputQuantity, Model model) {
         Product product = productService.findById(id);
 
         if (ObjectUtils.isEmpty(product) || isNotValidProduct(product)) {
@@ -40,12 +40,13 @@ public class OrderController extends UserBaseController {
     }
 
     @PostMapping("/create")
-    public String createOrder(@ModelAttribute("order") UserOrder order, BindingResult result, Model model){
+    public String createOrder(@ModelAttribute("order") UserOrder order, BindingResult result, Model model) {
         Product product = order.getProduct();
-        if (ObjectUtils.isEmpty(product) || isNotValidProduct(product)) {
+        if (ObjectUtils.isEmpty(product) || isNotValidProduct(product) || order.getQuantity() <= 0) {
             return "redirect:/";
         }
 
+        order.setTotalAmount(order.getQuantity() * product.getCurrentPrice());
         order.setCreatedAt(new Date());
         order.setUpdatedAt(new Date());
         order.setStatus(CommonConst.ORDERED);
@@ -55,7 +56,7 @@ public class OrderController extends UserBaseController {
     }
 
     @GetMapping("/histories")
-    public String orderHistory(Model model){
+    public String orderHistory(Model model) {
         // logic here after get current user
         // pending
         return "/user/order/histories";

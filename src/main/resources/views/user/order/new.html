@@ -43,7 +43,7 @@
                             <div class="row py-2 justify-content-end">
                                 <div class="col-lg-3 col-6">Thành tiền:</div>
                                 <div class="col-lg-3 col-6 text-danger align-items-right">
-                                        <span class="fw-bold" id="subTotalMoney">000000000000</span>
+                                        <span class="fw-bold" id="subTotalMoney">0</span>
                                         <span>&nbspVNĐ</span>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
         <div class="col-lg-4 col-md-4">
             <div class="card p-0">
                 <div class="card-header">
-                    <h6 class="text-center">Thông Tin Người Đặt Hàng</h6>
+                    <h6 class="text-center">Thông Tin Người Nhận</h6>
                 </div>
                 <div class="card-body">
                     <form method="post" role="form" th:object="${order}" th:action="@{/order/create}">
@@ -116,12 +116,31 @@
                         <div class="form-group mb-3">
                             <label class="form-label">Ghi chú</label>
                             <textarea class="form-control" placeholder="Ghi chú thêm cho cửa hàng" th:field="*{note}">
-                        </textarea>
+                            </textarea>
                             <p th:errors="*{note}" class="text-danger"
                                th:if="${#fields.hasErrors('note')}"></p>
                         </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Chọn Phương thức thanh toán</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="0" th:field="*{payType}"
+                                       id="momo">
+                                <label class="form-check-label" for="momo">
+                                    momo
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="1" th:field="*{payType}"
+                                       checked
+                                       id="transfer">
+                                <label class="form-check-label" for="transfer">
+                                    Chuyển khoản
+                                </label>
+                            </div>
+                        </div>
+
                         <input hidden class="form-control" th:field="*{quantity}" type="text" name="quantity" id="quantity"/>
-                        <div class="form-group">
+                        <div class="form-group pt-5">
                             <button class="btn btn-primary" type="submit"> Đặt Mua</button>
                             <a href="javascript:history.back()" class="btn btn-danger" onclick="bac" type="button">Trở
                                 về</a>
