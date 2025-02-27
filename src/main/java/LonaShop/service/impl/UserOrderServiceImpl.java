@@ -38,4 +38,9 @@ public class UserOrderServiceImpl implements UserOrderService {
     public List<UserOrder> findAllByStatus(int status) {
         return userOrderRepository.findAllByStatus(status);
     }
+
+    @Override
+    public UserOrder findByIdAndOrderCode(Long id, String orderCode) {
+     return userOrderRepository.findByIdAndOrderCode(id, orderCode);
+    }
 }

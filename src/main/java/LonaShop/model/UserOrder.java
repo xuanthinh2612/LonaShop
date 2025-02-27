@@ -56,10 +56,16 @@ public class UserOrder {
     private Long totalAmount;
 
     @Column
-    private int payType;
+    private int paymentType;
 
     @Column
-    private int payStatus;
+    private int paymentStatus;
+
+    @Column
+    private String orderCode;
+
+    @Column
+    private String userIp;
 
     @ManyToOne
     private Product product;

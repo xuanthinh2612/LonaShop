@@ -10,4 +10,5 @@ import java.util.List;
 public interface UserOrderRepository extends JpaRepository<UserOrder, Long> {
 
     List<UserOrder> findAllByStatus(int status);
+    UserOrder findByIdAndOrderCode(Long id, String orderCode);
 }

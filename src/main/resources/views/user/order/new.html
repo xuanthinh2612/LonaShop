@@ -123,18 +123,26 @@
                         <div class="form-group mb-3">
                             <label class="form-label">Chọn Phương thức thanh toán</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" value="0" th:field="*{payType}"
+                                <input class="form-check-input" type="radio" value="1" th:field="*{paymentType}"
                                        id="momo">
                                 <label class="form-check-label" for="momo">
                                     momo
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" value="1" th:field="*{payType}"
+                                <input class="form-check-input" type="radio" value="2" th:field="*{paymentType}"
                                        checked
                                        id="transfer">
                                 <label class="form-check-label" for="transfer">
-                                    Chuyển khoản
+                                    Chuyển khoản ngân hàng
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="3" th:field="*{paymentType}"
+                                       checked
+                                       id="payWhenReceive">
+                                <label class="form-check-label" for="payWhenReceive">
+                                    Thanh toán khi nhận hàng
                                 </label>
                             </div>
                         </div>

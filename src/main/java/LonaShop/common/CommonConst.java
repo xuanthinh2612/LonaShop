@@ -20,6 +20,7 @@ public class CommonConst {
     public static final int DELIVERED = 4;
     public static final int USER_CANCELED = 5;
     public static final int DENIED = 6;
+    public static final int RETURN = 6;
 
     // page mode
     public static final String PAGE_MODE = "pageMode";
@@ -28,6 +29,21 @@ public class CommonConst {
     public static final String BLOG_PAGE_MODE = "2";
     public static final String INQUIRY_PAGE_MODE = "3";
     public static final String SEARCH_MODE = "4";
+
+    // payment type
+    public static final int PAY_BY_MOMO = 1;
+    public static final int PAY_BY_BANK_TRANSFER = 2;
+    public static final int PAY_WHEN_RECEIVE = 3;
+
+    // payment status
+    public static final int NOT_PAY = 0;
+    public static final int WAITING_FOR_PAY = 1;
+    public static final int PAID = 2;
+
+    // User type order
+    public static final String USER_ORDER = "UOD";
+    public static final String NON_USER_ORDER = "NOUOD";
+
 
 
     // product status

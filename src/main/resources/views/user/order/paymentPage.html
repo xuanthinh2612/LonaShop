@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{/user/layout/header::header}"></head>
+<body>
+<nav th:replace="~{/user/layout/navbar::navbar}"></nav>
+<br/><br/><br/>
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-10">
+            <div>
+                <section class="py-5 bg-light ">
+                    <div class="row gx-4 gx-lg-5 p-4">
+                        <div class="col-lg-10 col-md-10 col-sm-6">
+                            <div class="text-danger">
+                                <span class="fw-bold" th:text="${message}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer-->
+<div class="container">
+    <div th:replace="~{user/layout/footer::footer}"></div>
+</div>
+
+</body>
+</html>
