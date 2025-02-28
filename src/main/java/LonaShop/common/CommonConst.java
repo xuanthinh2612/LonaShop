@@ -38,7 +38,8 @@ public class CommonConst {
     // payment status
     public static final int NOT_PAY = 0;
     public static final int WAITING_FOR_PAY = 1;
-    public static final int PAID = 2;
+    public static final int USER_CONFIRMED_PAY = 2;
+    public static final int ADMIN_CONFIRMED_PAID = 3;
 
     // User type order
     public static final String USER_ORDER = "UOD";

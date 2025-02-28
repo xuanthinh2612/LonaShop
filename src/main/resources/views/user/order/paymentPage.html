@@ -1,25 +1,134 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="~{/user/layout/header::header}"></head>
+<head th:replace="~{/user/layout/header::header}">
+</head>
 <body>
 <nav th:replace="~{/user/layout/navbar::navbar}"></nav>
-<br/><br/><br/>
+<br/>
 <div class="container mb-5">
     <div class="row justify-content-center">
-        <div class="col-lg-10 col-md-10">
-            <div>
-                <section class="py-5 bg-light ">
-                    <div class="row gx-4 gx-lg-5 p-4">
-                        <div class="col-lg-10 col-md-10 col-sm-6">
-                            <div class="text-danger">
-                                <span class="fw-bold" th:text="${message}"></span>
-                            </div>
+        <div class="col-lg-10 col-md-10 col-12">
+            <div class="py-5 bg-light d-flex justify-content-center">
+                <div th:if="${order.getPaymentType() == 3}" class="col-lg-10 col-md-10 col-sm-12">
+                    <div class="alert alert-success">
+                        <span class="fw-bold" th:text="${message}"></span>
+                        <span class="fw-bold">Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của chúng tôi!</span>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <a type="button" class="btn btn-info flex-shrink-0" href="/trang-chu">
+                            <i class="fa-solid fa-house"></i>
+                            &nbsp;Quay lại trang chủ
+                        </a>
+                    </div>
+                </div>
+                <div th:if="${order.getPaymentType() != 3}" class="col-lg-8 col-md-10 col-12">
+                    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4 d-flex justify-content-center"><span
+                            class="pr-3">Thông tin thanh toán</span>
+                    </h2>
+                    <div class="row">
+                        <div class="col-4 col-form-label fw-bolder">Họ tên:</div>
+                        <div class="col-8">
+                            Trần Văn A
                         </div>
                     </div>
-                </section>
+                    <div class="row">
+                        <div class="col-4 col-form-label fw-bolder">Số TK:</div>
+                        <div class="col-8">
+                            123123123123
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-form-label fw-bolder">Ngân hàng:</div>
+                        <div class="col-8">
+                            NGân hàng nông nghiệp và phát triển nông thôn - AGRIBANK
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-form-label fw-bolder">Chi nhánh:</div>
+                        <div class="col-8">
+                            Quỳnh Hồng Quỳnh Phụ Thái Bình
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <img src="/img/BANK-QR.jpg" alt="QR Code" class="qr-code">
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-form-label fw-bolder">
+                            <h5 class="section-title position-relative text-uppercase mb-4"><span
+                                    class="pt-3 fs-5 fw-bolder">Xác nhận thông tin đơn hàng</span>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-form-label fw-bolder">sản phẩm:</div>
+                        <div class="col-8">
+                            Mỹ phẩm loại 1 nhật bản ABC
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-form-label fw-bolder">đơn giá:</div>
+                        <div class="col-8">
+                            200,000 vnđ/tuýp
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-form-label fw-bolder">số lượng:</div>
+                        <div class="col-8">
+                            5 tuýp
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-form-label fw-bolder">Tổng tiền:</div>
+                        <div class="col-8">
+                            1,000,000 vnđ
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-form-label fw-bolder">Mã đơn hàng:</div>
+                        <div class="col-8 fw-bolder">
+                            AGFH76J7KH0GH
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-form-label fw-bolder">Người nhận:</div>
+                        <div class="col-8">
+                            C Hương
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-form-label fw-bolder">SĐT:</div>
+                        <div class="col-8">
+                            0976773523
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-form-label fw-bolder">Địa chỉ:</div>
+                        <div class="col-8">
+                            Quỳnh hồng, quỳnh phụ thái bình việt nam
+                        </div>
+                    </div>
+
+                    <div class="note my-3">
+                        Ghi chú: Bạn vui lòng chuyển khoản với nội dung mã đơn hàng để chúng tôi có thể xác nhận đơn
+                        hàng.
+                        <p class="footer-text">
+                            Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của chúng tôi!
+                        </p>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <a type="button" class="btn btn-danger flex-shrink-0 m-1" href="/trang-chu">
+                            <i class="fa-solid fa-ban"></i>
+                            &nbsp;Hủy đơn hàng
+                        </a>
+                        <a type="button" class="btn btn-info flex-shrink-0 m-1" href="/trang-chu">
+                            <i class="fa-solid fa-circle-check"></i>
+                            &nbsp;Tôi đã thanh toán
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
 

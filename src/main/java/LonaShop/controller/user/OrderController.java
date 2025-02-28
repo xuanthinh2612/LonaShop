@@ -85,7 +85,7 @@ public class OrderController extends UserBaseController {
         }
 
         if (order.getPaymentType() == CommonConst.PAY_WHEN_RECEIVE) {
-            message = "Đặt hàng thành công! shop có thể sẽ liên hệ tới bạn để xác nhận đơn hàng.";
+            message = "Đặt hàng thành công! shop có thể sẽ liên hệ tới bạn để xác nhận đơn hàng!";
         } else {
             message = "Bạn vui lòng chuyển khoản với nội dung mã đơn hàng để chúng tôi có thể xác nhận đơn hàng.";
         }

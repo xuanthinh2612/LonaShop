@@ -30,3 +30,24 @@
     display: flex;
     gap: 10px;
 }
+
+.qr-code {
+  max-width: 220px;
+  margin: 10px auto;
+  display: block;
+}
+
+.note {
+  background-color: #e2f0ff;
+  border: 1px solid #b8daff;
+  color: #1c3d70;
+  padding: 15px;
+  text-align: center;
+}
+
+.footer-text {
+  text-align: center;
+  margin-top: 20px;
+  color: #777;
+  font-size: 0.9rem;
+}
