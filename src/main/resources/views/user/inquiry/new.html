@@ -13,8 +13,8 @@
             <div class="card-body">
                 <form method="post" role="form" th:object="${inquiry}" th:action="@{/inquiry/create}">
                     <div class="form-group mb-3">
-                        <label class="form-label">Họ và Tên</label>
-                        <input class="form-control" placeholder="Họ và Tên" th:field="*{customerName}" type="text"/>
+                        <label class="form-label">Họ và Tên<span class="text-danger">&nbsp;*</span></label>
+                        <input class="form-control" placeholder="Họ và Tên" th:field="*{customerName}" type="text" required/>
                         <p th:errors="*{customerName}" class="text-danger"
                            th:if="${#fields.hasErrors('customerName')}"></p>
                     </div>
@@ -37,9 +37,9 @@
                     </div>
 
                     <div class="form-group mb-3">
-                        <label class="form-label">Số điện thoại</label>
+                        <label class="form-label">Số điện thoại<span class="text-danger">&nbsp;*</span></label>
                         <input class="form-control" placeholder="Nhập số điện thoại" th:field="*{customerPhoneNumber}"
-                               type="text"/>
+                               type="text" required/>
                         <p th:errors="*{customerPhoneNumber}" class="text-danger"
                            th:if="${#fields.hasErrors('customerPhoneNumber')}"></p>
                     </div>

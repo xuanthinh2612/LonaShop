@@ -14,13 +14,13 @@ public class CommonConst {
 
     // order status
     public static final String ORDER_STATUS = "orderStatus";
-    public static final int ORDERED = 1;
-    public static final int CONFIRMED = 2;
-    public static final int PACKING = 3;
-    public static final int DELIVERED = 4;
-    public static final int USER_CANCELED = 5;
-    public static final int DENIED = 6;
-    public static final int RETURN = 6;
+    public static final int ORDERED_STATUS = 1;
+    public static final int ADMIN_CONFIRMED_STATUS = 2;
+    public static final int PACKING_STATUS = 3;
+    public static final int DELIVERED_STATUS = 4;
+    public static final int USER_CANCELED_STATUS = 5;
+    public static final int DENIED_STATUS = 6;
+    public static final int RETURN_STATUS = 7;
 
     // page mode
     public static final String PAGE_MODE = "pageMode";

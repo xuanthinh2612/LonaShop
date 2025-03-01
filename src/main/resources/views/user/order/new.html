@@ -10,7 +10,7 @@
             <div>
                 <section class="py-5 bg-light ">
                     <h3 class="pl-3 text-uppercase">
-                        <span>Chi tiết sản phẩm</span>
+                        <span>Chi tiết đơn hàng</span>
                     </h3>
                     <div class="row gx-4 gx-lg-5 p-4">
                         <div class="col-lg-2 col-md-2 col-sm-6 overflow-hidden px-4 pt-2">
@@ -37,14 +37,14 @@
                                 <div class="col-lg-3 col-6">
                                     <input class="form-control text-center me-3" id="inputQuantity" type="number"
                                            th:value="${inputQuantity}" style="width: 5rem" min="1"
-                                    onchange="loadSubTotalMoneyAndQuantity()"/>
+                                           onchange="loadSubTotalMoneyAndQuantity()"/>
                                 </div>
                             </div>
                             <div class="row py-2 justify-content-end">
                                 <div class="col-lg-3 col-6">Thành tiền:</div>
                                 <div class="col-lg-3 col-6 text-danger align-items-right">
-                                        <span class="fw-bold" id="subTotalMoney">0</span>
-                                        <span>&nbspVNĐ</span>
+                                    <span class="fw-bold" id="subTotalMoney">0</span>
+                                    <span>&nbspVNĐ</span>
                                 </div>
                             </div>
                         </div>
@@ -61,34 +61,18 @@
                     <form method="post" role="form" th:object="${order}" th:action="@{/order/create}">
                         <input type="hidden" th:field="*{product}">
                         <div class="form-group mb-3">
-                            <label class="form-label">Họ và Tên</label>
-                            <input class="form-control" placeholder="Họ và Tên" th:field="*{customerName}" type="text"/>
-                            <p th:errors="*{customerName}" class="text-danger"
+                            <label class="form-label">Tên người nhận<span class="text-danger">&nbsp;*</span></label>
+                            <input required class="form-control" placeholder="Họ và Tên" th:field="*{customerName}"
+                                   type="text"/>
+                            <p th:errors="*{customerName}" class="text-danger small fst-italic"
                                th:if="${#fields.hasErrors('customerName')}"></p>
                         </div>
                         <div class="form-group mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" value="0" th:field="*{customerGender}"
-                                       id="male">
-                                <label class="form-check-label" for="male">
-                                    Nam
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" value="1" th:field="*{customerGender}"
-                                       checked
-                                       id="female">
-                                <label class="form-check-label" for="female">
-                                    Nữ
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label">Số điện thoại</label>
-                            <input class="form-control" placeholder="Nhập số điện thoại"
+                            <label class="form-label">Số điện thoại<span class="text-danger">&nbsp;*</span></label>
+                            <input class="form-control" placeholder="Nhập số điện thoại" required
                                    th:field="*{customerPhoneNumber}"
                                    type="text"/>
-                            <p th:errors="*{customerPhoneNumber}" class="text-danger"
+                            <p th:errors="*{customerPhoneNumber}" class="text-danger small fst-italic"
                                th:if="${#fields.hasErrors('customerPhoneNumber')}"></p>
                         </div>
 
@@ -101,17 +85,11 @@
                         </div>
 
                         <div class="form-group mb-3">
-                            <label class="form-label"> Địa chỉ</label>
-                            <input class="form-control"
+                            <label class="form-label"> Địa chỉ<span class="text-danger">&nbsp;*</span></label>
+                            <input class="form-control" required
                                    placeholder="nhập địa chỉ nhận hàng" th:field="*{customerAddress}" type="text"/>
-                            <p th:errors="*{customerAddress}" class="text-danger"
+                            <p th:errors="*{customerAddress}" class="text-danger small fst-italic"
                                th:if="${#fields.hasErrors('customerAddress')}"></p>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label">Tuổi</label>
-                            <input class="form-control" placeholder="Tuổi" th:field="*{customerAge}" type="text"/>
-                            <p th:errors="*{customerAge}" class="text-danger"
-                               th:if="${#fields.hasErrors('customerAge')}"></p>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label">Ghi chú</label>
@@ -121,33 +99,41 @@
                                th:if="${#fields.hasErrors('note')}"></p>
                         </div>
                         <div class="form-group mb-3">
-                            <label class="form-label">Chọn Phương thức thanh toán</label>
-                            <div class="form-check">
+                            <label class="form-label">Chọn Phương thức thanh toán<span
+                                    class="text-danger">&nbsp;*</span></label>
+                            <div class="form-check my-2">
                                 <input class="form-check-input" type="radio" value="1" th:field="*{paymentType}"
-                                       id="momo">
+                                       required id="momo">
                                 <label class="form-check-label" for="momo">
-                                    momo
+                                    <div class="text-center text-md-right">
+                                        <img style="width: 1.5rem" src="/img/momo-logo.png" alt="">
+                                        <span class="fw-bold">momo</span>
+                                    </div>
                                 </label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check my-2">
                                 <input class="form-check-input" type="radio" value="2" th:field="*{paymentType}"
-                                       checked
                                        id="transfer">
                                 <label class="form-check-label" for="transfer">
-                                    Chuyển khoản ngân hàng
+                                    <div class="text-md-right">
+                                        <img style="width: 5rem" src="/img/bank-transfer.png" alt="">
+                                        <span class="fw-bold">Chuyển khoản</span>
+                                    </div>
                                 </label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check my-2">
                                 <input class="form-check-input" type="radio" value="3" th:field="*{paymentType}"
-                                       checked
                                        id="payWhenReceive">
                                 <label class="form-check-label" for="payWhenReceive">
-                                    Thanh toán khi nhận hàng
+                                    <span class="fw-bold">Thanh toán khi nhận hàng</span>
                                 </label>
                             </div>
+                            <p th:errors="*{paymentType}" class="text-danger small fst-italic"
+                               th:if="${#fields.hasErrors('paymentType')}"></p>
                         </div>
 
-                        <input hidden class="form-control" th:field="*{quantity}" type="text" name="quantity" id="quantity"/>
+                        <input hidden class="form-control" th:field="*{quantity}" type="text" name="quantity"
+                               id="quantity"/>
                         <div class="form-group pt-5">
                             <button class="btn btn-primary" type="submit"> Đặt Mua</button>
                             <a href="javascript:history.back()" class="btn btn-danger" onclick="bac" type="button">Trở

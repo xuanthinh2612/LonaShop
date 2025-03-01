@@ -23,7 +23,7 @@ public class OrderManageController extends AdminBaseController {
     private String listOrder(@RequestParam("status" ) int status, Model model) {
 
         if (ObjectUtils.isEmpty(status)) {
-            status = CommonConst.ORDERED;
+            status = CommonConst.ORDERED_STATUS;
         }
 
         List<UserOrder> orderList = orderService.findAllByStatus(status);
@@ -45,6 +45,6 @@ public class OrderManageController extends AdminBaseController {
     @PostMapping("/delete/{id}" )
     private String deleteOrder(@PathVariable("id" ) Long id, Model model) {
         orderService.deleteById(id);
-        return listOrder(CommonConst.ORDERED, model);
+        return listOrder(CommonConst.ORDERED_STATUS, model);
     }
 }

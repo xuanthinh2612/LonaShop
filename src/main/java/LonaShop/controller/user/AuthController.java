@@ -9,10 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -41,11 +38,33 @@ public class AuthController extends UserBaseController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model, RedirectAttributes attributes) {
         if (isLoggedIn()) {
-            attributes.addFlashAttribute("msg", "Bạn đang login, vui lòng đăng xuất trước khi tạo tài khoản mới");
+            attributes.addFlashAttribute("warningMsg", "Bạn đang login, vui lòng đăng xuất trước khi tạo tài khoản mới");
             return "redirect:/trang-chu";
         }
+
         // create model object to store form data
         UserDto user = new UserDto();
+        model.addAttribute("user", user);
+        return "user/auth/register";
+    }
+
+    @GetMapping("/register-email")
+    public String showRegistrationForm(@RequestParam("email") String email, Model model, RedirectAttributes attributes) {
+        if (isLoggedIn()) {
+            attributes.addFlashAttribute("warningMsg", "Bạn đang login, vui lòng đăng xuất trước khi tạo tài khoản mới");
+            return "redirect:/trang-chu";
+        }
+
+        User userExist = userService.findUserByEmail(email);
+
+        if (!ObjectUtils.isEmpty(userExist)) {
+            attributes.addFlashAttribute("warningMsg", "Email đã đăng ký! Vui lòng login!");
+            return "redirect:/login";
+        }
+
+        // create model object to store form data
+        UserDto user = new UserDto();
+        user.setEmail(email);
         model.addAttribute("user", user);
         return "user/auth/register";
     }
@@ -55,7 +74,7 @@ public class AuthController extends UserBaseController {
     public String registration(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model,
                                RedirectAttributes attributes) {
         if (isLoggedIn()) {
-            attributes.addFlashAttribute("msg", "Bạn đang login, vui lòng đăng xuất trước khi tạo tài khoản mới");
+            attributes.addFlashAttribute("error", "Bạn đang login, vui lòng đăng xuất trước khi tạo tài khoản mới");
             return "redirect:/trang-chu";
         }
 

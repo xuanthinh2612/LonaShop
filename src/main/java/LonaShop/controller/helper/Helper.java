@@ -2,6 +2,7 @@ package LonaShop.controller.helper;
 
 import LonaShop.common.CommonConst;
 import LonaShop.model.Article;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
@@ -14,12 +15,29 @@ public class Helper {
 
     public String genRandomFileName(String OriginalFilename) {
         return new Timestamp(System.currentTimeMillis()).getTime() + UUID.randomUUID().toString()
-                                 + "." + getExtension(OriginalFilename);
+                + "." + getExtension(OriginalFilename);
     }
 
     public String getRandomOrderCode(String prefixCode) {
         return prefixCode + generateRandomHash(10);
     }
+
+    public String getUserIp(HttpServletRequest request) {
+
+        return request.getRemoteAddr();
+    }
+
+    public Article getMainArticle(List<Article> articleList) {
+
+        for (Article article : articleList) {
+            if (article.getOnTop() == CommonConst.FLAG_ON) {
+                return article;
+            }
+        }
+        return articleList.get(0);
+    }
+
+//   PRIVATE ============================================================================
 
     private String getExtension(String OriginalFilename) {
         int dotIndex = OriginalFilename.lastIndexOf('.');
@@ -34,16 +52,6 @@ public class Helper {
             sb.append(HEX_CHARS.charAt(random.nextInt(HEX_CHARS.length())));
         }
         return sb.toString();
-    }
-
-    public Article getMainArticle(List<Article> articleList) {
-
-        for (Article article : articleList) {
-            if (article.getOnTop() == CommonConst.FLAG_ON) {
-                return article;
-            }
-        }
-        return articleList.get(0);
     }
 
 }

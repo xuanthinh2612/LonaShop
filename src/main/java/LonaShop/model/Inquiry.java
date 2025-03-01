@@ -1,5 +1,6 @@
 package LonaShop.model;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ public class Inquiry {
     private int status = 1;
 
     @Column
+    @NotEmpty(message = "Không được bỏ trống mục này")
     private String customerName;
 
     @Column
@@ -35,6 +37,7 @@ public class Inquiry {
     private String customerAddress;
 
     @Column
+    @NotEmpty(message = "Không được bỏ trống mục này")
     private String customerPhoneNumber;
 
     @Column
