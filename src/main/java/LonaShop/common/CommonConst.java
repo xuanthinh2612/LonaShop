@@ -1,5 +1,8 @@
 package LonaShop.common;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class CommonConst {
 
     //    cover status
@@ -21,6 +24,7 @@ public class CommonConst {
     public static final int USER_CANCELED_STATUS = 5;
     public static final int DENIED_STATUS = 6;
     public static final int RETURN_STATUS = 7;
+    public static final int SUCCESS_STATUS = 8;
 
     // page mode
     public static final String PAGE_MODE = "pageMode";

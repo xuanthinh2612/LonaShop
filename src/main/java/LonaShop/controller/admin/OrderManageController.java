@@ -18,6 +18,13 @@ public class OrderManageController extends AdminBaseController {
 
     @Autowired
     private UserOrderService orderService;
+    @Autowired
+    private CommonConst commonConst;
+
+    @ModelAttribute("CommonConst")
+    private CommonConst returnCommonConst() {
+        return commonConst;
+    }
 
     @GetMapping("/list" )
     private String listOrder(@RequestParam("status" ) int status, Model model) {

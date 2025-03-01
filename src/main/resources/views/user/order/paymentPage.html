@@ -9,6 +9,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-10 col-md-10 col-12">
             <div class="py-5 bg-light d-flex flex-wrap justify-content-center">
+<!--                Order info-->
                 <div class="col-lg-8 col-md-10 col-12">
                     <div class="row">
                         <div class="col-12 col-form-label fw-bolder">
@@ -69,7 +70,10 @@
                         </div>
                     </div>
                 </div>
-                <div th:if="${order.getPaymentType() == 3 && order.getStatus() != 5 && order.getStatus() != 6 || order.getPaymentStatus() == 2}"
+<!--                Order Success-->
+                <div th:if="${order.getPaymentType() == 3 && order.getStatus() == 1
+                        || order.getPaymentStatus() == 2 && order.getStatus() == 1
+                        || order.getPaymentStatus() == 3 && order.getStatus() == 1 }"
                      class="col-lg-8 col-md-10 col-12">
                     <div class="alert alert-success">
                         <p class="fw-bold">Đặt hàng thành công! shop có thể sẽ liên hệ tới bạn để xác nhận đơn hàng!</p>
@@ -82,9 +86,10 @@
                         </a>
                     </div>
                 </div>
+<!--                Order canceled-->
                 <div th:if="${order.getStatus() == 5 || order.getStatus() == 6}"
                      class="col-lg-8 col-md-10 col-sm-12">
-                    <div class="alert alert-success">
+                    <div class="alert alert-warning">
                         <p class="fw-bold">Đơn hàng đã hủy! Bạn vui lòng đặt đơn khác hoặc liên hệ tới chúng tôi</p>
                         <p class="fw-bold footer-text">Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của chúng tôi!</p>
                     </div>
@@ -95,7 +100,77 @@
                         </a>
                     </div>
                 </div>
-                <div th:if="${order.getPaymentType() != 3 && order.getStatus() != 5 && order.getStatus() != 6 && order.getPaymentStatus() != 2}"
+<!--                Order be confirmed by admin-->
+                <div th:if="${order.getStatus() == 2}"
+                     class="col-lg-8 col-md-10 col-sm-12">
+                    <div class="alert alert-success">
+                        <p class="fw-bold">Đơn hàng đã được chúng tôi xác nhận! Chúng tôi sẽ sớm gửi hàng tới bạn.</p>
+                        <p class="fw-bold footer-text">Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của chúng tôi!</p>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <a type="button" class="btn btn-info flex-shrink-0" href="/trang-chu">
+                            <i class="fa-solid fa-house"></i>
+                            &nbsp;Quay lại trang chủ
+                        </a>
+                    </div>
+                </div>
+                <!--                Order Return-->
+                <div th:if="${order.getStatus() == 7}"
+                     class="col-lg-8 col-md-10 col-sm-12">
+                    <div class="alert alert-warning">
+                        <p class="fw-bold">Đơn hàng đã bị trả về kho! Bạn vui lòng đặt đơn khác hoặc liên hệ tới chúng tôi</p>
+                        <p class="fw-bold footer-text">Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của chúng tôi!</p>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <a type="button" class="btn btn-info flex-shrink-0" href="/trang-chu">
+                            <i class="fa-solid fa-house"></i>
+                            &nbsp;Quay lại trang chủ
+                        </a>
+                    </div>
+                </div>
+<!--                Order be packing by admin-->
+                <div th:if="${order.getStatus() == 3}"
+                     class="col-lg-8 col-md-10 col-sm-12">
+                    <div class="alert alert-success">
+                        <p class="fw-bold">Đơn hàng đang được đóng gói! Chúng tôi sẽ sớm gửi hàng tới bạn.</p>
+                        <p class="fw-bold footer-text">Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của chúng tôi!</p>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <a type="button" class="btn btn-info flex-shrink-0" href="/trang-chu">
+                            <i class="fa-solid fa-house"></i>
+                            &nbsp;Quay lại trang chủ
+                        </a>
+                    </div>
+                </div>
+<!--                Order be delevering -->
+                <div th:if="${order.getStatus() == 4}"
+                     class="col-lg-8 col-md-10 col-sm-12">
+                    <div class="alert alert-success">
+                        <p class="fw-bold">Đơn hàng đã được giao cho đơn vị vận chuyển!</p>
+                        <p class="fw-bold footer-text">Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của chúng tôi!</p>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <a type="button" class="btn btn-info flex-shrink-0" href="/trang-chu">
+                            <i class="fa-solid fa-house"></i>
+                            &nbsp;Quay lại trang chủ
+                        </a>
+                    </div>
+                </div>
+<!--                Order be done -->
+                <div th:if="${order.getStatus() == 8}"
+                     class="col-lg-8 col-md-10 col-sm-12">
+                    <div class="alert alert-success">
+                        <p class="fw-bold">Đơn hàng này đã hoàn thành.</p>
+                        <p class="fw-bold footer-text">Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của chúng tôi!</p>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <a type="button" class="btn btn-info flex-shrink-0" href="/trang-chu">
+                            <i class="fa-solid fa-house"></i>
+                            &nbsp;Quay lại trang chủ
+                        </a>
+                    </div>
+                </div>
+                <div th:if="${order.getPaymentType() != 3 && order.getPaymentStatus() == 1 && order.getStatus() == 1 }"
                      class="col-lg-8 col-md-10 col-12">
                     <h3 class="section-title position-relative text-uppercase my-4 d-flex justify-content-center">
                         <span>Thông tin thanh toán</span>

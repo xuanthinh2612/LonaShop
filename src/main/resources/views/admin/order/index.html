@@ -22,6 +22,8 @@
                             <li class="breadcrumb-item active" th:if="${orderStatus == 3}">Đơn đang đóng gói</li>
                             <li class="breadcrumb-item active" th:if="${orderStatus == 4}">Đơn đã giao</li>
                             <li class="breadcrumb-item active" th:if="${orderStatus == 6}">Đơn đã hủy</li>
+                            <li class="breadcrumb-item active" th:if="${orderStatus == 8}">Đơn hoàn thành</li>
+                            <li class="breadcrumb-item active" th:if="${orderStatus == 7}">Đơn trả về</li>
                         </ol>
                     </div>
                     <div class="col-12  d-flex justify-content-end">
@@ -30,6 +32,8 @@
                         <a class="btn btn-warning m-3" th:href="@{/admin/order/list?status=3}">Chờ đóng gói</a>
                         <a class="btn btn-success m-3" th:href="@{/admin/order/list?status=4}">Đã giao</a>
                         <a class="btn btn-dark m-3" th:href="@{/admin/order/list?status=6}">Đã hủy</a>
+                        <a class="btn btn-dark m-3" th:href="@{/admin/order/list?status=8}">Hoàn thành</a>
+                        <a class="btn btn-dark m-3" th:href="@{/admin/order/list?status=7}">Đơn trả về</a>
                     </div>
                 </div>
                 <div class="card mb-4">
@@ -67,10 +71,23 @@
                                 <td th:text="${order.getNote()}"></td>
                                 <td th:text="${#numbers.formatInteger(order.getTotalAmount(), 3, 'COMMA')}"></td>
                                 <td>
-                                    <a th:if="${orderStatus == 1}" th:onclick="'submitStatus(' + ${order.getId()} + ',2)'" class="btn btn-outline-success mb-1"> Xác Nhận</a>
-                                    <a th:if="${orderStatus == 2}" th:onclick="'submitStatus(' + ${order.getId()} + ',3)'" class="btn btn-outline-warning mb-1"> Đóng gói</a>
-                                    <a th:if="${orderStatus == 3}" th:onclick="'submitStatus(' + ${order.getId()} + ',4)'" class="btn btn-outline-primary mb-1"> Đã giao</a>
-                                    <a th:if="${orderStatus == 1}" th:onclick="'submitStatus(' + ${order.getId()} + ',6)'" class="btn btn-danger mb-1"> Từ chối</a>
+                                    <a th:if="${orderStatus == CommonConst.ORDERED_STATUS}"
+                                       th:onclick="'submitStatus(' + ${order.getId()} + ',2)'"
+                                       class="btn btn-outline-success mb-1"> Xác nhận</a>
+                                    <a th:if="${orderStatus == CommonConst.ADMIN_CONFIRMED_STATUS}"
+                                       th:onclick="'submitStatus(' + ${order.getId()} + ',3)'"
+                                       class="btn btn-outline-warning mb-1"> Đóng gói</a>
+                                    <a th:if="${orderStatus == CommonConst.PACKING_STATUS}"
+                                       th:onclick="'submitStatus(' + ${order.getId()} + ',4)'"
+                                       class="btn btn-outline-primary mb-1"> Đã giao</a>
+                                    <a th:if="${orderStatus == CommonConst.DELIVERED_STATUS}"
+                                       th:onclick="'submitStatus(' + ${order.getId()} + ',' + ${CommonConst.SUCCESS_STATUS} + ')'"
+                                       class="btn btn-outline-primary mb-1"> Hoàn thành</a>
+                                    <a th:if="${orderStatus == CommonConst.DELIVERED_STATUS || orderStatus == 8}"
+                                       th:onclick="'submitStatus(' + ${order.getId()} + ',' + ${CommonConst.RETURN_STATUS} + ')'"
+                                       class="btn btn-outline-primary mb-1"> Bị trả hàng</a>
+                                    <a th:if="${orderStatus == 1}" th:onclick="'submitStatus(' + ${order.getId()} + ',6)'"
+                                       class="btn btn-danger mb-1"> Từ chối</a>
                                 </td>
                             </tr>
                             </tbody>
