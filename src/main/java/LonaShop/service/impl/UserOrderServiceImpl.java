@@ -40,7 +40,18 @@ public class UserOrderServiceImpl implements UserOrderService {
     }
 
     @Override
+    public List<UserOrder> findWaitForConfirmList() {
+        return userOrderRepository.findWaitForConfirmList();
+    }
+
+    @Override
+    public List<UserOrder> findAllByStatusAndPaymentStatus(int status, int paymentStatus) {
+        return userOrderRepository.findAllByStatusAndPaymentStatus(status, paymentStatus);
+    }
+
+
+    @Override
     public UserOrder findByIdAndOrderCode(Long id, String orderCode) {
-     return userOrderRepository.findByIdAndOrderCode(id, orderCode);
+        return userOrderRepository.findByIdAndOrderCode(id, orderCode);
     }
 }

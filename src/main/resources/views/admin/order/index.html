@@ -17,81 +17,149 @@
                     </div>
                     <div class="col-12">
                         <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active"
+                                th:if="${orderStatus == 1 && paymentStatus == CommonConst.WAITING_FOR_PAY}">Chưa thanh
+                                toán
+                            </li>
                             <li class="breadcrumb-item active" th:if="${orderStatus == 1}">Đơn chờ xác nhận</li>
                             <li class="breadcrumb-item active" th:if="${orderStatus == 2}">Đơn đã xác nhận</li>
-                            <li class="breadcrumb-item active" th:if="${orderStatus == 3}">Đơn đang đóng gói</li>
+                            <li class="breadcrumb-item active" th:if="${orderStatus == 3}">Đang đóng gói</li>
                             <li class="breadcrumb-item active" th:if="${orderStatus == 4}">Đơn đã giao</li>
                             <li class="breadcrumb-item active" th:if="${orderStatus == 6}">Đơn đã hủy</li>
                             <li class="breadcrumb-item active" th:if="${orderStatus == 8}">Đơn hoàn thành</li>
                             <li class="breadcrumb-item active" th:if="${orderStatus == 7}">Đơn trả về</li>
+                            <li class="breadcrumb-item active" th:if="${orderStatus == 5}">Đơn user hủy</li>
                         </ol>
                     </div>
                     <div class="col-12  d-flex justify-content-end">
-                        <a class="btn btn-outline-primary m-3" th:href="@{/admin/order/list?status=1}">Chờ xác nhận</a>
-                        <a class="btn btn-primary m-3" th:href="@{/admin/order/list?status=2}">Đã xác nhận</a>
-                        <a class="btn btn-warning m-3" th:href="@{/admin/order/list?status=3}">Chờ đóng gói</a>
-                        <a class="btn btn-success m-3" th:href="@{/admin/order/list?status=4}">Đã giao</a>
-                        <a class="btn btn-dark m-3" th:href="@{/admin/order/list?status=6}">Đã hủy</a>
-                        <a class="btn btn-dark m-3" th:href="@{/admin/order/list?status=8}">Hoàn thành</a>
-                        <a class="btn btn-dark m-3" th:href="@{/admin/order/list?status=7}">Đơn trả về</a>
+                        <a class="btn btn-info my-3 mx-1"
+                           th:href="@{/admin/order/list?waitForAdminConfirmList}">
+                            Chờ xác nhận
+                        </a>
+                        <a class="btn btn-primary my-3 mx-1" th:href="@{/admin/order/list?confirmedOrderList}">Đã xác
+                            nhận
+                        </a>
+                        <a class="btn btn-warning my-3 mx-1" th:href="@{/admin/order/list?waitForPackageList}">Đang đóng
+                            gói
+                        </a>
+                        <a class="btn btn-success my-3 mx-1" th:href="@{/admin/order/list?deliveredList}">Đã giao
+                        </a>
+                        <a class="btn btn-success my-3 mx-1" th:href="@{/admin/order/list?succeedOrderList}">Hoàn thành
+                        </a>
+                        <a class="btn btn-dark my-3 mx-1" th:href="@{/admin/order/list?deniedOrderList}">Admin Đã hủy
+                        </a>
+                        <a class="btn btn-dark my-3 mx-1" th:href="@{/admin/order/list?userCanceledList}">User hủy
+                        </a>
+                        <a class="btn btn-dark my-3 mx-1" th:href="@{/admin/order/list?waitingForPayOrderList}">
+                            Chưa thanh toán
+                        </a>
+                        <a class="btn btn-dark my-3 mx-1" th:href="@{/admin/order/list?returnList}">Trả hàng
+                        </a>
                     </div>
-                </div>
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-table me-1"></i>
-                        Danh sách order
-                    </div>
-                    <div class="card-body">
-                        <table id="datatablesSimple">
-                            <thead>
-                            <tr>
-                                <th>Mã đơn</th>
-                                <th>Tên</th>
-                                <th>SĐT</th>
-                                <th>Tuổi</th>
-                                <th>Địa chỉ</th>
-                                <th>Sản phẩm</th>
-                                <th>Số lượng</th>
-                                <th>Ngày tạo</th>
-                                <th>Ghi chú</th>
-                                <th>Tổng tiền</th>
-                                <th>Tùy chọn</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="order : ${orderList}" >
-                                <td th:text="${order.getId()} + '-' + ${order.getOrderCode()}"></td>
-                                <td th:text="${order.getCustomerName()}"></td>
-                                <td th:text="${order.getCustomerPhoneNumber()}"></td>
-                                <td th:text="${order.getCustomerAge()}"></td>
-                                <td th:text="${order.getCustomerAddress()}"></td>
-                                <td th:text="${order.getProduct() != null ? order.getProduct().getName() : '' }"></td>
-                                <td th:text="${order.getQuantity()}"></td>
-                                <td th:text="${order.getCreatedAt()}"></td>
-                                <td th:text="${order.getNote()}"></td>
-                                <td th:text="${#numbers.formatInteger(order.getTotalAmount(), 3, 'COMMA')}"></td>
-                                <td>
-                                    <a th:if="${orderStatus == CommonConst.ORDERED_STATUS}"
-                                       th:onclick="'submitStatus(' + ${order.getId()} + ',2)'"
-                                       class="btn btn-outline-success mb-1"> Xác nhận</a>
-                                    <a th:if="${orderStatus == CommonConst.ADMIN_CONFIRMED_STATUS}"
-                                       th:onclick="'submitStatus(' + ${order.getId()} + ',3)'"
-                                       class="btn btn-outline-warning mb-1"> Đóng gói</a>
-                                    <a th:if="${orderStatus == CommonConst.PACKING_STATUS}"
-                                       th:onclick="'submitStatus(' + ${order.getId()} + ',4)'"
-                                       class="btn btn-outline-primary mb-1"> Đã giao</a>
-                                    <a th:if="${orderStatus == CommonConst.DELIVERED_STATUS}"
-                                       th:onclick="'submitStatus(' + ${order.getId()} + ',' + ${CommonConst.SUCCESS_STATUS} + ')'"
-                                       class="btn btn-outline-primary mb-1"> Hoàn thành</a>
-                                    <a th:if="${orderStatus == CommonConst.DELIVERED_STATUS || orderStatus == 8}"
-                                       th:onclick="'submitStatus(' + ${order.getId()} + ',' + ${CommonConst.RETURN_STATUS} + ')'"
-                                       class="btn btn-outline-primary mb-1"> Bị trả hàng</a>
-                                    <a th:if="${orderStatus == 1}" th:onclick="'submitStatus(' + ${order.getId()} + ',6)'"
-                                       class="btn btn-danger mb-1"> Từ chối</a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            Danh sách order
+                        </div>
+                        <div class="card-body">
+                            <table id="datatablesSimple">
+                                <thead>
+                                <tr>
+                                    <th>Mã đơn/Thanh toán</th>
+                                    <th>Tên/SĐT/Địa chỉ/IP</th>
+                                    <th>Sản phẩm</th>
+                                    <th>Số lượng</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Ghi chú</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Tùy chọn</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="order : ${orderList}">
+                                    <td>
+                                        <div th:text="${order.getId()} + '-' + ${order.getOrderCode()}"></div>
+                                        <div th:if="${order.getPaymentType() == 3}">
+                                            <button type="button"
+                                                    class="btn badge bg-warning text-decoration-none link-light">Thanh toán khi nhận hàng
+                                            </button>
+                                        </div>
+                                        <div th:if="${order.getPaymentType() == 1}">
+                                            <div class="text-md-right">
+                                                <img style="width: 1.5rem" src="/img/momo-logo.png" alt="">
+                                                <span class="fw-bold">momo</span>
+                                            </div>
+                                            <button th:if="${order.getPaymentStatus() == 3}" type="button"
+                                                    class="btn badge bg-info text-decoration-none link-light">Admin đã xác nhận
+                                            </button>
+                                            <button th:if="${order.getPaymentStatus() == 2}" type="button"
+                                                    class="btn badge bg-success text-decoration-none link-light">User đã xác nhận
+                                            </button>
+                                            <button th:if="${order.getPaymentStatus() == 1}" type="button"
+                                                    class="btn badge bg-secondary text-decoration-none link-light">Chờ thanh toán
+                                            </button>
+                                        </div>
+                                        <div th:if="${order.getPaymentType() == 2}">
+                                            <div class="text-md-right">
+                                                <img style="width: 5rem" src="/img/bank-transfer.png" alt="">
+                                                <span class="fw-bold">Bank</span>
+                                            </div>
+                                            <button th:if="${order.getPaymentStatus() == 3}" type="button"
+                                                    class="btn badge bg-info text-decoration-none link-light">Admin đã xác nhận
+                                            </button>
+                                            <button th:if="${order.getPaymentStatus() == 2}" type="button"
+                                                    class="btn badge bg-success text-decoration-none link-light">User đã xác nhận
+                                            </button>
+                                            <button th:if="${order.getPaymentStatus() == 1}" type="button"
+                                                    class="btn badge bg-secondary text-decoration-none link-light">Chờ thanh toán
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div th:text="${order.getCustomerName()}"></div>
+                                        <div th:text="${order.getCustomerPhoneNumber()}"></div>
+                                        <div th:if="${order.getCustomerEmail() != ''}" th:text="${order.getCustomerEmail()}"></div>
+                                        <div th:text="${order.getCustomerAddress()}"></div>
+                                        <div th:text="${order.getUserIp()}"></div>
+                                        <div>
+                                            <button th:if="${order.getUser() != null}" type="button" th:text="${'User: ' + order.getUser().getPhoneNumber()}"
+                                                    class="btn badge bg-success text-decoration-none link-light">
+                                            </button>
+                                            <button th:if="${order.getUser() == null}" type="button"
+                                                    class="btn badge bg-warning text-decoration-none link-light">
+                                                Không phải user
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td th:text="${order.getProduct() != null ? order.getProduct().getName() : '' }"></td>
+                                    <td th:text="${order.getQuantity()}"></td>
+                                    <td th:text="${order.getCreatedAt()}"></td>
+                                    <td th:text="${order.getNote()}"></td>
+                                    <td th:text="${#numbers.formatInteger(order.getTotalAmount(), 3, 'COMMA')}"></td>
+                                    <td>
+                                        <a th:if="${orderStatus == CommonConst.ORDERED_STATUS && paymentStatus == CommonConst.USER_CONFIRMED_PAY}"
+                                           th:onclick="'submitStatus(' + ${order.getId()} + ',2)'"
+                                           class="btn btn-outline-success mb-1"> Xác nhận</a>
+                                        <a th:if="${orderStatus == CommonConst.ADMIN_CONFIRMED_STATUS}"
+                                           th:onclick="'submitStatus(' + ${order.getId()} + ',3)'"
+                                           class="btn btn-outline-warning mb-1"> Đóng gói</a>
+                                        <a th:if="${orderStatus == CommonConst.PACKING_STATUS}"
+                                           th:onclick="'submitStatus(' + ${order.getId()} + ',4)'"
+                                           class="btn btn-outline-primary mb-1"> Giao hàng</a>
+                                        <a th:if="${orderStatus == CommonConst.DELIVERED_STATUS}"
+                                           th:onclick="'submitStatus(' + ${order.getId()} + ',' + ${CommonConst.SUCCESS_STATUS} + ')'"
+                                           class="btn btn-outline-success mb-1"> Hoàn thành</a>
+                                        <a th:if="${orderStatus == CommonConst.DELIVERED_STATUS}"
+                                           th:onclick="'submitStatus(' + ${order.getId()} + ',' + ${CommonConst.RETURN_STATUS} + ')'"
+                                           class="btn btn-dark mb-1"> Trả hàng</a>
+                                        <a th:if="${orderStatus == 1 || orderStatus == 2 || orderStatus == 3}"
+                                           th:onclick="'submitStatus(' + ${order.getId()} + ',6)'"
+                                           class="btn btn-danger mb-1"> Hủy đơn</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -101,7 +169,7 @@
     </div>
 </div>
 <div th:insert="~{ admin/layout/scriptSource::scriptSource}"></div>
-<form method="post" th:action="@{/admin/order/updateStatus/}" id="submitForm" type="hidden"></form>
+<form method="post" th:action="@{/admin/order/updateStatus/}" id="submitForm" hidden></form>
 <script>
     function submitStatus(id, status){
         let form = document.getElementById('submitForm')
@@ -115,6 +183,19 @@
         form.appendChild(statusElement);
         form.submit();
     }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let currentUrl = window.location.href;
+        document.querySelectorAll("a.btn").forEach(button => {
+            let href = button.getAttribute("href");
+            if (href && currentUrl.includes(new URL(href, window.location.origin).search)) {
+                button.setAttribute("disabled", "true");
+                button.classList.add("disabled");  // Thêm class Bootstrap để làm mờ button
+            }
+        });
+    });
+
+
 </script>
 </body>
 </html>

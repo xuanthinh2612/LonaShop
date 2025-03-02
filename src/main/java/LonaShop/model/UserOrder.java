@@ -35,12 +35,6 @@ public class UserOrder {
     private String customerName;
 
     @Column
-    private String customerAge;
-
-    @Column
-    private String customerGender;
-
-    @Column
     @NotEmpty(message = "Vui lòng điền địa chỉ nhận hàng" )
     private String customerAddress;
 

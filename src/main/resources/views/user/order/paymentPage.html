@@ -9,7 +9,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-10 col-md-10 col-12">
             <div class="py-5 bg-light d-flex flex-wrap justify-content-center">
-<!--                Order info-->
+                <!--                Order info-->
                 <div class="col-lg-8 col-md-10 col-12">
                     <div class="row">
                         <div class="col-12 col-form-label fw-bolder">
@@ -70,10 +70,9 @@
                         </div>
                     </div>
                 </div>
-<!--                Order Success-->
+                <!--                Order Success-->
                 <div th:if="${order.getPaymentType() == 3 && order.getStatus() == 1
-                        || order.getPaymentStatus() == 2 && order.getStatus() == 1
-                        || order.getPaymentStatus() == 3 && order.getStatus() == 1 }"
+                        || order.getPaymentStatus() == 2 && order.getStatus() == 1}"
                      class="col-lg-8 col-md-10 col-12">
                     <div class="alert alert-success">
                         <p class="fw-bold">Đặt hàng thành công! shop có thể sẽ liên hệ tới bạn để xác nhận đơn hàng!</p>
@@ -86,7 +85,7 @@
                         </a>
                     </div>
                 </div>
-<!--                Order canceled-->
+                <!--                Order canceled-->
                 <div th:if="${order.getStatus() == 5 || order.getStatus() == 6}"
                      class="col-lg-8 col-md-10 col-sm-12">
                     <div class="alert alert-warning">
@@ -100,7 +99,7 @@
                         </a>
                     </div>
                 </div>
-<!--                Order be confirmed by admin-->
+                <!--                Order be confirmed by admin-->
                 <div th:if="${order.getStatus() == 2}"
                      class="col-lg-8 col-md-10 col-sm-12">
                     <div class="alert alert-success">
@@ -118,7 +117,8 @@
                 <div th:if="${order.getStatus() == 7}"
                      class="col-lg-8 col-md-10 col-sm-12">
                     <div class="alert alert-warning">
-                        <p class="fw-bold">Đơn hàng đã bị trả về kho! Bạn vui lòng đặt đơn khác hoặc liên hệ tới chúng tôi</p>
+                        <p class="fw-bold">Đơn hàng đã bị trả về kho! Bạn vui lòng đặt đơn khác hoặc liên hệ tới chúng
+                            tôi</p>
                         <p class="fw-bold footer-text">Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của chúng tôi!</p>
                     </div>
                     <div class="d-flex justify-content-end">
@@ -128,7 +128,7 @@
                         </a>
                     </div>
                 </div>
-<!--                Order be packing by admin-->
+                <!--                Order be packing by admin-->
                 <div th:if="${order.getStatus() == 3}"
                      class="col-lg-8 col-md-10 col-sm-12">
                     <div class="alert alert-success">
@@ -142,7 +142,7 @@
                         </a>
                     </div>
                 </div>
-<!--                Order be delevering -->
+                <!--                Order be delevering -->
                 <div th:if="${order.getStatus() == 4}"
                      class="col-lg-8 col-md-10 col-sm-12">
                     <div class="alert alert-success">
@@ -156,7 +156,7 @@
                         </a>
                     </div>
                 </div>
-<!--                Order be done -->
+                <!--                Order be done -->
                 <div th:if="${order.getStatus() == 8}"
                      class="col-lg-8 col-md-10 col-sm-12">
                     <div class="alert alert-success">
@@ -170,37 +170,51 @@
                         </a>
                     </div>
                 </div>
+                <!--                Payment page-->
                 <div th:if="${order.getPaymentType() != 3 && order.getPaymentStatus() == 1 && order.getStatus() == 1 }"
                      class="col-lg-8 col-md-10 col-12">
                     <h3 class="section-title position-relative text-uppercase my-4 d-flex justify-content-center">
                         <span>Thông tin thanh toán</span>
                     </h3>
-                    <div class="row">
-                        <div class="col-4 col-form-label fw-bolder">Chủ tài khoản:</div>
-                        <div class="col-8">
-                            Trần Văn A
+                    <div th:if="${order.getPaymentType() == 1}">
+                        <div class="row">
+                            <div class="col-4 col-form-label fw-bolder">Chủ tài khoản:</div>
+                            <div class="col-8">
+                                Trần Văn A
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <img src="/img/MOMO-QR.jpg" alt="QR Code" class="qr-code">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-4 col-form-label fw-bolder">Số TK:</div>
-                        <div class="col-8">
-                            123123123123
+                    <div th:if="${order.getPaymentType() == 2}">
+                        <div class="row">
+                            <div class="col-4 col-form-label fw-bolder">Chủ tài khoản:</div>
+                            <div class="col-8">
+                                Trần Văn A
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4 col-form-label fw-bolder">Ngân hàng:</div>
-                        <div class="col-8">
-                            NGân hàng nông nghiệp và phát triển nông thôn - AGRIBANK
+                        <div class="row">
+                            <div class="col-4 col-form-label fw-bolder">Số TK:</div>
+                            <div class="col-8">
+                                123123123123
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4 col-form-label fw-bolder">Chi nhánh:</div>
-                        <div class="col-8">
-                            Quỳnh Hồng Quỳnh Phụ Thái Bình
+                        <div class="row">
+                            <div class="col-4 col-form-label fw-bolder">Ngân hàng:</div>
+                            <div class="col-8">
+                                NGân hàng nông nghiệp và phát triển nông thôn - AGRIBANK
+                            </div>
                         </div>
-                    </div>
-                    <div class="text-center">
-                        <img src="/img/BANK-QR.jpg" alt="QR Code" class="qr-code">
+                        <div class="row">
+                            <div class="col-4 col-form-label fw-bolder">Chi nhánh:</div>
+                            <div class="col-8">
+                                Quỳnh Hồng Quỳnh Phụ Thái Bình
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <img src="/img/BANK-QR.jpg" alt="QR Code" class="qr-code">
+                        </div>
                     </div>
                     <div class="note my-3">
                         Ghi chú: Bạn vui lòng chuyển khoản với nội dung là mã đơn hàng để chúng tôi có thể xác nhận đơn
