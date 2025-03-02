@@ -22,10 +22,21 @@ public class Helper {
         return prefixCode + generateRandomHash(10);
     }
 
-    public String getUserIp(HttpServletRequest request) {
+    public String getClientIp(HttpServletRequest request) {
+        String ip = request.getHeader("X-Forwarded-For");  // Lấy từ header proxy
+        if (ip != null && !ip.isEmpty() && !"unknown".equalsIgnoreCase(ip)) {
+            return ip.split(",")[0].trim();  // Lấy IP đầu tiên nếu có nhiều proxy
+        }
 
-        return request.getRemoteAddr();
+        ip = request.getHeader("X-Real-IP"); // Header khác có thể chứa IP thật
+        if (ip != null && !ip.isEmpty() && !"unknown".equalsIgnoreCase(ip)) {
+            return ip;
+        }
+
+        return request.getRemoteAddr(); // Trả về IP nếu không có proxy
     }
+
+
 
     public Article getMainArticle(List<Article> articleList) {
 

@@ -71,7 +71,7 @@ public class OrderController extends UserBaseController {
             return "redirect:/";
         }
 
-        String userIpAddress = helper.getUserIp(request);
+        String userIpAddress = helper.getClientIp(request);
 
         order.setTotalAmount(order.getQuantity() * product.getCurrentPrice());
         order.setCreatedAt(new Date());
@@ -128,7 +128,7 @@ public class OrderController extends UserBaseController {
         }
 
         UserDto userDto = getCurrentLoggedInUserDto();
-        String userIpAddress = helper.getUserIp(request);
+        String userIpAddress = helper.getClientIp(request);
         if (!ObjectUtils.isEmpty(userDto) && userDto.getId().equals(order.getUser().getId())
                 || Objects.equals(userIpAddress, order.getUserIp())) {
             order.setPaymentStatus(CommonConst.NOT_PAY);

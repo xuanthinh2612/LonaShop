@@ -21,7 +21,7 @@
                            th:text="${product.getCategory().getName()}"></a>
                     </div>
                     <div class="py-1 fs-5 fw-bolder"><span th:text="${product.getName()}"></span></div>
-                    <div class="small  py-1 mb-1 text-muted p-2">
+                    <div class="small  py-1 mb-1 text-muted"  th:if="${product.getOldPrice() != null}">
                         <span>Giá cũ:&emsp; </span>
                         <span class="text-decoration-line-through"
                               th:text="${#numbers.formatInteger(product.getOldPrice(), 3, 'COMMA')}"></span>
@@ -29,7 +29,7 @@
                         <br>
                     </div>
                     <div class="py-2 text-danger mb-3">
-                        <span class="my-3">Giá Khuyến Mãi:&emsp;</span>
+                        <span class="my-3">Giá bán:&emsp;</span>
                         <span class="fw-bold"
                               th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}">
                                         </span>
