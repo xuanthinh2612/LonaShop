@@ -39,7 +39,7 @@
             <div th:each="cover, index : ${subCoverList}" th:classappend="${index.index == 0 ? 'pb-2' : 'pt-2'}">
                 <div class="product-offer" style="height: 14.5rem;">
                     <img class="img-fluid" th:src="${cover.getImage()?.getImageUrl()}" alt="">
-                    <div class="offer-text">
+                    <div class="offer-text px-2">
                         <h6 class="text-white text-uppercase" th:text="${cover.getDescription()}">Cover Description</h6>
                         <h3 class="text-white mb-3" th:text="${cover.getTitle()}">Cover Title</h3>
                         <a th:href="${cover.getTargetLink()}" class="btn btn-info">Xem Ngay</a>
@@ -279,7 +279,7 @@
             <div class="col-md-6" th:each="cover, index : ${subCoverList}">
                 <div class="product-offer mb-30" style="height: 20rem;">
                     <img class="img-fluid" th:src="${cover.getImage()?.getImageUrl()}" alt="">
-                    <div class="offer-text">
+                    <div class="offer-text px-3">
                         <h6 class="text-white text-uppercase" th:text="${cover.getDescription()}">Cover Description</h6>
                         <h3 class="text-white mb-3" th:text="${cover.getTitle()}">Cover Title</h3>
                         <a th:href="${cover.getTargetLink()}" class="btn btn-info">Xem Ngay</a>
