@@ -40,7 +40,7 @@ public class User {
     @Column
     private String gender;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private boolean activeStatus = true;
 
     @Column(nullable = false)
@@ -52,4 +52,7 @@ public class User {
             joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")})
     private List<Role> roles = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Cart cart;
 }

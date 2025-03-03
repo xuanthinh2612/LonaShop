@@ -50,6 +50,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateUser(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -65,6 +70,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findUserByEmailOrPhoneNumber(String emailOrPhoneNumber) {
+        return userRepository.findByEmailOrPhoneNumber(emailOrPhoneNumber, emailOrPhoneNumber);
+    }
+
+    @Override
     public List<UserDto> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream().map(this::mapToUserDto).collect(Collectors.toList());
@@ -73,7 +83,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findUserDtoByEmail(String email) {
-        User user = findUserByEmail(email);
+        User user = findUserByEmailOrPhoneNumber(email);
         return mapToUserDto(user);
     }
 

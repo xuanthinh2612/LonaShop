@@ -51,3 +51,36 @@
   color: #777;
   font-size: 0.9rem;
 }
+
+
+
+.lona-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 20px;
+}
+.lona-cart-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.lona-cart-item {
+    transition: 0.3s;
+    padding: 15px;
+    border-radius: 10px;
+}
+.lona-cart-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+.btn-danger:hover {
+    background: #cc0000;
+}
+.btn-primary:hover {
+    background: #0056b3;
+}
+.lona-cart-total {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff4d4d;
+}

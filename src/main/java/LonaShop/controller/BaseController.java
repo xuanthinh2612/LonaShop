@@ -1,6 +1,7 @@
 package LonaShop.controller;
 
 import LonaShop.model.Category;
+import LonaShop.model.User;
 import LonaShop.model.UserDto;
 import LonaShop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,17 @@ public class BaseController {
     @ModelAttribute("currentUser")
     private UserDto getCurrentUserDto() {
         return getCurrentLoggedInUserDto();
+    }
+
+    protected User getCurrentLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = null;
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserEmail = authentication.getName();
+            user = userService.findUserByEmailOrPhoneNumber(currentUserEmail);
+        }
+
+        return user;
     }
 
     protected UserDto getCurrentLoggedInUserDto() {
