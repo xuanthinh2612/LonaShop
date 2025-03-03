@@ -7,31 +7,33 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
 
-@Entity
-@Table
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cart {
+@Entity
+@Table(name = "order_item")
+public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    private int status;
+    private Long quantity;
 
     @Column
-    private Long totalAmount;
+    private Long price_at_time;
 
-    @OneToOne
-    private User user;
+    @Column
+    private Long subAmount;
 
-    @OneToMany
-    private List<CartItem> cartItems;
+    @ManyToOne
+    private Product product;
+
+    @ManyToOne
+    private UserOrder order;
 
     @Column
     private Date createdAt;

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table
@@ -25,7 +26,7 @@ public class UserOrder {
     private Long id;
 
     @Column
-    private Long quantity;
+    private Long quantity; // delete
 
     @Column
     private int status = 1;
@@ -49,12 +50,6 @@ public class UserOrder {
     private String note;
 
     @Column
-    private Date createdAt;
-
-    @Column
-    private Date updatedAt;
-
-    @Column
     private Long totalAmount;
 
     @Column
@@ -73,8 +68,17 @@ public class UserOrder {
     private String userIp;
 
     @ManyToOne
-    private Product product;
+    private Product product; // delete
 
     @ManyToOne
     private User user;
+
+    @OneToMany
+    private List<OrderItem> OrderItems;
+
+    @Column
+    private Date createdAt;
+
+    @Column
+    private Date updatedAt;
 }
