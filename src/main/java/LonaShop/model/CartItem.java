@@ -24,12 +24,13 @@ public class CartItem {
     private Long quantity;
 
     @Column
-    private Long price_at_time;
+    private Long priceAtTime;
 
     @Column
     private Long subAmount;
 
     @ManyToOne
+    @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 
     @ManyToOne

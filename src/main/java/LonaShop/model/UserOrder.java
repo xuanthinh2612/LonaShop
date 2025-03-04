@@ -73,7 +73,7 @@ public class UserOrder {
     @ManyToOne
     private User user;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<OrderItem> OrderItems;
 
     @Column

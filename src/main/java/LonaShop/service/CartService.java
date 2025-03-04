@@ -12,6 +12,6 @@ public interface CartService {
     void deleteById(Long id);
 
     Cart findById(Long id);
-
+    void deleteCartItemById(Long CartItemId);
 
 }

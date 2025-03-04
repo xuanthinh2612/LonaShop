@@ -27,10 +27,7 @@ public class Cart {
     @Column
     private Long totalAmount;
 
-    @OneToOne
-    private User user;
-
-    @OneToMany
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CartItem> cartItems;
 
     @Column

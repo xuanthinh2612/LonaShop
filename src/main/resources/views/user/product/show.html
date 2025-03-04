@@ -39,14 +39,20 @@
                     <p class="small" th:text="${product.getSubDescription_2()}"></p>
                     <p class="small" th:text="${product.getSubDescription_3()}"></p>
                 </div>
-                <form th:action="'/order/new/' + ${product.getId()}" method="get">
+                <form th:action="'/cart/add'" method="post">
                     <div class="bottom-controls" th:if="${product.getStatus() != 4}">
                         <input class="form-control text-center me-3" id="inputQuantity" type="number" value="1"
                                name="inputQuantity" style="width: 5rem" min="1"/>
+                        <input hidden="hidden" class="form-control text-center me-3" id="product" type="number" th:value="${product.getId()}"
+                               name="product" style="width: 5rem"/>
                         <button type="submit" class="btn btn-outline-dark flex-shrink-0">
                             <i class="bi-cart-fill me-1"></i>
-                            Đặt Mua Hàng
+                                Thêm vào giỏ hàng
                         </button>
+                        <a type="submit" class="btn btn-outline-dark flex-shrink-0">
+                            <i class="bi-cart-fill me-1"></i>
+                            Mua ngay
+                        </a>
                     </div>
                 </form>
                 <div class="bottom-controls" th:if="${product.getStatus() == 4}">

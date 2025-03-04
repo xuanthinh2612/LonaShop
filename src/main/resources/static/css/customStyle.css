@@ -76,9 +76,6 @@
 .btn-danger:hover {
     background: #cc0000;
 }
-.btn-primary:hover {
-    background: #0056b3;
-}
 .lona-cart-total {
     font-size: 1.5rem;
     font-weight: bold;

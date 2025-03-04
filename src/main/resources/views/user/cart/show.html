@@ -1,56 +1,61 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="~{/user/layout/header::header}"></head>
-<br/>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Giỏ hàng</title>
-</head>
 <body>
 <nav th:replace="~{/user/layout/navbar::navbar}"></nav>
 
-<div class="container mt-5">
-  <div class="px-xl-5 pt-5">
-    <h2 class="text-center mb-4">🛒 Giỏ hàng của bạn</h2>
-    <div class="row px-3">
-      <div class="col-lg-8">
-        <div class="lona-card">
-          <div class="lona-cart-item d-flex align-items-center justify-content-between border-bottom">
-            <img src="https://via.placeholder.com/80" alt="Sản phẩm">
-            <div class="ms-3 flex-grow-1">
-              <h5 class="mb-1">Sản phẩm A</h5>
-              <p class="text-muted">Giá: <span class="price" data-price="200000">200.000</span> VNĐ</p>
+<div class="container">
+    <div class="px-xl-5">
+        <h2 class="px-3 mb-4">🛒 Giỏ hàng của bạn</h2>
+        <div class="row px-3" th:if="${cart.getCartItems().size() == 0}">
+            <div class="col-lg-12">
+                <div class="lona-card">
+                    <div class="text-center">
+                        Không có sản phẩm nào trong giỏ hàng của bạn
+                    </div>
+                </div>
             </div>
-            <input type="number" class="form-control quantity" value="1" min="1" style="width: 60px;">
-            <span class="total-price ms-3">200.000 VNĐ</span>
-            <button class="btn btn-danger btn-sm ms-3 remove-item">Xóa</button>
-          </div>
+        </div>
 
-          <div class="lona-cart-item d-flex align-items-center justify-content-between border-bottom">
-            <img src="https://via.placeholder.com/80" alt="Sản phẩm">
-            <div class="ms-3 flex-grow-1">
-              <h5 class="mb-1">Sản phẩm B</h5>
-              <p class="text-muted">Giá: <span class="price" data-price="150000">150.000</span> VNĐ</p>
+        <div class="row px-3" th:if="${cart.getCartItems().size() != 0}">
+            <div class="col-lg-8">
+                <div class="lona-card">
+                    <div class="lona-cart-item d-flex align-items-center justify-content-between border-bottom"
+                         th:each="cartItem : ${cart.getCartItems()}">
+                        <img th:src="${cartItem.getProduct.getAvatar().getImageUrl()}" alt="Sản phẩm">
+                        <div class="ms-3 flex-grow-1">
+                            <a th:href="'/product/show/'+${cartItem.getProduct().getId()}">
+                                <h5 class="mb-1" th:text="${cartItem.getProduct().getName()}">Product Name</h5>
+                            </a>
+                            <p class="text-muted">Giá: <span class="price" data-price="200000"
+                                                             th:text="${#numbers.formatInteger(cartItem.getPriceAtTime(), 3, 'COMMA')}">0</span>đ
+                            </p>
+                        </div>
+                        <input th:value="${cartItem.getQuantity()}" type="number" class="form-control quantity"
+                               value="1" min="1" style="width: 60px;">
+                        <span class="total-price ms-3"
+                              th:text="${#numbers.formatInteger(cartItem.getSubAmount(), 3, 'COMMA')}">0</span><span>đ</span>
+                        <form th:action="@{/cart/delete}" th:method="post">
+                            <input hidden="hidden" th:value="${cartItem.getId()}" name="cartItemId">
+                            <button class="btn btn-danger btn-sm ms-3 remove-item"><i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <input type="number" class="form-control quantity" value="2" min="1" style="width: 60px;">
-            <span class="total-price ms-3">300.000 VNĐ</span>
-            <button class="btn btn-danger btn-sm ms-3 remove-item">Xóa</button>
-          </div>
+            <!-- Phần tổng kết đơn hàng -->
+            <div class="col-lg-4">
+                <div class="lona-card">
+                    <h4 class="mb-3">Tóm tắt đơn hàng</h4>
+                    <p class="cart-total">Tổng tiền: <span id="grandTotal"
+                                                           th:text="${#numbers.formatInteger(cart.getTotalAmount(), 3, 'COMMA')}">0</span>
+                        đ</p>
+                    <button class="btn btn-primary w-100">Thanh toán</button>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <!-- Phần tổng kết đơn hàng -->
-      <div class="col-lg-4">
-        <div class="lona-card">
-          <h4 class="mb-3">Tóm tắt đơn hàng</h4>
-          <p class="cart-total">Tổng tiền: <span id="grandTotal">500.000</span> VNĐ</p>
-          <button class="btn btn-primary w-100">Thanh toán</button>
-        </div>
-      </div>
     </div>
-
-  </div>
 </div>
 
 <!-- Back to Top -->
@@ -58,7 +63,7 @@
 
 <!-- Footer-->
 <div class="container">
-  <div th:replace="~{user/layout/footer::footer}"></div>
+    <div th:replace="~{user/layout/footer::footer}"></div>
 </div>
 <script>
     function updateCart() {
@@ -85,6 +90,9 @@
     });
 
     updateCart();
+
+
+
 </script>
 
 </body>
