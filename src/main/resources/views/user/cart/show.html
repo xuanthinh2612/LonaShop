@@ -27,8 +27,7 @@
                             <a th:href="'/product/show/'+${cartItem.getProduct().getId()}">
                                 <h5 class="mb-1" th:text="${cartItem.getProduct().getName()}">Product Name</h5>
                             </a>
-                            <p class="text-muted">Giá: <span class="price" data-price="200000"
-                                                             th:text="${#numbers.formatInteger(cartItem.getPriceAtTime(), 3, 'COMMA')}">0</span>đ
+                            <p class="text-muted">Giá: <span class="price" th:data-price="${cartItem.getPriceAtTime()}" th:text="${#numbers.formatInteger(cartItem.getPriceAtTime(), 3, 'COMMA')}">0</span>đ
                             </p>
                         </div>
                         <input th:value="${cartItem.getQuantity()}" type="number" class="form-control quantity"
@@ -47,10 +46,11 @@
             <div class="col-lg-4">
                 <div class="lona-card">
                     <h4 class="mb-3">Tóm tắt đơn hàng</h4>
-                    <p class="cart-total">Tổng tiền: <span id="grandTotal"
-                                                           th:text="${#numbers.formatInteger(cart.getTotalAmount(), 3, 'COMMA')}">0</span>
+                    <p class="lona-cart-total">Tổng tiền:
+                        <span id="cartTotalAmount"
+                              th:text="${#numbers.formatInteger(cart.getTotalAmount(), 3, 'COMMA')}">0</span>
                         đ</p>
-                    <button class="btn btn-primary w-100">Thanh toán</button>
+                    <a class="btn btn-primary w-100" href="/order/new">Thanh toán</a>
                 </div>
             </div>
         </div>
@@ -65,34 +65,9 @@
 <div class="container">
     <div th:replace="~{user/layout/footer::footer}"></div>
 </div>
-<script>
-    function updateCart() {
-        let grandTotal = 0;
-        document.querySelectorAll('.cart-item').forEach(item => {
-            let price = parseInt(item.querySelector('.price').dataset.price);
-            let quantity = parseInt(item.querySelector('.quantity').value);
-            let totalPrice = price * quantity;
-            item.querySelector('.total-price').innerText = totalPrice.toLocaleString() + " VNĐ";
-            grandTotal += totalPrice;
-        });
-        document.getElementById('grandTotal').innerText = grandTotal.toLocaleString();
-    }
-
-    document.querySelectorAll('.quantity').forEach(input => {
-        input.addEventListener('input', updateCart);
-    });
-
-    document.querySelectorAll('.remove-item').forEach(button => {
-        button.addEventListener('click', function () {
-            this.closest('.cart-item').remove();
-            updateCart();
-        });
-    });
-
-    updateCart();
-
-
-
+<meta hidden="hidden" name="_csrf" th:content="${_csrf.token}"/>
+<meta hidden="hidden" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<script src="/js/cart.js">
 </script>
 
 </body>

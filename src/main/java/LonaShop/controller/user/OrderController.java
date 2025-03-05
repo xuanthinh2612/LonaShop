@@ -2,10 +2,7 @@ package LonaShop.controller.user;
 
 import LonaShop.common.CommonConst;
 import LonaShop.controller.helper.Helper;
-import LonaShop.model.Product;
-import LonaShop.model.User;
-import LonaShop.model.UserDto;
-import LonaShop.model.UserOrder;
+import LonaShop.model.*;
 import LonaShop.service.ProductService;
 import LonaShop.service.UserOrderService;
 import LonaShop.service.UserService;
@@ -20,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -37,19 +35,26 @@ public class OrderController extends UserBaseController {
     @Autowired
     Helper helper;
 
-    @GetMapping("/new/{id}")
-    public String newOrder(@PathVariable("id") Long id, @RequestParam("inputQuantity") Long inputQuantity, Model model) {
-        Product product = productService.findById(id);
+    @GetMapping("/new")
+    public String newOrder(RedirectAttributes attributes, Model model) {
+        User currentUser = getCurrentLoggedInUser();
 
-        if (ObjectUtils.isEmpty(product) || isNotValidProduct(product)) {
-            return "redirect:/";
+        if (ObjectUtils.isEmpty(currentUser)) {
+            attributes.addFlashAttribute("warningMsg", "Bạn vui lòng đăng nhập để sử dụng chức năng thanh toán.");
+            return "redirect:/login";
         }
+
+        Cart myCart = currentUser.getCart();
+
+        if (ObjectUtils.isEmpty(myCart)) {
+            return "redirect:/cart/show";
+        }
+
         UserOrder order = new UserOrder();
-        order.setProduct(product);
+
         order.setPaymentType(CommonConst.PAY_BY_MOMO); // set default pay by momo
-        model.addAttribute("product", product);
         model.addAttribute("order", order);
-        model.addAttribute("inputQuantity", inputQuantity);
+        model.addAttribute("cartItemList", myCart.getCartItems());
         return "user/order/new";
     }
 
@@ -61,30 +66,54 @@ public class OrderController extends UserBaseController {
                               RedirectAttributes attributes) {
         if (result.hasErrors()) {
             model.addAttribute("order", order);
-            model.addAttribute("product", order.getProduct());
-            model.addAttribute("inputQuantity", order.getQuantity());
             return "user/order/new";
         }
-        Product product = order.getProduct();
-        if (ObjectUtils.isEmpty(product) || isNotValidProduct(product) || order.getQuantity() <= 0) {
-            attributes.addFlashAttribute("error", "Thông tin không chính xác ! vui lòng kiểm tra lại.");
-            return "redirect:/";
+
+        User currentUser = getCurrentLoggedInUser();
+
+        if (ObjectUtils.isEmpty(currentUser)) {
+            attributes.addFlashAttribute("warningMsg", "Bạn vui lòng đăng nhập để sử dụng chức năng thanh toán.");
+            return "redirect:/login";
         }
 
-        String userIpAddress = helper.getClientIp(request);
+        Cart myCart = currentUser.getCart();
 
-        order.setTotalAmount(order.getQuantity() * product.getCurrentPrice());
+        if (ObjectUtils.isEmpty(myCart)) {
+            return "redirect:/cart/show";
+        }
+
+        List<CartItem> cartItemList = currentUser.getCart().getCartItems();
+
+        long totalAmount = 0;
+
+        for (CartItem cartItem : cartItemList) {
+            OrderItem orderItem = new OrderItem();
+            long subTotal = cartItem.getQuantity() * cartItem.getPriceAtTime();
+
+            orderItem.setSubAmount(subTotal);
+            orderItem.setProduct(cartItem.getProduct());
+            orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setPrice_at_time(cartItem.getPriceAtTime());
+            orderItem.setCreatedAt(new Date());
+            orderItem.setUpdatedAt(new Date());
+            order.getOrderItems().add(orderItem);
+
+            totalAmount += subTotal;
+        }
+
+
+        String userIpAddress = helper.getClientIp(request);
+        order.setTotalAmount(totalAmount);
+
         order.setCreatedAt(new Date());
         order.setUpdatedAt(new Date());
         order.setStatus(CommonConst.ORDERED_STATUS);
         order.setPaymentStatus(CommonConst.WAITING_FOR_PAY);
         order.setUserIp(userIpAddress);
-        UserDto currentUserDto = getCurrentLoggedInUserDto();
 
-        if (ObjectUtils.isEmpty(currentUserDto)) {
+        if (ObjectUtils.isEmpty(currentUser)) {
             order.setOrderCode(helper.getRandomOrderCode(CommonConst.NON_USER_ORDER));
         } else {
-            User currentUser = userService.findUserById(currentUserDto.getId());
             order.setUser(currentUser);
             order.setOrderCode(helper.getRandomOrderCode(CommonConst.USER_ORDER));
         }

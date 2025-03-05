@@ -18,8 +18,8 @@ public class BaseController {
     private UserService userService;
 
     @ModelAttribute("currentUser")
-    private UserDto getCurrentUserDto() {
-        return getCurrentLoggedInUserDto();
+    private User getCurrentUserDto() {
+        return getCurrentLoggedInUser();
     }
 
     protected User getCurrentLoggedInUser() {
