@@ -5,143 +5,133 @@
 <nav th:replace="~{/user/layout/navbar::navbar}"></nav>
 <br/>
 <div class="container mb-5">
-    <div class="row">
-        <div class="col-lg-8 col-md-8">
-            <div>
-                <section class="py-5 bg-light ">
-                    <h3 class="pl-3 text-uppercase">
-                        <span>Chi tiết đơn hàng</span>
-                    </h3>
-                    <div class="row gx-4 gx-lg-5 p-4">
-                        <div class="col-lg-2 col-md-2 col-sm-6 overflow-hidden px-4 pt-2">
-                            <img class="card-img-top mb-5 mb-md-0" th:src="${product.getAvatar().getImageUrl()}"
-                                 style="height: 5rem;width: 5rem;"
-                                 alt="..."/></div>
-                        <div class="col-lg-10 col-md-10 col-sm-6">
-                            <div class="fw-bolder">
-                                <a class="text-dark" th:href="'/product/show/'+${product.getId()}">
-                                    <span th:text="${product.getName()}"></span>
-                                </a>
-                            </div>
-                            <div class="small" th:text="${product.getCategory().getName()}"></div>
-                            <div class="text-danger">
-                                <span>Giá:&emsp;</span>
-                                <span class="fw-bold"
-                                      th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}"></span>
-                                <span>&nbspđ/</span>
-                                <span th:text="${product.getUnit()}"></span>
-                                <input th:value="${product.getCurrentPrice()}" hidden id="productPrice">
-                            </div>
-                            <div class="row py-2">
-                                <div class="col-lg-3 col-6">Số lượng:</div>
-                                <div class="col-lg-3 col-6">
-                                    <input class="form-control text-center me-3" id="inputQuantity" type="number"
-                                           th:value="${inputQuantity}" style="width: 5rem" min="1"
-                                           onchange="loadSubTotalMoneyAndQuantity()"/>
-                                </div>
-                            </div>
-                            <div class="row py-2 justify-content-end">
-                                <div class="col-lg-3 col-6">Thành tiền:</div>
-                                <div class="col-lg-3 col-6 text-danger align-items-right">
-                                    <span class="fw-bold" id="subTotalMoney">0</span>
-                                    <span>&nbspVNĐ</span>
-                                </div>
-                            </div>
+    <div class="px-xl-5">
+        <div class="row px-3">
+            <div class="col-lg-8">
+                <div class="lona-card">
+                    <div class="lona-cart-item d-flex align-items-center justify-content-between border-bottom"
+                         th:each="cartItem : ${cart.getCartItems()}">
+                        <img th:src="${cartItem.getProduct.getAvatar().getImageUrl()}" alt="Sản phẩm">
+                        <div class="ms-3 flex-grow-1">
+                            <a th:href="'/product/show/'+${cartItem.getProduct().getId()}">
+                                <h5 class="mb-1" th:text="${cartItem.getProduct().getName()}">Product Name</h5>
+                            </a>
+                            <p class="text-muted">Giá: <span class="price" th:data-price="${cartItem.getPriceAtTime()}"
+                                                             th:text="${#numbers.formatInteger(cartItem.getPriceAtTime(), 3, 'COMMA')}">0</span>đ
+                            </p>
                         </div>
+                        <input th:value="${cartItem.getQuantity()}" type="number" class="form-control quantity"
+                               value="1" min="1" style="width: 60px;" disabled>
+                        <span class="total-price ms-3"
+                              th:text="${#numbers.formatInteger(cartItem.getSubAmount(), 3, 'COMMA')}">0</span><span>đ</span>
                     </div>
-                </section>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-4">
-            <div class="card p-0">
-                <div class="card-header">
-                    <h6 class="text-center">Thông Tin Người Nhận</h6>
                 </div>
-                <div class="card-body">
-                    <form method="post" role="form" th:object="${order}" th:action="@{/order/create}">
-                        <input type="hidden" th:field="*{product}">
-                        <div class="form-group mb-3">
-                            <label class="form-label">Tên người nhận<span class="text-danger">&nbsp;*</span></label>
-                            <input required class="form-control" placeholder="Họ và Tên" th:field="*{customerName}"
-                                   type="text"/>
-                            <p th:errors="*{customerName}" class="text-danger small fst-italic"
-                               th:if="${#fields.hasErrors('customerName')}"></p>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label">Số điện thoại<span class="text-danger">&nbsp;*</span></label>
-                            <input class="form-control" placeholder="Nhập số điện thoại" required
-                                   th:field="*{customerPhoneNumber}"
-                                   type="text"/>
-                            <p th:errors="*{customerPhoneNumber}" class="text-danger small fst-italic"
-                               th:if="${#fields.hasErrors('customerPhoneNumber')}"></p>
-                        </div>
+                <div class="lona-card d-flex align-items-center justify-content-between">
+                    <h4 class="mb-3">Tổng tiền:</h4>
+                    <p class="lona-cart-total">
+                        <span id="cartTotalAmount"
+                              th:text="${#numbers.formatInteger(cart.getTotalAmount(), 3, 'COMMA')}">0</span>đ</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="lona-card">
+                    <h4 class="m-0">Thông Tin Người Nhận</h4>
+                    <div class="card-body">
+                        <form method="post" role="form" th:object="${order}" th:action="@{/order/create}">
+                            <input type="hidden" th:field="*{product}">
+                            <div class="form-group mb-3">
+                                <label class="form-label">Tên người nhận<span class="text-danger">&nbsp;*</span></label>
+                                <input required class="form-control" placeholder="Họ và Tên"
+                                       th:field="*{customerName}"
+                                       type="text"/>
+                                <p th:errors="*{customerName}" class="text-danger small fst-italic"
+                                   th:if="${#fields.hasErrors('customerName')}"></p>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label">Số điện thoại<span class="text-danger">&nbsp;*</span></label>
+                                <input class="form-control" placeholder="Nhập số điện thoại" required
+                                       th:field="*{customerPhoneNumber}"
+                                       type="text"/>
+                                <p th:errors="*{customerPhoneNumber}" class="text-danger small fst-italic"
+                                   th:if="${#fields.hasErrors('customerPhoneNumber')}"></p>
+                            </div>
 
-                        <div class="form-group mb-3">
-                            <label class="form-label">Email</label>
-                            <input class="form-control" placeholder="Nhập email" th:field="*{customerEmail}"
-                                   type="email"/>
-                            <p th:errors="*{customerEmail}" class="text-danger"
-                               th:if="${#fields.hasErrors('customerEmail')}"></p>
-                        </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label">Email</label>
+                                <input class="form-control" placeholder="Nhập email" th:field="*{customerEmail}"
+                                       type="email"/>
+                                <p th:errors="*{customerEmail}" class="text-danger"
+                                   th:if="${#fields.hasErrors('customerEmail')}"></p>
+                            </div>
 
-                        <div class="form-group mb-3">
-                            <label class="form-label"> Địa chỉ<span class="text-danger">&nbsp;*</span></label>
-                            <input class="form-control" required
-                                   placeholder="nhập địa chỉ nhận hàng" th:field="*{customerAddress}" type="text"/>
-                            <p th:errors="*{customerAddress}" class="text-danger small fst-italic"
-                               th:if="${#fields.hasErrors('customerAddress')}"></p>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label">Ghi chú</label>
-                            <textarea class="form-control" placeholder="Ghi chú thêm cho cửa hàng" th:field="*{note}">
+                            <div class="form-group mb-3">
+                                <label class="form-label"> Địa chỉ<span
+                                        class="text-danger">&nbsp;*</span></label>
+                                <input class="form-control" required
+                                       placeholder="nhập địa chỉ nhận hàng" th:field="*{customerAddress}"
+                                       type="text"/>
+                                <p th:errors="*{customerAddress}" class="text-danger small fst-italic"
+                                   th:if="${#fields.hasErrors('customerAddress')}"></p>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label">Ghi chú</label>
+                                <textarea class="form-control" placeholder="Ghi chú thêm cho cửa hàng"
+                                          th:field="*{note}">
                             </textarea>
-                            <p th:errors="*{note}" class="text-danger"
-                               th:if="${#fields.hasErrors('note')}"></p>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label">Chọn Phương thức thanh toán<span
-                                    class="text-danger">&nbsp;*</span></label>
-                            <div class="form-check my-2">
-                                <input class="form-check-input" type="radio" value="1" th:field="*{paymentType}"
-                                       required id="momo">
-                                <label class="form-check-label" for="momo">
-                                    <div class="text-center text-md-right">
-                                        <img style="width: 1.5rem" src="/img/momo-logo.png" alt="">
-                                        <span class="fw-bold">momo</span>
-                                    </div>
-                                </label>
+                                <p th:errors="*{note}" class="text-danger"
+                                   th:if="${#fields.hasErrors('note')}"></p>
                             </div>
-                            <div class="form-check my-2">
-                                <input class="form-check-input" type="radio" value="2" th:field="*{paymentType}"
-                                       id="transfer">
-                                <label class="form-check-label" for="transfer">
-                                    <div class="text-md-right">
-                                        <img style="width: 5rem" src="/img/bank-transfer.png" alt="">
-                                        <span class="fw-bold">Chuyển khoản</span>
-                                    </div>
-                                </label>
+                            <div class="form-group mb-3">
+                                <label class="form-label">Chọn Phương thức thanh toán<span
+                                        class="text-danger">&nbsp;*</span></label>
+                                <div class="form-check my-2">
+                                    <input class="form-check-input" type="radio" value="1"
+                                           th:field="*{paymentType}"
+                                           required id="momo">
+                                    <label class="form-check-label" for="momo">
+                                        <div class="text-center text-md-right">
+                                            <img style="width: 1.5rem" src="/img/momo-logo.png" alt="">
+                                            <span class="fw-bold">momo</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="form-check my-2">
+                                    <input class="form-check-input" type="radio" value="2"
+                                           th:field="*{paymentType}"
+                                           id="transfer">
+                                    <label class="form-check-label" for="transfer">
+                                        <div class="text-md-right">
+                                            <img style="width: 5rem" src="/img/bank-transfer.png" alt="">
+                                            <span class="fw-bold">Chuyển khoản</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="form-check my-2">
+                                    <input class="form-check-input" type="radio" value="3"
+                                           th:field="*{paymentType}"
+                                           id="payWhenReceive">
+                                    <label class="form-check-label" for="payWhenReceive">
+                                        <span class="fw-bold">Thanh toán khi nhận hàng</span>
+                                    </label>
+                                </div>
+                                <p th:errors="*{paymentType}" class="text-danger small fst-italic"
+                                   th:if="${#fields.hasErrors('paymentType')}"></p>
                             </div>
-                            <div class="form-check my-2">
-                                <input class="form-check-input" type="radio" value="3" th:field="*{paymentType}"
-                                       id="payWhenReceive">
-                                <label class="form-check-label" for="payWhenReceive">
-                                    <span class="fw-bold">Thanh toán khi nhận hàng</span>
-                                </label>
-                            </div>
-                            <p th:errors="*{paymentType}" class="text-danger small fst-italic"
-                               th:if="${#fields.hasErrors('paymentType')}"></p>
-                        </div>
 
-                        <input hidden class="form-control" th:field="*{quantity}" type="text" name="quantity"
-                               id="quantity"/>
-                        <div class="form-group pt-5">
-                            <button class="btn btn-primary" type="submit"> Đặt Mua</button>
-                            <a href="javascript:history.back()" class="btn btn-danger" onclick="bac" type="button">Trở
-                                về</a>
-                        </div>
-                    </form>
+                            <input hidden class="form-control" th:field="*{quantity}" type="text"
+                                   name="quantity"
+                                   id="quantity"/>
+                            <div class="form-group pt-5">
+                                <button class="btn btn-primary" type="submit"> Đặt Mua</button>
+                                <a href="javascript:history.back()" class="btn btn-danger" onclick="bac"
+                                   type="button">Trở
+                                    về</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -172,6 +162,12 @@
     window.onload = function () {
     loadSubTotalMoneyAndQuantity();
     };
+
+
+
+
+
+
 </script>
 </body>
 </html>

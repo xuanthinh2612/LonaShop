@@ -3,6 +3,7 @@ package LonaShop.controller.user;
 import LonaShop.common.CommonConst;
 import LonaShop.controller.helper.Helper;
 import LonaShop.model.*;
+import LonaShop.service.CartService;
 import LonaShop.service.ProductService;
 import LonaShop.service.UserOrderService;
 import LonaShop.service.UserService;
@@ -16,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +31,9 @@ public class OrderController extends UserBaseController {
 
     @Autowired
     UserOrderService userOrderService;
+
+    @Autowired
+    CartService cartService;
 
     @Autowired
     UserService userService;
@@ -54,7 +59,7 @@ public class OrderController extends UserBaseController {
 
         order.setPaymentType(CommonConst.PAY_BY_MOMO); // set default pay by momo
         model.addAttribute("order", order);
-        model.addAttribute("cartItemList", myCart.getCartItems());
+        model.addAttribute("cart", myCart);
         return "user/order/new";
     }
 
@@ -85,6 +90,9 @@ public class OrderController extends UserBaseController {
         List<CartItem> cartItemList = currentUser.getCart().getCartItems();
 
         long totalAmount = 0;
+        if (ObjectUtils.isEmpty(order.getOrderItems())) {
+            order.setOrderItems(new ArrayList<>());
+        }
 
         for (CartItem cartItem : cartItemList) {
             OrderItem orderItem = new OrderItem();
@@ -93,9 +101,10 @@ public class OrderController extends UserBaseController {
             orderItem.setSubAmount(subTotal);
             orderItem.setProduct(cartItem.getProduct());
             orderItem.setQuantity(cartItem.getQuantity());
-            orderItem.setPrice_at_time(cartItem.getPriceAtTime());
+            orderItem.setPriceAtTime(cartItem.getPriceAtTime());
             orderItem.setCreatedAt(new Date());
             orderItem.setUpdatedAt(new Date());
+            orderItem.setOrder(order);
             order.getOrderItems().add(orderItem);
 
             totalAmount += subTotal;
@@ -119,6 +128,9 @@ public class OrderController extends UserBaseController {
         }
 
         userOrderService.save(order);
+
+        myCart.getCartItems().clear();
+        cartService.save(myCart);
 
         return "redirect:/order/payment?order=" + order.getId() + "&orderCode=" + order.getOrderCode();
     }

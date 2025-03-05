@@ -91,10 +91,10 @@
                             <a th:href="@{/cart/show}" class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-info"></i>
                                 <span class="badge text-danger border border-dark rounded-circle"
-                                      style="padding-bottom: 2px;" th:if="${currentUser != null}"
+                                      style="padding-bottom: 2px;" th:if="${currentUser != null && currentUser.getCart != null}"
                                       th:text="${currentUser.getCart.getCartItems.size()}">0</span>
                                 <span class="badge text-dark border border-dark rounded-circle"
-                                      style="padding-bottom: 2px;" th:if="${currentUser == null}">0</span>
+                                      style="padding-bottom: 2px;" th:if="${currentUser == null ||  currentUser.getCart == null}">0</span>
                             </a>
                             <a class="btn px-0 ml-3 dropdown-toggle" href="#" role="button" id="navbarDropdown"
                                data-bs-toggle="dropdown" aria-expanded="false">

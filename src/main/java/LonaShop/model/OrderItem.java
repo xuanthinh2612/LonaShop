@@ -24,7 +24,7 @@ public class OrderItem {
     private Long quantity;
 
     @Column
-    private Long price_at_time;
+    private Long priceAtTime;
 
     @Column
     private Long subAmount;
@@ -33,6 +33,7 @@ public class OrderItem {
     private Product product;
 
     @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
     private UserOrder order;
 
     @Column
