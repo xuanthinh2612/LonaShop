@@ -16,6 +16,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class CartController extends BaseController {
 
         if (ObjectUtils.isEmpty(currentUser.getCart())) {
             Cart cart = new Cart();
+            cart.setCartItems(new ArrayList<CartItem>());
             currentUser.setCart(cart);
             userService.updateUser(currentUser);
         }

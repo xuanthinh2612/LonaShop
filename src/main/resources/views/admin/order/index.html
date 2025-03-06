@@ -68,8 +68,6 @@
                                     <th>Mã đơn/Thanh toán</th>
                                     <th>Tên/SĐT/Địa chỉ/IP</th>
                                     <th>Sản phẩm</th>
-                                    <th>Số lượng</th>
-                                    <th>Ngày tạo</th>
                                     <th>Ghi chú</th>
                                     <th>Tổng tiền</th>
                                     <th>Tùy chọn</th>
@@ -81,7 +79,8 @@
                                         <div th:text="${order.getId()} + '-' + ${order.getOrderCode()}"></div>
                                         <div th:if="${order.getPaymentType() == 3}">
                                             <button type="button"
-                                                    class="btn badge bg-warning text-decoration-none link-light">Thanh toán khi nhận hàng
+                                                    class="btn badge bg-warning text-decoration-none link-light">Thanh
+                                                toán khi nhận hàng
                                             </button>
                                         </div>
                                         <div th:if="${order.getPaymentType() == 1}">
@@ -90,13 +89,16 @@
                                                 <span class="fw-bold">momo</span>
                                             </div>
                                             <button th:if="${order.getPaymentStatus() == 3}" type="button"
-                                                    class="btn badge bg-info text-decoration-none link-light">Admin đã xác nhận
+                                                    class="btn badge bg-info text-decoration-none link-light">Admin đã
+                                                xác nhận
                                             </button>
                                             <button th:if="${order.getPaymentStatus() == 2}" type="button"
-                                                    class="btn badge bg-success text-decoration-none link-light">User đã xác nhận
+                                                    class="btn badge bg-success text-decoration-none link-light">User đã
+                                                xác nhận
                                             </button>
                                             <button th:if="${order.getPaymentStatus() == 1}" type="button"
-                                                    class="btn badge bg-secondary text-decoration-none link-light">Chờ thanh toán
+                                                    class="btn badge bg-secondary text-decoration-none link-light">Chờ
+                                                thanh toán
                                             </button>
                                         </div>
                                         <div th:if="${order.getPaymentType() == 2}">
@@ -105,24 +107,29 @@
                                                 <span class="fw-bold">Bank</span>
                                             </div>
                                             <button th:if="${order.getPaymentStatus() == 3}" type="button"
-                                                    class="btn badge bg-info text-decoration-none link-light">Admin đã xác nhận
+                                                    class="btn badge bg-info text-decoration-none link-light">Admin đã
+                                                xác nhận
                                             </button>
                                             <button th:if="${order.getPaymentStatus() == 2}" type="button"
-                                                    class="btn badge bg-success text-decoration-none link-light">User đã xác nhận
+                                                    class="btn badge bg-success text-decoration-none link-light">User đã
+                                                xác nhận
                                             </button>
                                             <button th:if="${order.getPaymentStatus() == 1}" type="button"
-                                                    class="btn badge bg-secondary text-decoration-none link-light">Chờ thanh toán
+                                                    class="btn badge bg-secondary text-decoration-none link-light">Chờ
+                                                thanh toán
                                             </button>
                                         </div>
                                     </td>
                                     <td>
                                         <div th:text="${order.getCustomerName()}"></div>
                                         <div th:text="${order.getCustomerPhoneNumber()}"></div>
-                                        <div th:if="${order.getCustomerEmail() != ''}" th:text="${order.getCustomerEmail()}"></div>
+                                        <div th:if="${order.getCustomerEmail() != ''}"
+                                             th:text="${order.getCustomerEmail()}"></div>
                                         <div th:text="${order.getCustomerAddress()}"></div>
                                         <div th:text="${order.getUserIp()}"></div>
                                         <div>
-                                            <button th:if="${order.getUser() != null}" type="button" th:text="${'User: ' + order.getUser().getPhoneNumber()}"
+                                            <button th:if="${order.getUser() != null}" type="button"
+                                                    th:text="${'User: ' + order.getUser().getPhoneNumber()}"
                                                     class="btn badge bg-success text-decoration-none link-light">
                                             </button>
                                             <button th:if="${order.getUser() == null}" type="button"
@@ -131,10 +138,23 @@
                                             </button>
                                         </div>
                                     </td>
-                                    <td th:text="${order.getProduct() != null ? order.getProduct().getName() : '' }"></td>
-                                    <td th:text="${order.getQuantity()}"></td>
-                                    <td th:text="${order.getCreatedAt()}"></td>
-                                    <td th:text="${order.getNote()}"></td>
+                                    <td>
+                                        <div th:each="orderItem, index : ${order.getOrderItems()}">
+                                            <span th:text="${index.index + 1}"></span>.&nbsp;
+                                            <span th:text="${orderItem.getProduct().getName()}"></span>/
+                                            <span>Số lượng:&nbsp;</span>
+                                            <span th:text="${orderItem.getQuantity()}"></span>/
+                                            <span>Giá:&nbsp;</span>
+                                            <span th:text="${#numbers.formatInteger(orderItem.getPriceAtTime(), 3, 'COMMA')}"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p th:text="${order.getCreatedAt()}"></p>
+                                        <p>
+                                            <span>Ghi chú:&nbsp;</span>
+                                            <span th:text="${order.getNote()}"></span>
+                                        </p>
+                                    </td>
                                     <td th:text="${#numbers.formatInteger(order.getTotalAmount(), 3, 'COMMA')}"></td>
                                     <td>
                                         <a th:if="${orderStatus == CommonConst.ORDERED_STATUS && paymentStatus == CommonConst.USER_CONFIRMED_PAY}"
