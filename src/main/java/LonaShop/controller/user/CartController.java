@@ -69,13 +69,13 @@ public class CartController extends BaseController {
                             RedirectAttributes attributes, Model model) {
         User currentUser = getCurrentLoggedInUser();
         if (ObjectUtils.isEmpty(currentUser)) {
-            attributes.addFlashAttribute("warningMsg", messageSource.getMessage("user.auth.error", null, locale));
+            attributes.addFlashAttribute("warningMsg", messageSource.getMessage("cart.auth.error", null, locale));
             return "redirect:/login";
         }
 
         Product product = productService.findById(productId);
         if (ObjectUtils.isEmpty(product)) {
-            attributes.addFlashAttribute("warningMsg", "Sản phẩm không tồn tại! Vui lòng kiểm tra lại.");
+            attributes.addFlashAttribute("warningMsg", messageSource.getMessage("product.error", null, locale));
             return "redirect:/login";
         }
 

@@ -50,13 +50,7 @@
 //}
 
 
-//function openModal() {
-//    let myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
-//    myModal.show();
-//}
-//
-//function closeModal() {
-//    let myModalEl = document.getElementById('staticBackdrop');
-//    let modal = bootstrap.Modal.getInstance(myModalEl);
-//    modal.hide();
-//}
+function openModal() {
+    let myModal = new bootstrap.Modal(document.getElementById('confirmGoToCartModal'));
+    myModal.show();
+}
