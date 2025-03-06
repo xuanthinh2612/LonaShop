@@ -34,11 +34,9 @@
                                value="1" min="1" style="width: 60px;">
                         <span class="total-price ms-3"
                               th:text="${#numbers.formatInteger(cartItem.getSubAmount(), 3, 'COMMA')}">0</span><span>đ</span>
-                        <form th:action="@{/cart/delete}" th:method="post">
                             <input hidden="hidden" th:value="${cartItem.getId()}" name="cartItemId">
                             <button class="btn btn-danger btn-sm ms-3 remove-item"><i class="fa-solid fa-trash"></i>
                             </button>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -54,7 +52,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -67,8 +64,6 @@
 </div>
 <meta hidden="hidden" name="_csrf" th:content="${_csrf.token}"/>
 <meta hidden="hidden" name="_csrf_header" th:content="${_csrf.headerName}"/>
-<script src="/js/cart.js">
-</script>
-
+<script src="/js/cart.js"></script>
 </body>
 </html>

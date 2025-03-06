@@ -9,4 +9,5 @@ public class CartItemUpdateRequest {
 
     private Long cartItemId;
     private Long quantity;
+    private Long productId;
 }

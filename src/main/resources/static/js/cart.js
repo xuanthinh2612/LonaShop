@@ -16,8 +16,8 @@ function updateCartItemAjax(cartItemId, quantity) {
     let token = document.querySelector('meta[name="_csrf"]').content;
     let header = document.querySelector('meta[name="_csrf_header"]').content;
 
-    fetch('/cart/update', {
-        method: 'POST',
+    fetch('/cart', {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             [header]: token
@@ -59,3 +59,42 @@ document.querySelectorAll('.quantity').forEach(input => {
     });
 });
 
+document.querySelectorAll('.remove-item').forEach(input => {
+    input.addEventListener('click', function () {
+        let cartItemElement  = this.closest('.lona-cart-item');
+        let cartItemId = this.previousElementSibling.value;
+
+        deleteCartItemFromCart(cartItemId, cartItemElement);
+    });
+});
+
+function deleteCartItemFromCart(cartItemId, cartItemElement) {
+    let token = document.querySelector('meta[name="_csrf"]').content;
+    let header = document.querySelector('meta[name="_csrf_header"]').content;
+
+    fetch('/cart', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            [header]: token
+        },
+        body: JSON.stringify({
+            cartItemId: cartItemId
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            alert('Xóa sản phẩm thất bại! Vui lòng thử lại.');
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.ok) {
+            cartItemElement.remove();
+        } else {
+            alert('Xóa sản phẩm thất bại! Vui lòng thử lại.');
+        }
+    })
+    .catch(error => console.error('Lỗi:', error));
+}

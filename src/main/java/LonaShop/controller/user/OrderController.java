@@ -52,7 +52,7 @@ public class OrderController extends UserBaseController {
         Cart myCart = currentUser.getCart();
 
         if (ObjectUtils.isEmpty(myCart)) {
-            return "redirect:/cart/show";
+            return "redirect:/cart";
         }
 
         UserOrder order = new UserOrder();
@@ -84,7 +84,7 @@ public class OrderController extends UserBaseController {
         Cart myCart = currentUser.getCart();
 
         if (ObjectUtils.isEmpty(myCart)) {
-            return "redirect:/cart/show";
+            return "redirect:/cart";
         }
 
         List<CartItem> cartItemList = currentUser.getCart().getCartItems();

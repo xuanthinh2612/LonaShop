@@ -5,7 +5,6 @@ import LonaShop.model.CartItem;
 import LonaShop.repository.CartItemRepository;
 import LonaShop.repository.CartRepository;
 import LonaShop.service.CartService;
-import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +27,6 @@ public class CartServiceImpl implements CartService {
     @Override
     public void deleteById(Long id) {
         cartRepository.deleteById(id);
-
     }
 
     @Override
@@ -40,9 +38,4 @@ public class CartServiceImpl implements CartService {
         cartItemRepository.deleteById(CartItemId);
     }
 
-    @Override
-    public void deleteAllCartItemList(List<CartItem> cartItemList) {
-        List<CartItem> list2 = cartItemRepository.findAll();
-        cartItemRepository.deleteAll(list2);
-    }
 }

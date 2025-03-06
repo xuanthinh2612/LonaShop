@@ -10,4 +10,7 @@ public class CartItemUpdateResponse {
     private Long cartItemId;
     private Long quantity;
     private Boolean ok = true;
+    private String messageStatus; // error / success
+    private String successMessage;
+    private String errorMessage;
 }
