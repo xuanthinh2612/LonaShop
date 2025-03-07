@@ -92,6 +92,7 @@ function deleteCartItemFromCart(cartItemId, cartItemElement) {
     .then(data => {
         if (data.ok) {
             cartItemElement.remove();
+            updateCart();
         } else {
             alert('Xóa sản phẩm thất bại! Vui lòng thử lại.');
         }

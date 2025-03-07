@@ -55,6 +55,11 @@ public class OrderController extends UserBaseController {
             return "redirect:/cart";
         }
 
+        if (myCart.getCartItems().size() == 0) {
+            attributes.addFlashAttribute("warningMsg", "không có sản phẩm nào trong giỏ hàng! vui lòng kiểm tra lại.");
+            return "redirect:/";
+        }
+
         UserOrder order = new UserOrder();
 
         order.setPaymentType(CommonConst.PAY_BY_MOMO); // set default pay by momo

@@ -2,9 +2,7 @@ package LonaShop.service;
 
 import LonaShop.model.Cart;
 import LonaShop.model.CartItem;
-import LonaShop.model.Category;
-
-import java.util.List;
+import LonaShop.model.Product;
 
 public interface CartService {
 
@@ -13,6 +11,6 @@ public interface CartService {
     void deleteById(Long id);
 
     Cart findById(Long id);
-    void deleteCartItemById(Long CartItemId);
+    CartItem findCartItemByCartAndProduct(Cart cart, Product product);
 
 }

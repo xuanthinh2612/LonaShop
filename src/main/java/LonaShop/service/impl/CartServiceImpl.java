@@ -2,13 +2,12 @@ package LonaShop.service.impl;
 
 import LonaShop.model.Cart;
 import LonaShop.model.CartItem;
+import LonaShop.model.Product;
 import LonaShop.repository.CartItemRepository;
 import LonaShop.repository.CartRepository;
 import LonaShop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -34,8 +33,8 @@ public class CartServiceImpl implements CartService {
         return cartRepository.findById(id).orElse(null);
     }
 
-    public void deleteCartItemById(Long CartItemId) {
-        cartItemRepository.deleteById(CartItemId);
+    @Override
+    public CartItem findCartItemByCartAndProduct(Cart cart, Product product) {
+        return cartItemRepository.findByCartIdAndProductId(cart.getId(), product.getId());
     }
-
 }

@@ -62,31 +62,42 @@ public class CartController extends BaseController {
         return "/user/cart/show";
     }
 
-    @PostMapping("/add")
-    public String addToCart(@RequestParam("productId") Long productId,
-                            @RequestParam("quantity") Long quantity,
-                            Locale locale,
-                            RedirectAttributes attributes, Model model) {
+    @PostMapping("")
+    @ResponseBody
+    public ResponseEntity<CartItemUpdateResponse> addToCart(@RequestBody CartItemUpdateRequest request, Locale locale) {
+        Long productId = request.getProductId();
+        Long quantity = request.getQuantity();
+        CartItemUpdateResponse cartItemResponse = new CartItemUpdateResponse();
+
         User currentUser = getCurrentLoggedInUser();
         if (ObjectUtils.isEmpty(currentUser)) {
-            attributes.addFlashAttribute("warningMsg", messageSource.getMessage("cart.auth.error", null, locale));
-            return "redirect:/login";
+            cartItemResponse.setErrorMessage( messageSource.getMessage("cart.auth.error", null, locale));
+            cartItemResponse.setOk(false);
+            return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
         }
 
         Product product = productService.findById(productId);
         if (ObjectUtils.isEmpty(product)) {
-            attributes.addFlashAttribute("warningMsg", messageSource.getMessage("product.error", null, locale));
-            return "redirect:/login";
+            cartItemResponse.setErrorMessage( messageSource.getMessage("product.error", null, locale));
+            cartItemResponse.setOk(false);
+            return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
         }
 
-        if (ObjectUtils.isEmpty(currentUser.getCart())) {
+        Cart myCart = currentUser.getCart();
+        if (ObjectUtils.isEmpty(myCart)) {
             Cart cart = new Cart();
-            cart.setCartItems(new ArrayList<CartItem>());
+            cart.setCartItems(new ArrayList<>());
             currentUser.setCart(cart);
             userService.updateUser(currentUser);
         }
 
-        Cart myCart = currentUser.getCart();
+        CartItem existCartItem = cartService.findCartItemByCartAndProduct(myCart, product);
+        if (!ObjectUtils.isEmpty(existCartItem)) {
+            cartItemResponse.setOk(false);
+            cartItemResponse.setErrorMessage("Sản phẩm đã trong giỏ hàng.");
+            return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
+        }
+
         CartItem cartItem = new CartItem();
         cartItem.setCart(myCart);
         cartItem.setProduct(product);
@@ -100,8 +111,8 @@ public class CartController extends BaseController {
         calculateCartAmount(myCart);
         cartService.save(myCart);
 
-
-        return "redirect:/cart";
+        cartItemResponse.setOk(true);
+        return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("")
@@ -174,7 +185,6 @@ public class CartController extends BaseController {
 
         cartItem.setQuantity(quantity);
         cartItem.setSubAmount(quantity * cartItem.getPriceAtTime());
-        cartService.deleteCartItemById(cartItemId);
 
         calculateCartAmount(myCart);
         cartService.save(myCart);
