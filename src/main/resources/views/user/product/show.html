@@ -39,19 +39,20 @@
                     <p class="small" th:text="${product.getSubDescription_2()}"></p>
                     <p class="small" th:text="${product.getSubDescription_3()}"></p>
                 </div>
-                <div class="bottom-controls" th:if="${product.getStatus() != 4}">
-                    <input class="form-control text-center me-3" id="quantity" type="number" value="1"
-                           name="quantity" style="width: 5rem" min="1"/>
-                    <input hidden="hidden" class="form-control text-center me-3" id="productId" type="number" th:value="${product.getId()}"
-                           name="productId" style="width: 5rem"/>
-                    <button type="button" class="btn btn-outline-dark" id="add-to-card">
-                        <i class="bi-cart-fill me-1"></i>
-                            Thêm vào giỏ hàng
-                    </button>
-                    <a href="/cart" class="btn btn-danger">
-                        <i class="bi-cart-fill me-1"></i>
-                        Mua ngay
-                    </a>
+                <div th:if="${product.getStatus() != 4}">
+                    <form class="bottom-controls" th:action="@{/cart}" th:method="post">
+                        <input class="form-control text-center me-3" id="quantity" type="number" value="1"
+                               name="quantity" style="width: 5rem" min="1"/>
+                        <input hidden="hidden" id="productId" th:value="${product.getId()}" name="productId"/>
+                        <button type="button" class="btn btn-outline-dark" id="add-to-card">
+                            <i class="bi-cart-fill me-1"></i>
+                                Thêm vào giỏ hàng
+                        </button>
+                        <button type="submit" class="btn btn-danger" name="buy">
+                            <i class="bi-cart-fill me-1"></i>
+                            Mua ngay
+                        </button>
+                    </form>
                 </div>
                 <div class="bottom-controls" th:if="${product.getStatus() == 4}">
                     <button type="button" class="btn btn-warning flex-shrink-0">
@@ -167,38 +168,18 @@
     </div>
 </div>
 
-
 <!-- Back to Top -->
 <a href="#" class="btn btn-info back-to-top">TOP&nbsp;<i class="fa fa-angle-double-up"></i></a>
 
 <!-- Footer-->
 <div class="container">
     <div th:replace="~{user/layout/footer::footer}"></div>
-</div>
-<meta hidden="hidden" name="_csrf" th:content="${_csrf.token}"/>
-<meta hidden="hidden" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta hidden="hidden" name="_csrf" th:content="${_csrf.token}"/>
+    <meta hidden="hidden" name="_csrf_header" th:content="${_csrf.headerName}"/>
 
-<!-- Modal -->
-<div class="modal fade" id="confirmGoToCartModal" tabindex="-1" aria-labelledby="customModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content custom-modal">
-            <div class="modal-header">
-                <h5 class="modal-title" id="customModalLabel">Thông báo</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Sản phẩm đã được thêm vào giỏ hàng. bạn có muốn xem giỏ hàng?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tiếp tục xem</button>
-                <a href="/cart" class="btn btn-danger">Đi đến giỏ hàng</a>
-            </div>
-        </div>
-    </div>
+    <!-- Template Javascript -->
+    <script src="/js/productShow.js"></script>
+    <script src="/js/main.js"></script>
 </div>
-
-<!-- Template Javascript -->
-<script src="/js/main.js"></script>
-<script src="/js/productShow.js"></script>
 </body>
 </html>

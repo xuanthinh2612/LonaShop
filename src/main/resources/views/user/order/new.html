@@ -122,10 +122,9 @@
                                    name="quantity"
                                    id="quantity"/>
                             <div class="form-group pt-5">
-                                <button class="btn btn-primary" type="submit"> Đặt Mua</button>
+                                <button class="btn btn-primary" type="submit"> Đặt hàng</button>
                                 <a href="javascript:history.back()" class="btn btn-danger" onclick="bac"
-                                   type="button">Trở
-                                    về</a>
+                                   type="button">Trở về</a>
                             </div>
                         </form>
                     </div>
@@ -156,17 +155,11 @@
         let subTotalMoney = (price * quantity).toLocaleString("vi-VN").replace(/\./g, ",");
         document.getElementById("subTotalMoney").innerHTML  = subTotalMoney
         document.getElementById("quantity").value = quantity
-
     }
 
     window.onload = function () {
     loadSubTotalMoneyAndQuantity();
     };
-
-
-
-
-
 
 </script>
 </body>

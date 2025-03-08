@@ -4,14 +4,14 @@
 <body>
 <nav th:replace="~{/user/layout/navbar::navbar}"></nav>
 
-<div class="container">
+<div class="container" style="min-height: 50vh;">
     <div class="px-xl-5">
         <h2 class="px-3 mb-4">🛒 Giỏ hàng của bạn</h2>
         <div class="row px-3" th:if="${cart.getCartItems().size() == 0}">
             <div class="col-lg-12">
                 <div class="lona-card">
                     <div class="text-center">
-                        Không có sản phẩm nào trong giỏ hàng của bạn
+                        Không có sản phẩm nào trong giỏ hàng của bạn! Quay lại <a href="/">Trang chủ</a>
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
 
         <div class="row px-3" th:if="${cart.getCartItems().size() != 0}">
             <div class="col-lg-8">
-                <div class="lona-card">
+                <div class="lona-card" id="myCart">
                     <div class="lona-cart-item d-flex align-items-center justify-content-between border-bottom"
                          th:each="cartItem : ${cart.getCartItems()}">
                         <img th:src="${cartItem.getProduct.getAvatar().getImageUrl()}" alt="Sản phẩm">
@@ -64,6 +64,9 @@
 </div>
 <meta hidden="hidden" name="_csrf" th:content="${_csrf.token}"/>
 <meta hidden="hidden" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
 <script src="/js/cart.js"></script>
+<script src="/js/main.js"></script>
+
 </body>
 </html>

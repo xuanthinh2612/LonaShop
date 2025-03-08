@@ -9,8 +9,9 @@ public class CartItemUpdateResponse {
 
     private Long cartItemId;
     private Long quantity;
-    private Boolean ok = true;
-    private String messageStatus; // error / success
+    private boolean success = true;
     private String successMessage;
     private String errorMessage;
+    private boolean authError;
+    private boolean productError;
 }

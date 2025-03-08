@@ -71,15 +71,17 @@ public class CartController extends BaseController {
 
         User currentUser = getCurrentLoggedInUser();
         if (ObjectUtils.isEmpty(currentUser)) {
-            cartItemResponse.setErrorMessage( messageSource.getMessage("cart.auth.error", null, locale));
-            cartItemResponse.setOk(false);
+            cartItemResponse.setErrorMessage(messageSource.getMessage("cart.auth.error", null, locale));
+            cartItemResponse.setSuccess(false);
+            cartItemResponse.setAuthError(true);
             return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
         }
 
         Product product = productService.findById(productId);
         if (ObjectUtils.isEmpty(product)) {
-            cartItemResponse.setErrorMessage( messageSource.getMessage("product.error", null, locale));
-            cartItemResponse.setOk(false);
+            cartItemResponse.setErrorMessage(messageSource.getMessage("product.error", null, locale));
+            cartItemResponse.setSuccess(false);
+            cartItemResponse.setProductError(true);
             return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
         }
 
@@ -93,8 +95,9 @@ public class CartController extends BaseController {
 
         CartItem existCartItem = cartService.findCartItemByCartAndProduct(myCart, product);
         if (!ObjectUtils.isEmpty(existCartItem)) {
-            cartItemResponse.setOk(false);
-            cartItemResponse.setErrorMessage("Sản phẩm đã trong giỏ hàng.");
+            cartItemResponse.setSuccess(false);
+            cartItemResponse.setProductError(true);
+            cartItemResponse.setErrorMessage(messageSource.getMessage("productExist.message", null, locale));
             return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
         }
 
@@ -111,9 +114,57 @@ public class CartController extends BaseController {
         calculateCartAmount(myCart);
         cartService.save(myCart);
 
-        cartItemResponse.setOk(true);
+        cartItemResponse.setSuccess(true);
+        cartItemResponse.setSuccessMessage(messageSource.getMessage("productAddedSuccess.message", null, locale));
         return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
     }
+
+    @PostMapping(value = "", params = "buy")
+    public String addToCart(@RequestParam("productId") Long productId,
+                            @RequestParam("quantity") Long quantity,
+                            Locale locale,
+                            RedirectAttributes attributes, Model model) {
+        User currentUser = getCurrentLoggedInUser();
+        if (ObjectUtils.isEmpty(currentUser)) {
+            attributes.addFlashAttribute("warningMsg", messageSource.getMessage("cart.auth.error", null, locale));
+            return "redirect:/login";
+        }
+
+        Product product = productService.findById(productId);
+        if (ObjectUtils.isEmpty(product)) {
+            attributes.addFlashAttribute("warningMsg", messageSource.getMessage("product.error", null, locale));
+            return "redirect:/";
+        }
+
+        if (ObjectUtils.isEmpty(currentUser.getCart())) {
+            Cart cart = new Cart();
+            cart.setCartItems(new ArrayList<CartItem>());
+            currentUser.setCart(cart);
+            userService.updateUser(currentUser);
+        }
+
+        Cart myCart = currentUser.getCart();
+        CartItem existCartItem = cartService.findCartItemByCartAndProduct(myCart, product);
+        if (!ObjectUtils.isEmpty(existCartItem)) {
+            return "redirect:/cart";
+        }
+
+        CartItem cartItem = new CartItem();
+        cartItem.setCart(myCart);
+        cartItem.setProduct(product);
+        cartItem.setPriceAtTime(product.getCurrentPrice());
+        cartItem.setQuantity(quantity);
+        cartItem.setSubAmount(product.getCurrentPrice() * quantity);
+        cartItem.setCreatedAt(new Date());
+        cartItem.setUpdatedAt(new Date());
+
+        myCart.getCartItems().add(cartItem);
+        calculateCartAmount(myCart);
+        cartService.save(myCart);
+
+        return "redirect:/cart";
+    }
+
 
     @DeleteMapping("")
     @ResponseBody
@@ -124,7 +175,7 @@ public class CartController extends BaseController {
 
         User currentUser = getCurrentLoggedInUser();
         if (ObjectUtils.isEmpty(currentUser)) {
-            cartItemResponse.setOk(false);
+            cartItemResponse.setSuccess(false);
             return new ResponseEntity<>(cartItemResponse, HttpStatus.FORBIDDEN);
         }
 
@@ -139,7 +190,7 @@ public class CartController extends BaseController {
             }
         }
         if (ObjectUtils.isEmpty(cartItem)) {
-            cartItemResponse.setOk(false);
+            cartItemResponse.setSuccess(false);
             return new ResponseEntity<>(cartItemResponse, HttpStatus.BAD_REQUEST);
 //            attributes.addFlashAttribute("warningMsg", "Lỗi không thể xóa sản phẩm khỏi giỏ hàng.");
         }
@@ -148,8 +199,7 @@ public class CartController extends BaseController {
         calculateCartAmount(myCart);
         cartService.save(myCart);
 
-        cartItemResponse.setOk(true);
-
+        cartItemResponse.setSuccess(true);
         return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
     }
 
@@ -164,7 +214,7 @@ public class CartController extends BaseController {
         User currentUser = getCurrentLoggedInUser();
 
         if (ObjectUtils.isEmpty(currentUser)) {
-            cartItemResponse.setOk(false);
+            cartItemResponse.setSuccess(false);
             return new ResponseEntity<>(cartItemResponse, HttpStatus.FORBIDDEN);
         }
 
@@ -178,8 +228,8 @@ public class CartController extends BaseController {
                 break;
             }
         }
-        if (ObjectUtils.isEmpty(cartItem)) {
-            cartItemResponse.setOk(false);
+        if (ObjectUtils.isEmpty(cartItem) || ObjectUtils.isEmpty(quantity)) {
+            cartItemResponse.setSuccess(false);
             return new ResponseEntity<>(cartItemResponse, HttpStatus.BAD_REQUEST);
         }
 
