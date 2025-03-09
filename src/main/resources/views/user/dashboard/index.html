@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="~{/user/layout/header::header}"></head>
 <body>
-<!-- Responsive navbar-->
 <!-- Navigation-->
 <div th:replace="~{/user/layout/navbar::navbar}"></div>
 
@@ -10,10 +9,10 @@
 <div class="container mb-3" th:if="${#strings.isEmpty(pageMode) || pageMode != '4'}">
     <div class="row px-xl-5">
         <div class="col-lg-8">
-            <div id="header-carousel" class="carousel slide carousel-fade mb-30 mb-lg-0" data-ride="carousel">
+            <div id="header-carousel" class="carousel slide carousel-fade mb-30 mb-lg-0" data-bs-ride="carousel">
                 <ol class="carousel-indicators">
-                    <li th:each="cover, i : ${mainCoverList}" data-target="#header-carousel"
-                        th:data-slide-to="${i.index}" th:classappend="${i.index == 0 ? 'active' : ''}"></li>
+                    <li th:each="cover, i : ${mainCoverList}" data-bs-target="#header-carousel"
+                        th:data-bs-slide-to="${i.index}" th:classappend="${i.index == 0 ? 'active' : ''}"></li>
                 </ol>
                 <div class="carousel-inner">
                     <div th:each="cover, index : ${mainCoverList}"
@@ -296,8 +295,6 @@
     <!-- Footer-->
     <div th:replace="~{user/layout/footer::footer}"></div>
 
-    <!-- Template Javascript -->
-    <script src="/js/main.js"></script>
 </div>
 </body>
 </html>

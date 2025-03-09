@@ -178,11 +178,12 @@ function showAlertModal(message) {
 }
 
 function updateCartIconInNavbar(changeFlg) {
-   let itemNumber = parseInt(document.querySelector('#cartNavbar').innerText)
+   let itemNumber = parseInt(document.querySelector('#cartNavbar1').innerText)
     if(changeFlg == "deleted") {
         itemNumber = itemNumber - 1;
     } else if(changeFlg == "added") {
         itemNumber = itemNumber + 1
     }
-    document.querySelector('#cartNavbar').innerText = itemNumber
+    document.querySelector('#cartNavbar1').innerText = itemNumber
+    document.querySelector('#cartNavbar2').innerText = itemNumber
 }

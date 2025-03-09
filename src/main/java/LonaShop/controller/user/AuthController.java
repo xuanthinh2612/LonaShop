@@ -49,22 +49,31 @@ public class AuthController extends UserBaseController {
     }
 
     @GetMapping("/register-email")
-    public String showRegistrationForm(@RequestParam("email") String email, Model model, RedirectAttributes attributes) {
+    public String showRegistrationForm(@RequestParam("email") String emailOrPhoneNumber, Model model, RedirectAttributes attributes) {
         if (isLoggedIn()) {
             attributes.addFlashAttribute("warningMsg", "Bạn đang login, vui lòng đăng xuất trước khi tạo tài khoản mới");
             return "redirect:/trang-chu";
         }
 
-        User userExist = userService.findUserByEmail(email);
+        User userExist = userService.findUserByEmailOrPhoneNumber(emailOrPhoneNumber);
 
         if (!ObjectUtils.isEmpty(userExist)) {
             attributes.addFlashAttribute("warningMsg", "Email đã đăng ký! Vui lòng login!");
             return "redirect:/login";
         }
 
-        // create model object to store form data
         UserDto user = new UserDto();
-        user.setEmail(email);
+
+        if (isEmail(emailOrPhoneNumber)) {
+            user.setEmail(emailOrPhoneNumber);
+        } else if (isNumber(emailOrPhoneNumber)) {
+            user.setPhoneNumber(emailOrPhoneNumber);
+        } else {
+            model.addAttribute("warningMsg", "Số điện thoại hoặc email đã nhập không hợp lệ! Vui lòng kiểm tra lại.");
+        }
+
+
+        // create model object to store form data
         model.addAttribute("user", user);
         return "user/auth/register";
     }
@@ -113,6 +122,14 @@ public class AuthController extends UserBaseController {
     private boolean isLoggedIn() {
         UserDto userDto = getCurrentLoggedInUserDto();
         return !ObjectUtils.isEmpty(userDto);
+    }
+
+    private boolean isEmail(String input) {
+        return input.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+    }
+
+    private boolean isNumber(String input) {
+        return input.matches("^(\\d{10}|\\d{3}[-\\s]?\\d{3}[-\\s]?\\d{4})$");
     }
 
 }

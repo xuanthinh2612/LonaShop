@@ -12,7 +12,7 @@ public interface UserService {
     User findUserById(Long id);
     User findUserByEmail(String email);
     User findUserByPhoneNumber(String phoneNumber);
-    User findUserByEmailOrPhoneNumber(String phoneNumber);
+    User findUserByEmailOrPhoneNumber(String emailOrPhoneNumber);
     UserDto findUserDtoByEmail(String email);
 
     List<UserDto> findAllUsers();

@@ -1,85 +1,50 @@
 <div th:fragment="navbar">
-    <!-- Navbar Start -->
-    <div class="container-fluid bg-light mb-30">
-        <div class="row px-xl-5">
-            <div class="col-lg-3 d-none d-lg-block">
-                <a class="btn d-flex align-items-center justify-content-between bg-transparent"
-                   data-toggle="collapse"
-                   href="#navbar-vertical" style="height: 65px; padding: 0 30px;">
-                    <h6 class="text-dark text-uppercase m-0">
-                        <img th:src="@{/img/logoBig.png}" alt="Lona Shop Logo" style="width: 70%">
-                    </h6>
+    <div style="margin-bottom: 6rem;">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 fixed-top">
+            <div class="container">
+                <!-- Logo -->
+                <span class="navbar-toggler-icon" data-bs-toggle="collapse" data-bs-target="#categoryNav"></span>
+                <a id="logo" href="/" style="width: 15%;">
+                    <img src="/img/logoBig.png" alt="Lona Shop Logo" style="width: 100%;">
                 </a>
-                <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light"
-                     id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
-                    <div class="navbar-nav w-100">
-                        <a th:each="category : ${categoryList}" th:href="|/category/${category.id}|"
-                           class="nav-item nav-link"
-                           th:text="${category.getName()}">Link Text</a>
-                    </div>
-                </nav>
-            </div>
-            <div class="col-lg-9 py-3">
-                <nav class="navbar navbar-expand-lg bg-transparent navbar-light py-3 py-lg-0 px-0"
-                     style="padding: 0 30px;">
-                    <div class="row col-lg-auto col-md-12 col-12 align-items-center">
-                        <div class="col-md-4 col-sm-12 py-2">
-                            <a th:href="@{/trang-chu}" class="text-decoration-none d-block d-lg-none">
-                                <img th:src="@{/img/logoBig.png}" alt="Lona Shop Logo" style="width: 66%">
-                            </a>
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-10 d-lg-none py-2">
-                            <div class="text-left">
-                                <form id="searchForm-md" th:action="@{/search}" method="get">
-                                    <div class="input-group">
-                                        <input name="key" type="text" class="form-control" placeholder="Tìm kiếm">
-                                        <div class="input-group-append">
-                                            <button type="submit" class="input-group-text bg-transparent text-info">
-                                                <i class="fa fa-search"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="col-md-2 col-sm-6 col-2 py-2">
-                            <button type="button" class="navbar-toggler navbar-nav ml-auto py-0" data-toggle="collapse"
-                                    data-target="#navbarCollapse">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                        </div>
+                <!-- Nút toggle menu trên mobile -->
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                    </div>
-                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                        <div class="navbar-nav mr-auto py-0">
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       th:classappend="${(pageMode != '1')&&(pageMode!='2')&&(pageMode!='3') ? 'active' : ''}"
-                                       aria-current="page" th:href="@{/}">Trang Chủ</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       th:classappend="${pageMode == '1' ? 'active' : ''}"
-                                       th:href="@{/trang-chu/about}">Giới Thiệu</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/blog}"
-                                       th:classappend="${pageMode == '2' ? 'active' : ''}"
-                                    >Blog</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       th:classappend="${pageMode == '3' ? 'active' : ''}"
-                                       th:href="@{/inquiry/new}">Liên hệ</a>
-                                </li>
-                            </ul>
-                        </div>
+                <!-- Menu -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               th:classappend="${(pageMode != '1')&&(pageMode!='2')&&(pageMode!='3') ? 'active' : ''}"
+                               aria-current="page" th:href="@{/}">Trang Chủ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               th:classappend="${pageMode == '1' ? 'active' : ''}"
+                               th:href="@{/trang-chu/about}">Giới Thiệu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/blog}"
+                               th:classappend="${pageMode == '2' ? 'active' : ''}">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               th:classappend="${pageMode == '3' ? 'active' : ''}"
+                               th:href="@{/inquiry/new}">Liên hệ</a>
+                        </li>
+                    </ul>
+                    <!-- Dropdown Tài Khoản -->
+                    <div class="navbar-nav ml-auto py-0 d-none d-flex align-items-center justify-content-end">
                         <div class="text-left d-none d-lg-block">
                             <form id="searchForm" th:action="@{/search}" method="get">
                                 <div class="input-group">
-                                    <input name="key" type="text" class="form-control" placeholder="Tìm kiếm">
-                                    <div class="input-group-append">
+                                    <input name="key" type="text" class="form-control mx-1" placeholder="Tìm kiếm">
+                                    <div class="input-group-append mx-1">
                                         <button type="submit" class="input-group-text bg-transparent text-info">
                                             <i class="fa fa-search"></i>
                                         </button>
@@ -87,50 +52,114 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                            <a th:href="@{/cart}" class="btn px-0 ml-3">
-                                <i class="fas fa-shopping-cart text-info"></i>
-                                <span class="badge text-danger border border-dark rounded-circle"
-                                      style="padding-bottom: 2px;" th:if="${currentUser != null && currentUser.getCart != null}"
-                                      th:text="${currentUser.getCart.getCartItems.size()}" id="cartNavbar">0</span>
-                                <span class="badge text-dark border border-dark rounded-circle"
-                                      style="padding-bottom: 2px;" th:if="${currentUser == null ||  currentUser.getCart == null}">0</span>
-                            </a>
-                            <a class="btn px-0 ml-3 dropdown-toggle" href="#" role="button" id="navbarDropdown"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user fa-fw text-info"></i>
-                                <span class="badge text-dark" th:if="${#strings.isEmpty(currentUser)}"
-                                      style="padding-bottom: 2px;">Tài Khoản</span>
-                                <span th:if="${!#strings.isEmpty(currentUser)}" th:text="${currentUser.name}"></span>
-                            </a>
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                                <li class="nav-item dropdown">
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li class="nav-item" th:if="${#strings.isEmpty(currentUser)}">
-                                            <a class="dropdown-item" th:href="@{/register}">Đăng ký</a>
-                                        </li>
-                                        <li class="nav-item" th:if="${!#strings.isEmpty(currentUser)}">
-                                            <a class="dropdown-item" th:href="@{/}">Trang Cá Nhân</a>
-                                        </li>
-                                        <li>
-                                            <hr class="dropdown-divider"/>
-                                        </li>
-                                        <li th:if="${#strings.isEmpty(currentUser)}">
-                                            <a class="dropdown-item" th:href="@{/login}">Đăng Nhập</a>
-                                        </li>
-                                        <li class="nav-item" th:if="${!#strings.isEmpty(currentUser)}">
-                                            <a class="dropdown-item" th:href="@{/logout}">Đăng Xuất</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                        <a th:href="@{/cart}" class="btn px-0 ml-3 nav-link d-none d-lg-block">
+                            <i class="fas fa-shopping-cart text-info"></i>
+                            <span class="badge text-dark">Giỏ hàng</span>
+                            <span class="badge text-danger border border-dark rounded-circle"
+                                  style="padding-bottom: 2px;"
+                                  th:if="${currentUser != null && currentUser.getCart != null}"
+                                  th:text="${currentUser.getCart.getCartItems.size()}" id="cartNavbar1">0</span>
+                            <span class="badge text-dark border border-dark rounded-circle"
+                                  style="padding-bottom: 2px;"
+                                  th:if="${currentUser == null ||  currentUser.getCart == null}">0</span>
+                        </a>
+                        <a class="btn px-0 ml-3 dropdown-toggle d-none d-lg-block" href="#" role="button"
+                           id="navbarDropdown1"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user fa-fw text-info"></i>
+                            <span class="badge text-dark" th:if="${#strings.isEmpty(currentUser)}"
+                                  style="padding-bottom: 2px;">Tài Khoản</span>
+                            <span th:if="${!#strings.isEmpty(currentUser)}" th:text="${currentUser.name}"></span>
+                        </a>
+                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 ms-lg-4">
+                            <li class="nav-item dropdown">
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                                    <li class="nav-item" th:if="${#strings.isEmpty(currentUser)}">
+                                        <a class="dropdown-item" th:href="@{/register}">Đăng ký</a>
+                                    </li>
+                                    <li class="nav-item" th:if="${!#strings.isEmpty(currentUser)}">
+                                        <a class="dropdown-item" th:href="@{/}">Trang Cá Nhân</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider"/>
+                                    </li>
+                                    <li th:if="${#strings.isEmpty(currentUser)}">
+                                        <a class="dropdown-item" th:href="@{/login}">Đăng Nhập</a>
+                                    </li>
+                                    <li class="nav-item" th:if="${!#strings.isEmpty(currentUser)}">
+                                        <a class="dropdown-item" th:href="@{/logout}">Đăng Xuất</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
-                </nav>
+
+                    <!--                        Hiển thị trên mobile -->
+                    <div class="text-left d-block d-lg-none d-flex flex-column align-items-start">
+                        <a th:href="@{/cart}" class="btn px-0 nav-link">
+                            <i class="fas fa-shopping-cart text-info"></i>
+                            <span class="badge text-dark">Giỏ hàng</span>
+                            <span class="badge text-danger border border-dark rounded-circle"
+                                  style="padding-bottom: 2px;"
+                                  th:if="${currentUser != null && currentUser.getCart != null}"
+                                  th:text="${currentUser.getCart.getCartItems.size()}" id="cartNavbar2">0</span>
+                            <span class="badge text-dark border border-dark rounded-circle"
+                                  style="padding-bottom: 2px;"
+                                  th:if="${currentUser == null ||  currentUser.getCart == null}">0</span>
+                        </a>
+                        <a class="btn px-0 dropdown-toggle" href="#" role="button" id="navbarDropdown2"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user fa-fw text-info"></i>
+                            <span class="badge text-dark" th:if="${#strings.isEmpty(currentUser)}"
+                                  style="padding-bottom: 2px;">Tài Khoản</span>
+                            <span th:if="${!#strings.isEmpty(currentUser)}" th:text="${currentUser.name}"></span>
+                        </a>
+                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 ms-lg-4">
+                            <li class="nav-item dropdown">
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                                    <li class="nav-item" th:if="${#strings.isEmpty(currentUser)}">
+                                        <a class="dropdown-item" th:href="@{/register}">Đăng ký</a>
+                                    </li>
+                                    <li class="nav-item" th:if="${!#strings.isEmpty(currentUser)}">
+                                        <a class="dropdown-item" th:href="@{/}">Trang Cá Nhân</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider"/>
+                                    </li>
+                                    <li th:if="${#strings.isEmpty(currentUser)}">
+                                        <a class="dropdown-item" th:href="@{/login}">Đăng Nhập</a>
+                                    </li>
+                                    <li class="nav-item" th:if="${!#strings.isEmpty(currentUser)}">
+                                        <a class="dropdown-item" th:href="@{/logout}">Đăng Xuất</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <form th:action="@{/search}" method="get">
+                            <div class="input-group">
+                                <input name="key" type="text" class="form-control mx-1" placeholder="Tìm kiếm">
+                                <div class="input-group-append mx-1">
+                                    <button type="submit" class="input-group-text bg-transparent text-info">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="col-6 col-md-3  collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light"
+                 id="categoryNav">
+                <div class="navbar-nav w-100">
+                    <a th:each="category : ${categoryList}" th:href="|/category/${category.id}|"
+                       class="nav-item nav-link"
+                       th:text="${category.getName()}">Link Text</a>
+                </div>
             </div>
         </div>
     </div>
-    <!--    Message alert -->
     <div class="container justify-content-center" th:if="${msg}">
         <div class="row px-xl-5">
             <div class="alert alert-success" th:text="${msg}"> Messenger.</div>

@@ -102,3 +102,28 @@
     
 })(jQuery);
 
+// toggle khi click ra ngoài vẫn close list
+document.addEventListener("click", function (event) {
+    var navbarNav = document.getElementById("navbarNav"); // Menu chính
+    var categoryNav = document.getElementById("categoryNav"); // Menu danh mục
+    var navbarToggler = document.querySelector(".navbar-toggler"); // Nút toggle menu chính
+    var categoryToggler = document.querySelector(".navbar-toggler-icon[data-bs-target='#categoryNav']"); // Nút toggle danh mục
+
+    // Kiểm tra nếu click không nằm trong navbar hoặc nút toggle
+    if (
+        !navbarNav.contains(event.target) &&
+        !navbarToggler.contains(event.target) &&
+        navbarNav.classList.contains("show")
+    ) {
+        new bootstrap.Collapse(navbarNav, { toggle: true });
+    }
+
+    // Kiểm tra nếu click không nằm trong categoryNav hoặc nút toggle
+    if (
+        !categoryNav.contains(event.target) &&
+        !categoryToggler.contains(event.target) &&
+        categoryNav.classList.contains("show")
+    ) {
+        new bootstrap.Collapse(categoryNav, { toggle: true });
+    }
+});
