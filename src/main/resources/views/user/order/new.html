@@ -9,21 +9,34 @@
         <div class="row px-3">
             <div class="col-lg-8">
                 <div class="lona-card">
-                    <div class="lona-cart-item d-flex align-items-center justify-content-between border-bottom"
+                    <div class="lona-cart-item row align-items-center border-bottom py-3"
                          th:each="cartItem : ${cart.getCartItems()}">
-                        <img th:src="${cartItem.getProduct.getAvatar().getImageUrl()}" alt="Sản phẩm">
-                        <div class="ms-3 flex-grow-1">
+
+                        <!-- Ảnh sản phẩm -->
+                        <div class="col-12 col-md-auto text-center">
+                            <img th:src="${cartItem.getProduct.getAvatar().getImageUrl()}" alt="Sản phẩm">
+                        </div>
+
+                        <!-- Thông tin sản phẩm -->
+                        <div class="col-12 col-md flex-grow-1">
                             <a th:href="'/product/show/'+${cartItem.getProduct().getId()}">
                                 <h5 class="mb-1" th:text="${cartItem.getProduct().getName()}">Product Name</h5>
                             </a>
-                            <p class="text-muted">Giá: <span class="price" th:data-price="${cartItem.getPriceAtTime()}"
-                                                             th:text="${#numbers.formatInteger(cartItem.getPriceAtTime(), 3, 'COMMA')}">0</span>đ
+                            <p class="text-muted">
+                                Giá: <span class="price" th:data-price="${cartItem.getPriceAtTime()}"
+                                           th:text="${#numbers.formatInteger(cartItem.getPriceAtTime(), 3, 'COMMA')}">0</span>đ
                             </p>
                         </div>
-                        <input th:value="${cartItem.getQuantity()}" type="number" class="form-control quantity"
-                               value="1" min="1" style="width: 60px;" disabled>
-                        <span class="total-price ms-3"
-                              th:text="${#numbers.formatInteger(cartItem.getSubAmount(), 3, 'COMMA')}">0</span><span>đ</span>
+                        <!-- Số lượng và tổng tiền -->
+                        <div class="col-4 col-md-auto text-center">
+                            <input th:value="${cartItem.getQuantity()}" type="number" class="form-control quantity"
+                                   disabled value="1" min="1" style="width: 70px;">
+                        </div>
+
+                        <div class="col-4 col-md-auto text-center">
+                            <span class="total-price"
+                                  th:text="${#numbers.formatInteger(cartItem.getSubAmount(), 3, 'COMMA')}">0</span>đ
+                        </div>
                     </div>
                 </div>
                 <div class="lona-card d-flex align-items-center justify-content-between">
@@ -119,8 +132,7 @@
                             </div>
 
                             <input hidden class="form-control" th:field="*{quantity}" type="text"
-                                   name="quantity"
-                                   id="quantity"/>
+                                   name="quantity" id="quantity"/>
                             <div class="form-group pt-5">
                                 <button class="btn btn-primary" type="submit"> Đặt hàng</button>
                                 <a href="javascript:history.back()" class="btn btn-danger" onclick="bac"
@@ -148,7 +160,6 @@
 <!-- Custom Javascript -->
 <script src="/js/customJs.js"></script>
 <script>
-
     function loadSubTotalMoneyAndQuantity() {
         let price = document.getElementById("productPrice").value
         let quantity = document.getElementById("inputQuantity").value
@@ -160,7 +171,6 @@
     window.onload = function () {
     loadSubTotalMoneyAndQuantity();
     };
-
 </script>
 </body>
 </html>

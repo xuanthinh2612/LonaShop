@@ -1,9 +1,9 @@
 package LonaShop.model;
 
-import lombok.*;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import lombok.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,4 +55,7 @@ public class User {
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Cart cart;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<UserOrder> orders;
 }

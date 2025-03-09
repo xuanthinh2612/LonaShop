@@ -1,5 +1,6 @@
 package LonaShop.controller.user;
 
+import LonaShop.common.CommonConst;
 import LonaShop.controller.BaseController;
 import LonaShop.dto.CartItemUpdateRequest;
 import LonaShop.dto.CartItemUpdateResponse;
@@ -42,11 +43,11 @@ public class CartController extends BaseController {
     ProductService productService;
 
     @GetMapping("")
-    public String myCart(RedirectAttributes attributes, Model model) {
+    public String myCart(RedirectAttributes attributes, Model model, Locale locale) {
 
         User currentUser = getCurrentLoggedInUser();
         if (ObjectUtils.isEmpty(currentUser)) {
-            attributes.addFlashAttribute("warningMsg", "Bạn vui lòng đăng nhập để sử dụng chức năng giỏ hàng.");
+            attributes.addFlashAttribute("warningMsg", messageSource.getMessage("cart.auth.error", null, locale));
             return "redirect:/login";
         }
 
@@ -78,7 +79,7 @@ public class CartController extends BaseController {
         }
 
         Product product = productService.findById(productId);
-        if (ObjectUtils.isEmpty(product)) {
+        if (isNotValidProduct(product)) {
             cartItemResponse.setErrorMessage(messageSource.getMessage("product.error", null, locale));
             cartItemResponse.setSuccess(false);
             cartItemResponse.setProductError(true);
@@ -131,7 +132,7 @@ public class CartController extends BaseController {
         }
 
         Product product = productService.findById(productId);
-        if (ObjectUtils.isEmpty(product)) {
+        if (isNotValidProduct(product)) {
             attributes.addFlashAttribute("warningMsg", messageSource.getMessage("product.error", null, locale));
             return "redirect:/";
         }
@@ -169,14 +170,16 @@ public class CartController extends BaseController {
     @DeleteMapping("")
     @ResponseBody
     public ResponseEntity<CartItemUpdateResponse> deleteCartItemFromCart(@RequestBody CartItemUpdateRequest request,
-                                                                         RedirectAttributes attributes, Model model) {
+                                                                         Locale locale) {
         Long cartItemId = request.getCartItemId();
         CartItemUpdateResponse cartItemResponse = new CartItemUpdateResponse();
 
         User currentUser = getCurrentLoggedInUser();
         if (ObjectUtils.isEmpty(currentUser)) {
+            cartItemResponse.setErrorMessage(messageSource.getMessage("cart.auth.error", null, locale));
             cartItemResponse.setSuccess(false);
-            return new ResponseEntity<>(cartItemResponse, HttpStatus.FORBIDDEN);
+            cartItemResponse.setAuthError(true);
+            return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
         }
 
         Cart myCart = currentUser.getCart();
@@ -191,8 +194,9 @@ public class CartController extends BaseController {
         }
         if (ObjectUtils.isEmpty(cartItem)) {
             cartItemResponse.setSuccess(false);
-            return new ResponseEntity<>(cartItemResponse, HttpStatus.BAD_REQUEST);
-//            attributes.addFlashAttribute("warningMsg", "Lỗi không thể xóa sản phẩm khỏi giỏ hàng.");
+            cartItemResponse.setProductError(true);
+            cartItemResponse.setErrorMessage(messageSource.getMessage("productDelete.error", null, locale));
+            return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
         }
 
         myCart.getCartItems().remove(cartItem);
@@ -200,12 +204,13 @@ public class CartController extends BaseController {
         cartService.save(myCart);
 
         cartItemResponse.setSuccess(true);
+        cartItemResponse.setSuccessMessage(messageSource.getMessage("productDelete.success", null, locale));
         return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
     }
 
     @PutMapping("")
     @ResponseBody
-    public ResponseEntity<CartItemUpdateResponse> UpdateCart(@RequestBody CartItemUpdateRequest request) {
+    public ResponseEntity<CartItemUpdateResponse> UpdateCart(@RequestBody CartItemUpdateRequest request, Locale locale) {
         Long cartItemId = request.getCartItemId();
         Long quantity = request.getQuantity();
 
@@ -214,8 +219,10 @@ public class CartController extends BaseController {
         User currentUser = getCurrentLoggedInUser();
 
         if (ObjectUtils.isEmpty(currentUser)) {
+            cartItemResponse.setErrorMessage(messageSource.getMessage("cart.auth.error", null, locale));
             cartItemResponse.setSuccess(false);
-            return new ResponseEntity<>(cartItemResponse, HttpStatus.FORBIDDEN);
+            cartItemResponse.setAuthError(true);
+            return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
         }
 
         Cart myCart = currentUser.getCart();
@@ -229,8 +236,10 @@ public class CartController extends BaseController {
             }
         }
         if (ObjectUtils.isEmpty(cartItem) || ObjectUtils.isEmpty(quantity)) {
+            cartItemResponse.setErrorMessage(messageSource.getMessage("product.error", null, locale));
             cartItemResponse.setSuccess(false);
-            return new ResponseEntity<>(cartItemResponse, HttpStatus.BAD_REQUEST);
+            cartItemResponse.setProductError(true);
+            return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
         }
 
         cartItem.setQuantity(quantity);
@@ -239,9 +248,8 @@ public class CartController extends BaseController {
         calculateCartAmount(myCart);
         cartService.save(myCart);
 
-        cartItemResponse.setCartItemId(cartItemId);
-        cartItemResponse.setQuantity(cartItem.getQuantity());
-
+        cartItemResponse.setSuccess(true);
+        cartItemResponse.setSuccessMessage(messageSource.getMessage("productUpdate.success", null, locale));
         return new ResponseEntity<>(cartItemResponse, HttpStatus.OK);
     }
 
@@ -254,4 +262,10 @@ public class CartController extends BaseController {
         }
         myCart.setTotalAmount(totalAmount);
     }
+
+    private boolean isNotValidProduct(Product product) {
+        return ObjectUtils.isEmpty(product) || product.getStatus() != CommonConst.ProductStatus.available.code()
+                && product.getStatus() != CommonConst.ProductStatus.sale.code();
+    }
+
 }

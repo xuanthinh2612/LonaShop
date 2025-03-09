@@ -35,6 +35,7 @@ function addItemToCart(productId, quantity) {
     })
     .then(data => {
         if (data.success) {
+            updateCartIconInNavbar("added")
             getModalSuccess(data)
         } else {
             getModalError(data);
@@ -106,4 +107,13 @@ function getModalError(data) {
     modalElement.addEventListener('hidden.bs.modal', function () {
         modalElement.remove();
     });
+}
+function updateCartIconInNavbar(changeFlg) {
+   let itemNumber = parseInt(document.querySelector('#cartNavbar').innerText)
+    if(changeFlg == "deleted") {
+        itemNumber = itemNumber - 1;
+    } else if(changeFlg == "added") {
+        itemNumber = itemNumber + 1
+    }
+    document.querySelector('#cartNavbar').innerText = itemNumber
 }

@@ -1,5 +1,6 @@
 package LonaShop.service;
 
+import LonaShop.model.User;
 import LonaShop.model.UserOrder;
 
 import java.util.List;

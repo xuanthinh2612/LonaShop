@@ -35,7 +35,7 @@ function updateCartItemAjax(cartItemId, quantity) {
     })
     .then(response => {
         if (!response.ok) {
-            alert('Lỗi đường truyền. Cập nhật giỏ hàng thất bại!');
+            showAlertModal('Lỗi đường truyền. Cập nhật giỏ hàng thất bại!');
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         return response.json();
@@ -44,10 +44,12 @@ function updateCartItemAjax(cartItemId, quantity) {
         if (data.success) {
             updateCart();
         } else {
-            alert('Cập nhật giỏ hàng thất bại!');
+            showAlertModal('Không thể update giỏ hàng! Vui lòng thử lại.');
         }
     })
-    .catch(error => console.error('Lỗi:', error));
+    .catch(error => {
+        showAlertModal('Có lỗi xảy ra! Update giỏ hàng thất bại')
+    });
 }
 
 
@@ -73,6 +75,7 @@ document.querySelectorAll('.remove-item').forEach(input => {
         getConfirmModal(cartItemId, cartItemElement);
     });
 });
+
 function getConfirmModal(cartItemId, cartItemElement) {
     const modalHtml =
             `<div class="modal fade" id="confirmGoToCartModal" tabindex="-1" aria-labelledby="customModalLabel" aria-hidden="true">
@@ -99,8 +102,9 @@ function getConfirmModal(cartItemId, cartItemElement) {
 
     // Thêm sự kiện khi nhấn "Xóa"
     document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
-        deleteCartItemFromCart(cartItemId, cartItemElement);
         modalInstance.hide();
+        modalElement.remove();
+        deleteCartItemFromCart(cartItemId, cartItemElement);
     });
 
     modalElement.addEventListener('hidden.bs.modal', function () {
@@ -124,7 +128,7 @@ function deleteCartItemFromCart(cartItemId, cartItemElement) {
     })
     .then(response => {
         if (!response.ok) {
-            alert('Xóa sản phẩm thất bại! Vui lòng thử lại.');
+            showAlertModal('Lỗi đường truyền. Cập nhật giỏ hàng thất bại!');
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         return response.json();
@@ -132,10 +136,53 @@ function deleteCartItemFromCart(cartItemId, cartItemElement) {
     .then(data => {
         if (data.success) {
             cartItemElement.remove();
+            updateCartIconInNavbar("deleted")
             updateCart();
         } else {
-            alert('Xóa sản phẩm thất bại! Vui lòng thử lại.');
+            showAlertModal('Không thể xóa sản phẩm! Vui lòng thử lại.');
         }
     })
-    .catch(error => console.error('Lỗi:', error));
+    .catch(error => {
+        showAlertModal('Xóa sản phẩm thất bại! Vui lòng thử lại.')
+    });
+}
+
+function showAlertModal(message) {
+    const modalHtml =
+            `<div class="modal fade" id="confirmGoToCartModal" tabindex="-1" aria-labelledby="customModalLabel" aria-hidden="true">
+                 <div class="modal-dialog modal-dialog-centered">
+                     <div class="modal-content custom-modal">
+                         <div class="modal-header">
+                             <h5 class="modal-title" id="customModalLabel">Thông báo</h5>
+                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                         </div>
+                         <div class="modal-body">
+                              ${message}
+                         </div>
+                         <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button onclick="window.location.reload()" type="button" class="btn btn-info" data-bs-dismiss="modal">Tải lại</button>
+                         </div>
+                     </div>
+                 </div>
+             </div>`
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    const modalElement = document.getElementById('confirmGoToCartModal');
+    const modalInstance = new bootstrap.Modal(modalElement);
+    modalInstance.show();
+
+    modalElement.addEventListener('hidden.bs.modal', function () {
+        modalElement.remove();
+    });
+}
+
+function updateCartIconInNavbar(changeFlg) {
+   let itemNumber = parseInt(document.querySelector('#cartNavbar').innerText)
+    if(changeFlg == "deleted") {
+        itemNumber = itemNumber - 1;
+    } else if(changeFlg == "added") {
+        itemNumber = itemNumber + 1
+    }
+    document.querySelector('#cartNavbar').innerText = itemNumber
 }

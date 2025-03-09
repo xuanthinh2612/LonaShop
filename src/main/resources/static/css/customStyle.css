@@ -59,15 +59,8 @@
     border-radius: 15px;
     padding: 20px;
 }
-.lona-cart-item img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 8px;
-}
 .lona-cart-item {
     transition: 0.3s;
-    padding: 15px;
     border-radius: 10px;
 }
 .lona-cart-item:hover {
@@ -81,6 +74,43 @@
     font-weight: bold;
     color: #ff4d4d;
 }
+/* Giữ bố cục đẹp trên điện thoại */
+.lona-cart-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+/* Căn giữa trên màn hình nhỏ */
+@media (max-width: 768px) {
+    .lona-cart-item div {
+        text-align: center;
+    }
+}
+
+.lona-cart-item h5 {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+.quantity {
+    text-align: center;
+}
+
+/* Responsive: Hiển thị đẹp trên điện thoại */
+@media (max-width: 768px) {
+    .d-flex.align-items-start {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .row.mt-2 {
+        flex-direction: column;
+    }
+    .col-auto {
+        margin-bottom: 5px;
+    }
+}
+
 
 /* For modal */
 
