@@ -1,3 +1,4 @@
+/* product */
 .limited-span-1-line {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -25,8 +26,7 @@
 
 .bottom-controls {
     position: absolute;
-    bottom: 10px;
-    left: 30px;
+    bottom: 15px;
     display: flex;
     gap: 10px;
 }
@@ -165,13 +165,96 @@
 #categoryNav {
     width: calc(100% - 30px);
     z-index: 999;
-    top: 4.5rem;
+    top: 4.25rem;
     position: fixed;
     position: fixed !important;
 }
 
+.drop-menu-on-desk {
+    left: -6rem;
+    top: 1rem;
+}
+
+/* Input quantity not show default arrow */
+.productQuantityInput {
+    -moz-appearance: textfield; /* Ẩn mũi tên trên Firefox */
+}
+
+.productQuantityInput::-webkit-inner-spin-button,
+.productQuantityInput::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* Ẩn mũi tên trên Chrome, Safari */
+}
+
+/* Blog */
+.pre-line {
+    white-space: pre-line; /* Hiển thị dấu enter xuống dòng */
+}
+
+/* Responsive */
+@media (max-width: 2700px) {
+    .productQuantityInput {
+        width: 4rem;
+    }
+    .carousel-item {
+        height: 30rem;
+    }
+    .product-offer {
+        height: 14.5rem;
+    }
+    .productMainImage {
+        height: 30rem
+    }
+    .blog-image-item {
+        height: 11rem;
+        overflow: hidden;
+        display: flex;
+    }
+}
+
+@media (max-width: 1200px) {
+    .productQuantityInput {
+        width: 5rem;
+        margin-left: 0.;
+    }
+}
+
+@media (max-width: 992px) {
+}
+
 @media (max-width: 768px) {
+}
+
+@media (max-width: 576px) {
+    .productQuantityInput {
+        width: 3rem;
+        margin: 0px
+    }
+
     .navbar #logo {
         width: 50% !important;
     }
+
+    .carousel-item {
+        height: 25rem;
+    }
+
+    .product-offer {
+        height: 12rem;
+    }
+    .productMainImage {
+        height: 20rem
+    }
+    #categoryNav {
+        left: -3px
+    }
+    .blog-image-item {
+        height: 7rem;
+        overflow: hidden;
+        display: flex;
+    }
+    .blog-item {
+        padding: 0.25rem
+    }
 }
+

@@ -34,8 +34,8 @@
                     <div class="mb-3">
                         <label for="shortDescription" class="form-label">Mô tả ngắn </label>
                         <span class="small text-muted">(Mục này sẽ xuất hiện cùng tiêu đề bài viết)</span>
-                        <input type="text" th:field="*{shortDescription}" class="form-control" id="shortDescription"
-                               placeholder="Mô tả ngắn">
+                        <textarea th:field="*{shortDescription}" class="form-control" id="shortDescription"
+                                  placeholder="Mô tả ngắn"></textarea>
                         <p th:if="${#fields.hasErrors('shortDescription')}" th:errorclass="text-danger"
                            th:errors="*{shortDescription}"></p>
                     </div>
@@ -107,13 +107,13 @@
                             <div class="row col-12">
                                 <div class="mb-3">
                                     <label class="form-label">Tiêu đề</label>
-                                    <input class="form-control" rows="3"
-                                           th:field="*{subContentList[__${index.index}__].title}">
+                                    <textarea class="form-control" rows="3"
+                                              th:field="*{subContentList[__${index.index}__].title}"></textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Tiêu đề phụ</label>
-                                    <input class="form-control" rows="3"
-                                           th:field="*{subContentList[__${index.index}__].subTitle}">
+                                    <textarea class="form-control" rows="3"
+                                              th:field="*{subContentList[__${index.index}__].subTitle}"></textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Nội dung mô tả chi tiết 1</label>

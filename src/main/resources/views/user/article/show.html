@@ -13,45 +13,43 @@
                 <!-- Post header-->
                 <header class="mb-4">
                     <!-- Post title-->
-                    <h1 class="fw-bolder mb-1" th:text="${article.getTitle()}"></h1>
+                    <h1 class="fw-bolder mb-1 pre-line" th:text="${article.getTitle()}"></h1>
                     <!-- Post meta content-->
                     <div class="text-muted fst-italic mb-2" th:text="${article.getAuthor()}"></div>
                     <!-- Post categories-->
-                    <a class="badge bg-info text-decoration-none link-light" href="">Blog</a>
+                    <a class="badge bg-info text-decoration-none link-light">Blog</a>
                 </header>
                 <!-- Preview image figure-->
-                <h5 class="fw-bolder mb-4 mt-5" th:text="${article.getShortDescription()}"></h5>
+                <h5 class="fw-bolder mb-4 mt-5 pre-line text-justify" th:text="${article.getShortDescription()}"></h5>
 
                 <div th:each="subContent, index : ${article.getSubContentList()}">
 
-                    <figure class="mb-4" th:if="${subContent.getImage() != null}">
+                    <figure class="mb-3" th:if="${subContent.getImage() != null}">
                         <img class="img-fluid w-100" th:src="${subContent.getImage().getImageUrl()}" alt="..."/>
                     </figure>
                     <!-- Post content-->
                     <section class="mb-5">
                         <div class="col-12 mb-3" th:if="${subContent.image != null }">
-                            <div class="col-8 font-italic">
-                                <span class="small" th:text="${subContent.image?.description}"></span>
-                            </div>
-                            <div th:if="${subContent.image != null }" class="col-4">
+                            <div class="col-12 font-italic text-center">
+                                <span class="small pre-line" th:text="${subContent.image?.description}"></span>
                             </div>
                         </div>
                         <div th:if="${!#strings.isEmpty(subContent.title)}" class="mb-3">
-                            <h4 th:text="${subContent.title}"></h4>
+                            <h5 class="pre-line text-justify" th:text="${subContent.title}"></h5>
                         </div>
-                        <div th:if="${!#strings.isEmpty(subContent.subTitle)}" class="mb-3">
-                            <h5 th:text="${subContent.subTitle}"></h5>
+                        <div th:if="${!#strings.isEmpty(subContent.subTitle)}" class="mb-3 pre-line">
+                            <h5 class="pre-line text-justify fs-5 " th:text="${subContent.subTitle}"></h5>
                         </div>
-                        <p class="fs-5 mb-4 text-justify" th:text="${subContent.getContent1()}"></p>
-                        <p class="fs-5 mb-4 text-justify" th:text="${subContent.getContent2()}"></p>
-                        <p class="fs-5 mb-4 text-justify" th:text="${subContent.getContent3()}"></p>
+                        <p class="fs-5 mb-4 text-justify pre-line" th:text="${subContent.getContent1()}"></p>
+                        <p class="fs-5 mb-4 text-justify pre-line" th:text="${subContent.getContent2()}"></p>
+                        <p class="fs-5 mb-4 text-justify pre-line" th:text="${subContent.getContent3()}"></p>
                     </section>
                 </div>
             </article>
             <h6 class="fw-bolder mb-4 mt-5 mb-5" th:text="${article.getNote()}"></h6>
         </div>
         <!-- Side widgets-->
-        <div class="col-lg-4">
+        <div class="col-lg-4 d-lg-block d-none">
             <!-- Related article list-->
             <div class="card mb-4">
                 <div class="card-header">Các bài viết liên quan</div>
@@ -91,13 +89,11 @@
             class="bg-secondary pr-3">Các Bài Viết Bạn Có Thể Quan Tâm</span>
     </h2>
     <div class="row px-xl-5">
-        <div class="col-lg-3 pb-1" th:each="article : ${relatedListBottom}">
+        <div class="col-lg-4 col-6 pb-1 blog-item" th:each="article : ${relatedListBottom}">
             <div class="product-item bg-light mb-4">
-                <div class="position-relative overflow-hidden"
-                     style="height: 10rem; overflow: hidden;display: flex;">
+                <div class="position-relative overflow-hidden blog-image-item">
                     <a th:href="|/blog/show/${article.getId()}|">
-                        <img class="img-fluid" style="object-fit: cover;height:10rem;width:15rem"
-                             th:src="${article.getAvatar().getImageUrl()}" alt="">
+                        <img class="img-fluid" th:src="${article.getAvatar().getImageUrl()}" alt="">
                     </a>
                 </div>
                 <div class="p-2">
@@ -107,13 +103,9 @@
                         <p class="card-text limited-span-2-line" th:text="${article.getShortDescription()}">Blog
                             short description</p>
                     </div>
-                    <div class="d-flex align-items-center justify-content-center mb-1">
-                        <a class="btn btn-info btn-sm mt-2" th:href="|/blog/show/${article.getId()}|">Đọc thêm</a>
-                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 

@@ -60,7 +60,7 @@
                                     <span class="py-5">Giá cũ:&emsp; </span>
                                     <span class="text-decoration-line-through"
                                           th:text="${#numbers.formatInteger(product.getOldPrice(), 3, 'COMMA')}"></span>
-                                    <span>VNĐ</span>
+                                    <span>đ</span>
                                     <br>
                                 </div>
                                 <div class="fs-5 mb-5 text-danger">
@@ -68,7 +68,7 @@
                                     <span class="fw-bold"
                                           th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}">
                                     </span>
-                                    <span>&nbsp VNĐ/</span>
+                                    <span>&nbsp đ/</span>
                                     <span th:text="${product.getUnit()}"></span>
                                 </div>
                                 <p class="lead" th:text="${product.getSubDescription_1()}"></p>

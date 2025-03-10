@@ -127,3 +127,49 @@ document.addEventListener("click", function (event) {
         new bootstrap.Collapse(categoryNav, { toggle: true });
     }
 });
+
+// Common JS
+
+// change quantity in product detail and cart page
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".productQuantityInput").forEach(function (quantityInput) {
+        // Tìm phần tử cha chứa cả input và 2 nút
+        const container = quantityInput.closest(".d-flex");
+
+        if (!container) return;
+
+        // Lấy nút trừ (-) và nút cộng (+) trong container
+        const minusButton = container.querySelector(".fa-minus").closest("button");
+        const plusButton = container.querySelector(".fa-plus").closest("button");
+
+        // Giảm số lượng
+        minusButton.addEventListener("click", function () {
+            let currentValue = parseInt(quantityInput.value, 10);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+                quantityInput.dispatchEvent(new Event("change", { bubbles: true })); // Kích hoạt sự kiện change
+            }
+        });
+
+        // Tăng số lượng
+        plusButton.addEventListener("click", function () {
+            let currentValue = parseInt(quantityInput.value, 10);
+            quantityInput.value = currentValue + 1;
+            quantityInput.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+    });
+});
+
+
+
+// Update cart icon in navbar
+function updateCartIconInNavbar(changeFlg) {
+   let itemNumber = parseInt(document.querySelector('#cartNavbar1').innerText)
+    if(changeFlg == "deleted") {
+        itemNumber = itemNumber - 1;
+    } else if(changeFlg == "added") {
+        itemNumber = itemNumber + 1
+    }
+    document.querySelector('#cartNavbar1').innerText = itemNumber
+    document.querySelector('#cartNavbar2').innerText = itemNumber
+}

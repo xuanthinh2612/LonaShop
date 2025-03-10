@@ -19,7 +19,7 @@
                    th:text="${mainArticle.getTitle()}"
                    th:href="|/blog/show/${mainArticle.getId()}|"></a>
             </h3>
-            <p class="limited-span-10-line" th:text="${mainArticle.getShortDescription()}"></p>
+            <p class="limited-span-10-line text-justify" th:text="${mainArticle.getShortDescription()}"></p>
             <a class="btn btn-info" th:href="|/blog/show/${mainArticle.getId()}|">Đọc thêm</a>
         </div>
     </div>
@@ -30,13 +30,11 @@
             class="bg-secondary pr-3">Blogs</span>
     </h2>
     <div class="row px-xl-5">
-        <div class="col-lg-3 pb-1" th:each="article : ${articleList}">
+        <div class="col-lg-4 col-6 pb-1 blog-item" th:each="article : ${articleList}">
             <div class="product-item bg-light mb-4">
-                <div class="position-relative overflow-hidden"
-                     style="height: 10rem; overflow: hidden;display: flex;">
+                <div class="position-relative overflow-hidden blog-image-item">
                     <a th:href="|/blog/show/${article.getId()}|">
-                        <img class="img-fluid" style="object-fit: cover;height:10rem;width:15rem"
-                             th:src="${article.getAvatar().getImageUrl()}" alt="">
+                        <img class="img-fluid" th:src="${article.getAvatar().getImageUrl()}" alt="">
                     </a>
                 </div>
                 <div class="p-2">
@@ -45,9 +43,6 @@
                     <div class="small d-flex align-items-center justify-content-center mt-2 ">
                         <p class="card-text limited-span-2-line" th:text="${article.getShortDescription()}">Blog
                             short description</p>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-center mb-1">
-                        <a class="btn btn-info btn-sm mt-2" th:href="|/blog/show/${article.getId()}|">Đọc thêm</a>
                     </div>
                 </div>
             </div>
@@ -63,11 +58,5 @@
 <div class="container">
     <div th:replace="~{user/layout/footer::footer}"></div>
 </div>
-
-<!-- Template Javascript -->
-<script src="/js/main.js"></script>
-<!-- Custom Javascript -->
-<script src="/js/customJs.js"></script>
-
 </body>
 </html>

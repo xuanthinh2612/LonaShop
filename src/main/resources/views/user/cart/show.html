@@ -39,14 +39,23 @@
                             </p>
                         </div>
                         <!-- Số lượng và tổng tiền -->
-                        <div class="col-4 col-md-auto text-center">
-                            <input th:value="${cartItem.getQuantity()}" type="number" class="form-control quantity"
-                                   value="1" min="1" style="width: 70px;">
+                        <div class="col-4 col-md-auto text-center p-0">
+                            <div class="d-flex align-items-center">
+                                <button type="button" class="btn p-1">
+                                    <i class="fa-solid fa-minus"></i>
+                                </button>
+                                <input th:value="${cartItem.getQuantity()}" type="number"
+                                       class="text-center form-control quantity productQuantityInput"
+                                       value="1" min="1">
+                                <button type="button" class="btn p-1">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="col-4 col-md-auto text-center">
                             <span class="total-price"
-                                th:text="${#numbers.formatInteger(cartItem.getSubAmount(), 3, 'COMMA')}">0</span>đ
+                                  th:text="${#numbers.formatInteger(cartItem.getSubAmount(), 3, 'COMMA')}">0</span>đ
                         </div>
 
                         <!-- Nút xóa -->

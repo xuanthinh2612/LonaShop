@@ -71,8 +71,8 @@
                                   style="padding-bottom: 2px;">Tài Khoản</span>
                             <span th:if="${!#strings.isEmpty(currentUser)}" th:text="${currentUser.name}"></span>
                         </a>
-                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 ms-lg-4">
-                            <li class="nav-item dropdown">
+                        <ul class="navbar-nav mb-2 mb-lg-0 ms-lg-4">
+                            <li class="nav-item dropdown drop-menu-on-desk">
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
                                     <li class="nav-item" th:if="${#strings.isEmpty(currentUser)}">
                                         <a class="dropdown-item" th:href="@{/register}">Đăng ký</a>
@@ -114,7 +114,7 @@
                                   style="padding-bottom: 2px;">Tài Khoản</span>
                             <span th:if="${!#strings.isEmpty(currentUser)}" th:text="${currentUser.name}"></span>
                         </a>
-                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 ms-lg-4">
+                        <ul class="navbar-nav mb-2 mb-lg-0 ms-lg-4">
                             <li class="nav-item dropdown">
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
                                     <li class="nav-item" th:if="${#strings.isEmpty(currentUser)}">
@@ -150,7 +150,7 @@
             </div>
         </nav>
         <div class="container">
-            <div class="col-6 col-md-3  collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light"
+            <div class="col-lg-3 col-md-6 col-8  collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light"
                  id="categoryNav">
                 <div class="navbar-nav w-100">
                     <a th:each="category : ${categoryList}" th:href="|/category/${category.id}|"

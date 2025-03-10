@@ -8,7 +8,7 @@
 <div class="container">
     <section class="bg-light">
         <div class="row gx-4 gx-lg-5 p-3">
-            <div class="col-md-6 overflow-hidden" style="height: 30rem;">
+            <div class="col-md-6 overflow-hidden productMainImage">
                 <img th:if="${product.getAvatar() != null}"
                      class="card-img-top mb-5 mb-md-0 w-100 h-100"
                      style="object-fit: cover;"
@@ -21,11 +21,11 @@
                            th:text="${product.getCategory().getName()}"></a>
                     </div>
                     <div class="py-1 fs-5 fw-bolder"><span th:text="${product.getName()}"></span></div>
-                    <div class="small  py-1 mb-1 text-muted"  th:if="${product.getOldPrice() != null}">
+                    <div class="small  py-1 mb-1 text-muted" th:if="${product.getOldPrice() != null}">
                         <span>Giá cũ:&emsp; </span>
                         <span class="text-decoration-line-through"
                               th:text="${#numbers.formatInteger(product.getOldPrice(), 3, 'COMMA')}"></span>
-                        <span>VNĐ</span>
+                        <span>đ</span>
                         <br>
                     </div>
                     <div class="py-2 text-danger mb-3">
@@ -33,20 +33,28 @@
                         <span class="fw-bold"
                               th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}">
                                         </span>
-                        <span>&nbsp VNĐ/</span><span th:text="${product.getUnit()}"></span>
+                        <span>&nbsp đ/</span><span th:text="${product.getUnit()}"></span>
                     </div>
-                    <p class="small" th:text="${product.getSubDescription_1()}"></p>
-                    <p class="small" th:text="${product.getSubDescription_2()}"></p>
-                    <p class="small" th:text="${product.getSubDescription_3()}"></p>
+                    <p class="small pre-line" th:text="${product.getSubDescription_1()}"></p>
+                    <p class="small pre-line" th:text="${product.getSubDescription_2()}"></p>
+                    <p class="small pre-line" th:text="${product.getSubDescription_3()}"></p>
                 </div>
                 <div th:if="${product.getStatus() != 4}">
                     <form class="bottom-controls" th:action="@{/cart}" th:method="post">
-                        <input class="form-control text-center me-3" id="quantity" type="number" value="1"
-                               name="quantity" style="width: 5rem" min="1"/>
+                        <div class="d-flex align-items-center">
+                            <button type="button" class="btn p-1">
+                                <i class="fa-solid fa-minus"></i>
+                            </button>
+                            <input class="form-control text-center productQuantityInput" id="quantity" type="number"
+                                   value="1" name="quantity" min="1"/>
+                            <button type="button" class="btn p-1">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
                         <input hidden="hidden" id="productId" th:value="${product.getId()}" name="productId"/>
                         <button type="button" class="btn btn-outline-dark" id="add-to-card">
                             <i class="bi-cart-fill me-1"></i>
-                                Thêm vào giỏ hàng
+                            Thêm vào giỏ hàng
                         </button>
                         <button type="submit" class="btn btn-danger" name="buy">
                             <i class="bi-cart-fill me-1"></i>
@@ -84,22 +92,20 @@
                     <div class="col-12 font-italic text-center">
                         <span class="small" th:text="${subContent.image?.description}"></span>
                     </div>
-                    <div th:if="${subContent.image != null }" class="col-4">
-                    </div>
                 </div>
-                <div th:if="${!#strings.isEmpty(subContent.title)}" class="col-12 mb-3">
-                    <h4 th:text="${subContent.title}"></h4>
+                <div th:if="${!#strings.isEmpty(subContent.title)}" class="col-12 mb-3 pre-line">
+                    <h5 th:text="${subContent.title}"></h5>
                 </div>
-                <div th:if="${!#strings.isEmpty(subContent.subTitle)}" class="col-12 mb-3">
+                <div th:if="${!#strings.isEmpty(subContent.subTitle)}" class="col-12 mb-3 pre-line">
                     <h5 th:text="${subContent.subTitle}"></h5>
                 </div>
-                <div th:if="${!#strings.isEmpty(subContent.content1)}" class="col-12">
+                <div th:if="${!#strings.isEmpty(subContent.content1)}" class="col-12 pre-line">
                     <p th:text="${subContent.content1}"></p>
                 </div>
-                <div th:if="${!#strings.isEmpty(subContent.content2)}" class="col-12">
+                <div th:if="${!#strings.isEmpty(subContent.content2)}" class="col-12 pre-line">
                     <p th:text="${subContent.content2}"></p>
                 </div>
-                <div th:if="${!#strings.isEmpty(subContent.content3)}" class="col-12">
+                <div th:if="${!#strings.isEmpty(subContent.content3)}" class="col-12 pre-line">
                     <p th:text="${subContent.content3}"></p>
                 </div>
             </div>
@@ -146,7 +152,7 @@
                     </div>
                     <div class="d-flex align-items-center justify-content-center mt-2">
                         <h6>
-                            <span style="color: #ff3259">VNĐ&nbsp;</span>
+                            <span style="color: #ff3259">đ&nbsp;</span>
                             <span style="color: #ff3259"
                                   th:text="${#numbers.formatInteger(product.getCurrentPrice(), 3, 'COMMA')}">current price
                             </span>
