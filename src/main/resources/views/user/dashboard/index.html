@@ -110,9 +110,9 @@
             class="bg-secondary pr-3">Sản Phẩm</span>
     </h2>
     <div class="row px-xl-5">
-        <div class="col-lg-3 col-md-4 col-sm-6 col-6 pb-1" th:each="product : ${productList}">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-6 p-lg-2 p-1" th:each="product : ${productList}">
             <div class="product-item bg-light mb-4">
-                <div class="product-img position-relative overflow-hidden p-2" style="height: 15rem">
+                <div class="product-img position-relative overflow-hidden p-2" style="height: 13rem">
                     <a th:href="'/product/show/'+${product.getId()}">
                         <div class="badge bg-danger text-white position-absolute"
                              style="top: 1rem; right: 1rem; z-index: 1;"
@@ -194,9 +194,7 @@
                         >Blog title</a>
                         <div class="d-flex align-items-center mt-2 " style="height: 4.5rem;">
                             <p class="card-text limited-span-3-line"
-                               th:text="${mainArticle.getShortDescription()}">Blog
-                                short
-                                description</p>
+                               th:text="${mainArticle.getShortDescription()}">Blog short description</p>
                         </div>
                     </div>
                 </div>
@@ -294,7 +292,6 @@
 
     <!-- Footer-->
     <div th:replace="~{user/layout/footer::footer}"></div>
-
 </div>
 </body>
 </html>

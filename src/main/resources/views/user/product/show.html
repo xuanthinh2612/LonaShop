@@ -70,7 +70,7 @@
     <h2 class="section-title position-relative text-uppercase my-3">
         <span class="bg-secondary pr-3">Chi Tiết Sản Phẩm</span>
     </h2>
-    <section class="p-5 bg-light">
+    <section class="p-lg-5 p-3 bg-light">
         <div th:if="${product.getSubContentList().size() > 0}" th:each="subContent : ${product.subContentList}">
             <div class="row gx-4 gx-lg-5 align-items-center">
                 <div th:if="${subContent.image != null }"
